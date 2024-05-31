@@ -1,0 +1,369 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C11A387E2BE4FF9B003ED157 /* moneyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11A387D2BE4FF9B003ED157 /* moneyApp.swift */; };
+		C11A38802BE4FF9B003ED157 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11A387F2BE4FF9B003ED157 /* ContentView.swift */; };
+		C11A38822BE4FF9D003ED157 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C11A38812BE4FF9D003ED157 /* Assets.xcassets */; };
+		C11A38852BE4FF9D003ED157 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C11A38842BE4FF9D003ED157 /* Preview Assets.xcassets */; };
+		C171A2F92BFE0DD3009E20C5 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171A2F82BFE0DD3009E20C5 /* CategoryView.swift */; };
+		C171A2FB2BFE1774009E20C5 /* DateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171A2FA2BFE1774009E20C5 /* DateView.swift */; };
+		C171A2FD2BFE17FC009E20C5 /* FinishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171A2FC2BFE17FC009E20C5 /* FinishView.swift */; };
+		C1B6CA422BFCCF95008811B0 /* NewBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B6CA412BFCCF95008811B0 /* NewBookView.swift */; };
+		C1B6CA442BFCD44C008811B0 /* MyBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B6CA432BFCD44C008811B0 /* MyBookView.swift */; };
+		C1B6CA482BFCDB54008811B0 /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B6CA472BFCDB54008811B0 /* CalculatorView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C11A387A2BE4FF9B003ED157 /* money Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "money Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C11A387D2BE4FF9B003ED157 /* moneyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moneyApp.swift; sourceTree = "<group>"; };
+		C11A387F2BE4FF9B003ED157 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C11A38812BE4FF9D003ED157 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C11A38842BE4FF9D003ED157 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C171A2F82BFE0DD3009E20C5 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
+		C171A2FA2BFE1774009E20C5 /* DateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateView.swift; sourceTree = "<group>"; };
+		C171A2FC2BFE17FC009E20C5 /* FinishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishView.swift; sourceTree = "<group>"; };
+		C1B6CA412BFCCF95008811B0 /* NewBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookView.swift; sourceTree = "<group>"; };
+		C1B6CA432BFCD44C008811B0 /* MyBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBookView.swift; sourceTree = "<group>"; };
+		C1B6CA472BFCDB54008811B0 /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C11A38772BE4FF9B003ED157 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C11A38712BE4FF9B003ED157 = {
+			isa = PBXGroup;
+			children = (
+				C11A387C2BE4FF9B003ED157 /* money Watch App */,
+				C11A387B2BE4FF9B003ED157 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C11A387B2BE4FF9B003ED157 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C11A387A2BE4FF9B003ED157 /* money Watch App.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C11A387C2BE4FF9B003ED157 /* money Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				C11A387D2BE4FF9B003ED157 /* moneyApp.swift */,
+				C11A387F2BE4FF9B003ED157 /* ContentView.swift */,
+				C171A2F82BFE0DD3009E20C5 /* CategoryView.swift */,
+				C171A2FA2BFE1774009E20C5 /* DateView.swift */,
+				C1B6CA432BFCD44C008811B0 /* MyBookView.swift */,
+				C1B6CA472BFCDB54008811B0 /* CalculatorView.swift */,
+				C171A2FC2BFE17FC009E20C5 /* FinishView.swift */,
+				C1B6CA412BFCCF95008811B0 /* NewBookView.swift */,
+				C11A38812BE4FF9D003ED157 /* Assets.xcassets */,
+				C11A38832BE4FF9D003ED157 /* Preview Content */,
+			);
+			path = "money Watch App";
+			sourceTree = "<group>";
+		};
+		C11A38832BE4FF9D003ED157 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				C11A38842BE4FF9D003ED157 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C11A38792BE4FF9B003ED157 /* money Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C11A38882BE4FF9D003ED157 /* Build configuration list for PBXNativeTarget "money Watch App" */;
+			buildPhases = (
+				C11A38762BE4FF9B003ED157 /* Sources */,
+				C11A38772BE4FF9B003ED157 /* Frameworks */,
+				C11A38782BE4FF9B003ED157 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "money Watch App";
+			productName = "money Watch App";
+			productReference = C11A387A2BE4FF9B003ED157 /* money Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C11A38722BE4FF9B003ED157 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1530;
+				LastUpgradeCheck = 1530;
+				TargetAttributes = {
+					C11A38792BE4FF9B003ED157 = {
+						CreatedOnToolsVersion = 15.3;
+					};
+				};
+			};
+			buildConfigurationList = C11A38752BE4FF9B003ED157 /* Build configuration list for PBXProject "money" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C11A38712BE4FF9B003ED157;
+			productRefGroup = C11A387B2BE4FF9B003ED157 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C11A38792BE4FF9B003ED157 /* money Watch App */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C11A38782BE4FF9B003ED157 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C11A38852BE4FF9D003ED157 /* Preview Assets.xcassets in Resources */,
+				C11A38822BE4FF9D003ED157 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C11A38762BE4FF9B003ED157 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C171A2F92BFE0DD3009E20C5 /* CategoryView.swift in Sources */,
+				C11A38802BE4FF9B003ED157 /* ContentView.swift in Sources */,
+				C1B6CA482BFCDB54008811B0 /* CalculatorView.swift in Sources */,
+				C171A2FB2BFE1774009E20C5 /* DateView.swift in Sources */,
+				C11A387E2BE4FF9B003ED157 /* moneyApp.swift in Sources */,
+				C1B6CA422BFCCF95008811B0 /* NewBookView.swift in Sources */,
+				C1B6CA442BFCD44C008811B0 /* MyBookView.swift in Sources */,
+				C171A2FD2BFE17FC009E20C5 /* FinishView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C11A38862BE4FF9D003ED157 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C11A38872BE4FF9D003ED157 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		C11A38892BE4FF9D003ED157 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"money Watch App/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = money;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = .watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.4;
+			};
+			name = Debug;
+		};
+		C11A388A2BE4FF9D003ED157 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"money Watch App/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = money;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = .watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 10.4;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C11A38752BE4FF9B003ED157 /* Build configuration list for PBXProject "money" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C11A38862BE4FF9D003ED157 /* Debug */,
+				C11A38872BE4FF9D003ED157 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C11A38882BE4FF9D003ED157 /* Build configuration list for PBXNativeTarget "money Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C11A38892BE4FF9D003ED157 /* Debug */,
+				C11A388A2BE4FF9D003ED157 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C11A38722BE4FF9B003ED157 /* Project object */;
+}
