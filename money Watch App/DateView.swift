@@ -12,9 +12,9 @@ struct DateView: View {
         Text("備註：")
         Text("日期：")
         NavigationLink(destination: {
-            FinishView()
+            ContentView()
         }, label: {
-            Text("OK")
+            Text("完成！")
         })
             .foregroundColor(Color.green)
     }
