@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var nevpath: [String] = []
     var body: some View {
-        NavigationStack{
+        NavigationStack(path:$nevpath ){
             VStack {
                 
                 Text("主頁")
                 NavigationLink {
-                    MyBookView()
+                    MyBookView(mybookpath: $nevpath)
                 } label: {
                     Text("我的帳本")
                 }

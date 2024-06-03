@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CalculatorView: View {
+    @Binding var calpath: [String]
     var body: some View {
         VStack{  // 1
             HStack{ // 2
@@ -87,6 +88,7 @@ struct CalculatorView: View {
 }
 
 #Preview {
-    CalculatorView()
+    @State var tpath = ["ihjh"]
+    return CalculatorView(calpath: $tpath)
 }
 

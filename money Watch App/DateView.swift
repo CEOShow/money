@@ -7,15 +7,11 @@
 
 import SwiftUI
 
-struct DateView: View {
+struct DateView: View { 
     var body: some View {
         Text("備註：")
         Text("日期：")
-        NavigationLink(destination: {
-            ContentView()
-        }, label: {
-            Text("完成！")
-        })
+        Text("完成！")
             .foregroundColor(Color.green)
     }
 }
