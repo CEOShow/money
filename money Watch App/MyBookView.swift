@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MyBookView: View {
-    @Binding var mybookpath: [String]
+//    @Binding var mybookpath: [String]
     var body: some View {
         Text("收入＄")
         Divider()
@@ -16,9 +16,13 @@ struct MyBookView: View {
         Divider()
         Text("支出＄")
         Divider()
-        NavigationLink {
-            CalculatorView(calpath: $mybookpath)
-        } label: {
+        //NavigationLink {
+          //  CalculatorView(calpath: $mybookpath)
+        //} label: {
+          //  Text("+")
+            //    .foregroundColor(Color.green)
+        //}
+        NavigationLink(value: "stringPath 2") {
             Text("+")
                 .foregroundColor(Color.green)
         }
@@ -31,7 +35,8 @@ struct MyBookView: View {
 }
 
 #Preview {
-    @State var tpath = ["ihjh"]
-    return MyBookView(mybookpath: $tpath)
+//    @State var tpath = ["ihjh"]
+//    return MyBookView(mybookpath: $tpath)
+    MyBookView()
     
 }

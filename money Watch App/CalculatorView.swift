@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CalculatorView: View {
-    @Binding var calpath: [String]
+//    @Binding var calpath: [String]
     var body: some View {
         VStack{  // 1
             HStack{ // 2
@@ -74,9 +74,13 @@ struct CalculatorView: View {
                     Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
                         Text("支")
                     }).buttonStyle(PlainButtonStyle())
-                    NavigationLink {
-                        CategoryView()
-                    } label: {
+                    //NavigationLink {
+                      //  CategoryView(Catpath: $calpath)
+                    //} label: {
+                        //Text("OK")
+                      //      .foregroundColor(Color.green)
+                    //}.buttonStyle(PlainButtonStyle())
+                    NavigationLink(value: "stringPath 3") {
                         Text("OK")
                             .foregroundColor(Color.green)
                     }.buttonStyle(PlainButtonStyle())
@@ -88,7 +92,8 @@ struct CalculatorView: View {
 }
 
 #Preview {
-    @State var tpath = ["ihjh"]
-    return CalculatorView(calpath: $tpath)
+//    @State var tpath = ["ihjh"]
+//    return CalculatorView(calpath: $tpath)
+    CalculatorView()
 }
 
