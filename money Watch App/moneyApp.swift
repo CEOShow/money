@@ -9,6 +9,11 @@ import SwiftUI
 
 @main
 struct money_Watch_AppApp: App {
+    init() {
+        // 初始化 AccountingManager
+        _ = AccountingManager.shared
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()

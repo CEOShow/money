@@ -9,44 +9,50 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var nevpath: [String] = []
+    @State private var accountBooks: [AccountBook] = []
+    @State private var refreshID = UUID()
+    
     var body: some View {
-        NavigationStack(path:$nevpath ){
+        NavigationStack(path: $nevpath) {
             VStack {
-                
                 Text("主頁")
-                //NavigationLink {
-                 //   MyBookView(mybookpath: $nevpath)
-                // } label: {
-                  //  Text("我的帳本")
-               // }
-                //NavigationLink(value: "stringPath 1", label: Text("我的帳本"))
+                
                 NavigationLink(value: "stringPath 1") {
                     Text("我的帳本")
                 }
                 
                 NavigationLink {
-                    NewBookView()
+                    NewBookView(refreshAction: refreshAccountBooks)
                 } label: {
                     Text("+")
                         .foregroundColor(Color.blue)
                 }
                 
-                
-            }.navigationDestination(for: String.self) { stringPath in
-                if stringPath == "stringPath 1"{
-//                    MyBookView(mybookpath: $nevpath)
+                List(accountBooks) { book in
+                    Text(book.name)
+                }
+            }
+            .navigationDestination(for: String.self) { stringPath in
+                if stringPath == "stringPath 1" {
                     MyBookView()
-                } else if stringPath == "stringPath 2"{
+                } else if stringPath == "stringPath 2" {
                     CalculatorView()
-                } else if stringPath == "stringPath 3"{
+                } else if stringPath == "stringPath 3" {
                     CategoryView()
-                } else if stringPath == "stringPath 4"{
+                } else if stringPath == "stringPath 4" {
                     DateView(dapath: $nevpath)
                 }
-                
-                
             }
         }
+        .id(refreshID)
+        .onAppear {
+            refreshAccountBooks()
+        }
+    }
+    
+    private func refreshAccountBooks() {
+        accountBooks = AccountingManager.shared.getAllAccountBooks()
+        refreshID = UUID()
     }
 }
 
