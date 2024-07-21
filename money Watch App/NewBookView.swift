@@ -16,7 +16,15 @@ struct NewBookView: View {
     var body: some View {
         Form {
             TextField("帳本名稱", text: $name)
-            TextField("貨幣", text: $currency)
+            
+            NavigationLink(destination: CurrencySelectionView(selectedCurrency: $currency)) {
+                HStack {
+                    Text("幣值")
+                    Spacer()
+                    Text(currency)
+                        .foregroundColor(.gray)
+                }
+            }
             
             Button("新增帳本") {
                 let success = AccountingManager.shared.createAccountBook(currency: currency, name: name)
@@ -26,12 +34,14 @@ struct NewBookView: View {
                 }
             }
         }
+        .navigationTitle("新增帳本")
     }
 }
 
 #Preview {
-    NewBookView(refreshAction: {
-        // 這裡可以是一個空的閉包，因為它只是用於預覽
-        print("Refresh action called in preview")
-    })
+    NavigationView {
+        NewBookView(refreshAction: {
+            print("Refresh action called in preview")
+        })
+    }
 }

@@ -7,30 +7,20 @@
 import Foundation
 import SQLite3
 
-// MARK: - Protocols
-
-protocol DatabaseManager {
-    var db: OpaquePointer? { get }
-    func openDatabase() -> Bool
-    func closeDatabase()
-}
-
-protocol AccountBookRepository {
-    func saveAccountBook(currency: String, name: String) -> Bool
-    func getAccountBooks() -> [AccountBook]
-}
-
-protocol ExpenseRepository {
-    func saveExpense(expense: Expense) -> Bool
-    func getExpenses(bookId: Int) -> [Expense]
-}
-
 // MARK: - Models
 
-struct AccountBook: Identifiable {
+struct AccountBook: Identifiable, Hashable {
     let id: Int
     let currency: String
     let name: String
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
+    static func == (lhs: AccountBook, rhs: AccountBook) -> Bool {
+        lhs.id == rhs.id
+    }
 }
 
 struct Expense: Identifiable {
@@ -58,6 +48,24 @@ enum Category: Int, CaseIterable {
         case .transportation: return "交通"
         }
     }
+}
+
+// MARK: - Protocols
+
+protocol DatabaseManager {
+    var db: OpaquePointer? { get }
+    func openDatabase() -> Bool
+    func closeDatabase()
+}
+
+protocol AccountBookRepository {
+    func saveAccountBook(currency: String, name: String) -> Bool
+    func getAccountBooks() -> [AccountBook]
+}
+
+protocol ExpenseRepository {
+    func saveExpense(expense: Expense) -> Bool
+    func getExpenses(bookId: Int) -> [Expense]
 }
 
 // MARK: - Implementation

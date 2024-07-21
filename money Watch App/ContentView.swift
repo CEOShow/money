@@ -8,39 +8,69 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var nevpath: [String] = []
+    @State private var navPath = NavigationPath()
     @State private var accountBooks: [AccountBook] = []
     @State private var refreshID = UUID()
+    @State private var calculatorAmount: String = "0"
+    @State private var calculatorIsIncome: Bool = false
     
     var body: some View {
-        NavigationStack(path: $nevpath) {
-            VStack {
-                Text("主頁")
-                
-                NavigationLink(value: "stringPath 1") {
-                    Text("我的帳本")
+        NavigationStack(path: $navPath) {
+            ScrollView {
+                VStack(spacing: 20) {
+                    Text("主頁")
+                        .font(.largeTitle)
+                        .padding()
+                    
+                    if accountBooks.isEmpty {
+                        Text("你還沒有帳本，點擊下方按鈕新增帳本")
+                            .foregroundColor(.gray)
+                            .padding()
+                    } else {
+                        ForEach(accountBooks) { book in
+                            NavigationLink(value: book) {
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Text(book.name)
+                                            .font(.headline)
+                                        Text(book.currency)
+                                            .font(.subheadline)
+                                            .foregroundColor(.gray)
+                                    }
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.gray)
+                                }
+                                .padding()
+                                .background(Color.gray.opacity(0.1))
+                                .cornerRadius(10)
+                            }
+                        }
+                    }
+                    
+                    Spacer(minLength: 50)
+                    
+                    NavigationLink(destination: NewBookView(refreshAction: refreshAccountBooks)) {
+                        Text("新增帳本")
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
                 }
-                
-                NavigationLink {
-                    NewBookView(refreshAction: refreshAccountBooks)
-                } label: {
-                    Text("+")
-                        .foregroundColor(Color.blue)
-                }
-                
-                List(accountBooks) { book in
-                    Text(book.name)
-                }
+                .padding()
+            }
+            .navigationDestination(for: AccountBook.self) { book in
+                MyBookView(accountBook: book)
             }
             .navigationDestination(for: String.self) { stringPath in
-                if stringPath == "stringPath 1" {
-                    MyBookView()
-                } else if stringPath == "stringPath 2" {
-                    CalculatorView()
-                } else if stringPath == "stringPath 3" {
-                    CategoryView()
-                } else if stringPath == "stringPath 4" {
-                    DateView(dapath: $nevpath)
+                switch stringPath {
+                case "calculator":
+                    CalculatorView(amount: $calculatorAmount, isIncome: $calculatorIsIncome)
+                case "category": CategoryView()
+                case "date": DateView(navPath: $navPath)
+                default: EmptyView()
                 }
             }
         }

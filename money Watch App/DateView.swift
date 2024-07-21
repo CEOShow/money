@@ -8,22 +8,34 @@
 import SwiftUI
 
 struct DateView: View {
-    @Binding var dapath: [String]
+    @Binding var navPath: NavigationPath
+    @State private var note: String = ""
+    @State private var date: Date = Date()
+    
     var body: some View {
-        Text("備註：")
-        Text("日期：")
-        Button(action: {
-            dapath = []
-        }, label: {
-            Text("完成！")
-                .foregroundColor(Color.green)
-        })
-
+        Form {
+            Section(header: Text("備註")) {
+                TextField("輸入備註", text: $note)
+            }
+            
+            Section(header: Text("日期")) {
+                DatePicker("選擇日期", selection: $date, displayedComponents: [.date, .hourAndMinute])
+            }
+            
+            Button(action: {
+                // 這裡可以添加保存日期和備註的邏輯
+                navPath.removeLast() // 返回上一個視圖
+            }) {
+                Text("完成")
+                    .foregroundColor(.green)
+            }
+        }
+        .navigationTitle("日期和備註")
     }
 }
 
 #Preview {
-    @State var tpath = ["ihjh", "fjsdkafj"]
-    return DateView(dapath: $tpath)
-
+    NavigationStack {
+        DateView(navPath: .constant(NavigationPath()))
+    }
 }
