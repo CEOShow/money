@@ -16,32 +16,43 @@ struct ExpenseInputView: View {
     @State private var date: Date = Date()
     @State private var isIncome: Bool = false
     @State private var showingCalculator = false
+    @State private var showingDatePicker = false
     
     var body: some View {
-        NavigationView {
-            Form {
-                Section(header: Text("金額")) {
-                    VStack {
-                        Button(action: {
-                            showingCalculator = true
-                        }) {
-                            Text(amount)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                        .sheet(isPresented: $showingCalculator) {
-                            CalculatorView(amount: $amount, isIncome: $isIncome)
-                        }
+        ScrollView {
+            VStack(spacing: 10) {
+                Section {
+                    Button(action: {
+                        showingCalculator = true
+                    }) {
+                        Text(amount)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .sheet(isPresented: $showingCalculator) {
+                        CalculatorView(amount: $amount, isIncome: $isIncome)
+                    }
 
-                        Picker("收支", selection: $isIncome) {
-                            Text("支出").tag(false)
-                            Text("收入").tag(true)
+                    HStack {
+                        Button(action: { isIncome = false }) {
+                            Text("支出")
+                                .padding()
+                                .background(isIncome ? Color.gray.opacity(0.3) : Color.red)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
                         }
-                        .pickerStyle(WheelPickerStyle())
-                        .frame(height: 100)
+                        
+                        Button(action: { isIncome = true }) {
+                            Text("收入")
+                                .padding()
+                                .background(isIncome ? Color.green : Color.gray.opacity(0.3))
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
                     }
                 }
+                .padding(.bottom, 10)
                 
-                Section(header: Text("類別")) {
+                Section {
                     Picker("選擇類別", selection: $selectedCategory) {
                         ForEach(Category.allCases, id: \.self) { category in
                             Text(category.name).tag(category)
@@ -50,14 +61,35 @@ struct ExpenseInputView: View {
                     .pickerStyle(WheelPickerStyle())
                     .frame(height: 100)
                 }
+                .padding(.bottom, 10)
                 
-                Section(header: Text("備註")) {
+                Section {
                     TextField("輸入備註", text: $note)
+                        .padding()
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(8)
                 }
+                .padding(.bottom, 10)
                 
-                Section(header: Text("日期")) {
-                    DatePicker("選擇日期", selection: $date, displayedComponents: .date)
+                Section {
+                    Button(action: {
+                        showingDatePicker = true
+                    }) {
+                        HStack {
+                            Text("選擇日期")
+                            Spacer()
+                            Text(formatDate(date))
+                                .foregroundColor(.gray)
+                        }
+                        .padding()
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(8)
+                    }
+                    .sheet(isPresented: $showingDatePicker) {
+                        CustomDatePickerView(date: $date, showingDatePicker: $showingDatePicker)
+                    }
                 }
+                .padding(.bottom, 10)
                 
                 Button(action: saveExpense) {
                     Text("保存")
@@ -68,26 +100,16 @@ struct ExpenseInputView: View {
                         .cornerRadius(10)
                 }
             }
-            .navigationTitle("新增紀錄")
-            .toolbar {
-                #if !os(watchOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("取消") {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                }
-                #endif
-            }
-            #if os(watchOS)
-            .toolbar(content: {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("取消") {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                }
-            })
-            #endif
+            .padding()
         }
+        .navigationTitle("新增紀錄")
+    }
+    
+    private func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter.string(from: date)
     }
     
     private func saveExpense() {
@@ -112,6 +134,35 @@ struct ExpenseInputView: View {
         }
     }
 }
+struct CustomDatePickerView: View {
+    @Binding var date: Date
+    @Binding var showingDatePicker: Bool
+    
+    var body: some View {
+        VStack {
+            DatePicker(
+                "Select Date",
+                selection: $date,
+                displayedComponents: [.date]
+            )
+            .datePickerStyle(WheelDatePickerStyle())
+            .labelsHidden()
+            .frame(height: 200)
+            .clipped()
+            
+            Button("確定") {
+                showingDatePicker = false
+            }
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(8)
+        }
+        .padding()
+    }
+}
+
 
 struct ExpenseInputView_Previews: PreviewProvider {
     static var previews: some View {
