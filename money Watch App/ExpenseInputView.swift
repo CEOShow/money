@@ -20,13 +20,17 @@ struct ExpenseInputView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 10) {
+            VStack(spacing: 20) {
+                // Amount Section
                 Section {
                     Button(action: {
                         showingCalculator = true
                     }) {
                         Text(amount)
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding()
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(10)
                     }
                     .sheet(isPresented: $showingCalculator) {
                         CalculatorView(amount: $amount, isIncome: $isIncome)
@@ -36,41 +40,49 @@ struct ExpenseInputView: View {
                         Button(action: { isIncome = false }) {
                             Text("支出")
                                 .padding()
+                                .frame(maxWidth: .infinity)
                                 .background(isIncome ? Color.gray.opacity(0.3) : Color.red)
                                 .foregroundColor(.white)
-                                .cornerRadius(8)
+                                .cornerRadius(10)
                         }
                         
                         Button(action: { isIncome = true }) {
                             Text("收入")
                                 .padding()
+                                .frame(maxWidth: .infinity)
                                 .background(isIncome ? Color.green : Color.gray.opacity(0.3))
                                 .foregroundColor(.white)
-                                .cornerRadius(8)
+                                .cornerRadius(10)
                         }
                     }
                 }
-                .padding(.bottom, 10)
                 
+                // Category Section
                 Section {
-                    Picker("選擇類別", selection: $selectedCategory) {
-                        ForEach(Category.allCases, id: \.self) { category in
-                            Text(category.name).tag(category)
+                    NavigationLink(destination: CategoryView(selectedCategory: $selectedCategory)) {
+                        HStack {
+                            Text("類別")
+                            Spacer()
+                            Text(selectedCategory.name)
+                                .foregroundColor(.gray)
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.gray)
                         }
                     }
-                    .pickerStyle(WheelPickerStyle())
-                    .frame(height: 100)
+                    .padding()
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
                 }
-                .padding(.bottom, 10)
                 
+                // Note Section
                 Section {
                     TextField("輸入備註", text: $note)
                         .padding()
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(8)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(10)
                 }
-                .padding(.bottom, 10)
                 
+                // Date Section
                 Section {
                     Button(action: {
                         showingDatePicker = true
@@ -80,17 +92,19 @@ struct ExpenseInputView: View {
                             Spacer()
                             Text(formatDate(date))
                                 .foregroundColor(.gray)
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.gray)
                         }
-                        .padding()
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(8)
                     }
-                    .sheet(isPresented: $showingDatePicker) {
-                        CustomDatePickerView(date: $date, showingDatePicker: $showingDatePicker)
-                    }
+                    .padding()
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
                 }
-                .padding(.bottom, 10)
+                .sheet(isPresented: $showingDatePicker) {
+                    CustomDatePickerView(date: $date, showingDatePicker: $showingDatePicker)
+                }
                 
+                // Save Button
                 Button(action: saveExpense) {
                     Text("保存")
                         .frame(maxWidth: .infinity)
@@ -134,6 +148,7 @@ struct ExpenseInputView: View {
         }
     }
 }
+
 struct CustomDatePickerView: View {
     @Binding var date: Date
     @Binding var showingDatePicker: Bool
@@ -163,13 +178,8 @@ struct CustomDatePickerView: View {
     }
 }
 
-
 struct ExpenseInputView_Previews: PreviewProvider {
     static var previews: some View {
         ExpenseInputView(accountBook: AccountBook(id: 1, currency: "TWD", name: "測試帳本"))
     }
-}
-
-#Preview {
-    ExpenseInputView(accountBook: AccountBook(id: 1, currency: "TWD", name: "測試帳本"))
 }
