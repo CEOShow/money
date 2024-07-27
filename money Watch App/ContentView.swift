@@ -13,6 +13,7 @@ struct ContentView: View {
     @State private var refreshID = UUID()
     @State private var calculatorAmount: String = "0"
     @State private var calculatorIsIncome: Bool = false
+    @State private var selectedCategory: Category = .foodAndEntertainment  // 新增這行
     
     var body: some View {
         NavigationStack(path: $navPath) {
@@ -68,9 +69,12 @@ struct ContentView: View {
                 switch stringPath {
                 case "calculator":
                     CalculatorView(amount: $calculatorAmount, isIncome: $calculatorIsIncome)
-                case "category": CategoryView()
-                case "date": DateView(navPath: $navPath)
-                default: EmptyView()
+                case "category":
+                    CategoryView(selectedCategory: $selectedCategory)  // 修改這行
+                case "date":
+                    DateView(navPath: $navPath)
+                default:
+                    EmptyView()
                 }
             }
         }
