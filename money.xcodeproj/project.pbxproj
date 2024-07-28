@@ -19,6 +19,7 @@
 		C1B6CA422BFCCF95008811B0 /* NewBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B6CA412BFCCF95008811B0 /* NewBookView.swift */; };
 		C1B6CA442BFCD44C008811B0 /* MyBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B6CA432BFCD44C008811B0 /* MyBookView.swift */; };
 		C1B6CA482BFCDB54008811B0 /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B6CA472BFCDB54008811B0 /* CalculatorView.swift */; };
+		C1F457E12C565E2600D5EEA1 /* ExpenseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F457E02C565E2600D5EEA1 /* ExpenseDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		C1B6CA412BFCCF95008811B0 /* NewBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookView.swift; sourceTree = "<group>"; };
 		C1B6CA432BFCD44C008811B0 /* MyBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBookView.swift; sourceTree = "<group>"; };
 		C1B6CA472BFCDB54008811B0 /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
+		C1F457E02C565E2600D5EEA1 /* ExpenseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				C12E8C762C46285600896E95 /* AccountingManager.swift */,
 				C1A307D42C4A3BD600C7E396 /* ExpenseInputView.swift */,
 				C1B6CA432BFCD44C008811B0 /* MyBookView.swift */,
+				C1F457E02C565E2600D5EEA1 /* ExpenseDetailView.swift */,
 				C1B6CA472BFCDB54008811B0 /* CalculatorView.swift */,
 				C1B6CA412BFCCF95008811B0 /* NewBookView.swift */,
 				C11A38812BE4FF9D003ED157 /* Assets.xcassets */,
@@ -119,7 +122,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1530;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					C11A38792BE4FF9B003ED157 = {
 						CreatedOnToolsVersion = 15.3;
@@ -169,6 +172,7 @@
 				C1539C522C4A1A85003DB0AC /* CurrencySelectionView.swift in Sources */,
 				C171A2FB2BFE1774009E20C5 /* DateView.swift in Sources */,
 				C11A387E2BE4FF9B003ED157 /* moneyApp.swift in Sources */,
+				C1F457E12C565E2600D5EEA1 /* ExpenseDetailView.swift in Sources */,
 				C1B6CA422BFCCF95008811B0 /* NewBookView.swift in Sources */,
 				C1B6CA442BFCD44C008811B0 /* MyBookView.swift in Sources */,
 			);
@@ -211,6 +215,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -273,6 +278,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
