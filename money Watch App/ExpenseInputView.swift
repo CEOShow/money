@@ -155,15 +155,20 @@ struct CustomDatePickerView: View {
     
     var body: some View {
         VStack {
-            DatePicker(
-                "Select Date",
-                selection: $date,
-                displayedComponents: [.date]
-            )
-            .datePickerStyle(WheelDatePickerStyle())
-            .labelsHidden()
-            .frame(height: 200)
-            .clipped()
+            if #available(watchOS 10.0, *) {
+                DatePicker(
+                    "Select Date",
+                    selection: $date,
+                    displayedComponents: [.date]
+                )
+                .datePickerStyle(WheelDatePickerStyle())
+                .labelsHidden()
+                .frame(height: 200)
+                .clipped()
+            } else {
+                // Fallback on earlier versions
+                // TODO: 支援 WatchOS 9
+            }
             
             Button("確定") {
                 showingDatePicker = false

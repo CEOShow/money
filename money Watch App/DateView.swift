@@ -19,7 +19,12 @@ struct DateView: View {
             }
             
             Section(header: Text("日期")) {
-                DatePicker("選擇日期", selection: $date, displayedComponents: [.date, .hourAndMinute])
+                if #available(watchOS 10.0, *) {
+                    DatePicker("選擇日期", selection: $date, displayedComponents: [.date, .hourAndMinute])
+                } else {
+                    // Fallback on earlier versions
+                    // TODO: 支援 WatchOS 9
+                }
             }
             
             Button(action: {
