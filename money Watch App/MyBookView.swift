@@ -9,50 +9,39 @@ import SwiftUI
 
 struct MyBookView: View {
     let accountBook: AccountBook
-    @State private var expenses: [Expense] = []
     @State private var totalIncome: Double = 0
     @State private var totalExpense: Double = 0
     @State private var showingDetailView = false
-    
+
     var body: some View {
         VStack {
             Text(accountBook.name)
-                .font(.largeTitle)
-                .padding()
-            
+                .font(.headline)
+                .padding(.bottom, 5)
+
             Text("幣別: \(accountBook.currency)")
-                .font(.subheadline)
+                .font(.caption)
                 .foregroundColor(.gray)
-            
-            HStack {
-                VStack {
-                    Text("收入")
-                    Text("$\(totalIncome, specifier: "%.2f")")
-                        .foregroundColor(.green)
-                }
-                Divider()
-                VStack {
-                    Text("餘額")
-                    Text("$\(totalIncome - totalExpense, specifier: "%.2f")")
-                        .foregroundColor(totalIncome - totalExpense >= 0 ? .blue : .red)
-                }
-                Divider()
-                VStack {
-                    Text("支出")
-                    Text("$\(totalExpense, specifier: "%.2f")")
-                        .foregroundColor(.red)
-                }
+
+            VStack {
+                Text("餘額")
+                    .font(.caption2)
+                Text("$\(totalIncome - totalExpense, specifier: "%.2f")")
+                    .font(.title2)
+                    .foregroundColor(totalIncome - totalExpense >= 0 ? .blue : .red)
             }
-            .padding()
-            
+            .padding(.vertical, 10)
+
             NavigationLink(destination: ExpenseInputView(accountBook: accountBook)) {
                 Text("+")
-                    .font(.largeTitle)
+                    .font(.title)
                     .foregroundColor(.green)
                     .padding()
                     .background(Circle().fill(Color.green.opacity(0.2)))
             }
+            .padding(.top, 5)
         }
+        .padding()
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button(action: {
@@ -63,13 +52,13 @@ struct MyBookView: View {
             }
         }
         .sheet(isPresented: $showingDetailView) {
-            ExpenseDetailView(accountBook: accountBook, expenses: $expenses)
+            ExpenseDetailView(accountBook: accountBook)
         }
         .onAppear {
             updateTotals()
         }
     }
-    
+
     private func updateTotals() {
         let totals = AccountingManager.shared.getTotals(for: accountBook.id)
         totalIncome = totals.totalIncome

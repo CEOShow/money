@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ExpenseDetailView: View {
     let accountBook: AccountBook
-    @Binding var expenses: [Expense]
+    @State private var expenses: [Expense] = []
     
     var body: some View {
         List {
@@ -18,6 +18,13 @@ struct ExpenseDetailView: View {
             }
         }
         .navigationTitle("詳細明細")
+        .onAppear {
+            loadExpenses()
+        }
+    }
+    
+    private func loadExpenses() {
+        expenses = AccountingManager.shared.getExpenses(for: accountBook.id)
     }
 }
 
@@ -72,8 +79,5 @@ struct ExpenseRow: View {
 }
 
 #Preview {
-    ExpenseDetailView(accountBook: AccountBook(id: 1, currency: "TWD", name: "測試帳本"), expenses: .constant([
-        Expense(id: 1, bookId: 101, income: 2500, date: Date(), note: "Salary", categoryId: 1),
-        Expense(id: 2, bookId: 102, income: -150, date: Date(), note: "Groceries", categoryId: 2)
-    ]))
+    ExpenseDetailView(accountBook: AccountBook(id: 1, currency: "TWD", name: "測試帳本"))
 }
