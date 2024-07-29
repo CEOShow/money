@@ -45,7 +45,6 @@ struct MyBookView: View {
             }
             .padding()
             
-
             NavigationLink(destination: ExpenseInputView(accountBook: accountBook)) {
                 Text("+")
                     .font(.largeTitle)
@@ -64,30 +63,33 @@ struct MyBookView: View {
             }
         }
         .sheet(isPresented: $showingDetailView) {
-            ExpenseDetailView(expenses: expenses)
+            ExpenseDetailView(accountBook: accountBook, expenses: $expenses)
         }
         .onAppear {
             loadExpenses()
+            updateTotals()
         }
     }
     
     private func loadExpenses() {
         expenses = AccountingManager.shared.getExpenses(for: accountBook.id)
-        calculateTotals()
     }
     
-    private func calculateTotals() {
-        totalIncome = expenses.filter { $0.income > 0 }.reduce(0) { $0 + $1.income }
-        totalExpense = expenses.filter { $0.income < 0 }.reduce(0) { $0 + abs($1.income) }
+    private func updateTotals() {
+        let totals = AccountingManager.shared.getTotals(for: accountBook.id)
+        totalIncome = totals.totalIncome
+        totalExpense = totals.totalExpense
     }
 }
-
 
 struct MyBookView_Previews: PreviewProvider {
     static var previews: some View {
         MyBookView(accountBook: AccountBook(id: 1, currency: "TWD", name: "測試帳本"))
     }
 }
+
 #Preview {
     MyBookView(accountBook: AccountBook(id: 1, currency: "TWD", name: "測試帳本"))
 }
+
+
