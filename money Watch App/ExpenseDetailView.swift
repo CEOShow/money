@@ -18,10 +18,6 @@ struct ExpenseDetailView: View {
             }
         }
         .navigationTitle("詳細明細")
-        .onDisappear {
-            // 在視圖消失時更新 expenses
-            expenses = AccountingManager.shared.getExpenses(for: accountBook.id)
-        }
     }
 }
 
