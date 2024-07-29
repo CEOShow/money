@@ -46,7 +46,7 @@ struct MyBookView: View {
             .padding()
             
             List(expenses) { expense in
-                ExpenseRow(expense: expense)
+                ExpenseRow(expense: expense, expenses: $expenses)
             }
             
             NavigationLink(destination: ExpenseInputView(accountBook: accountBook)) {
