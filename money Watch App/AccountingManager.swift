@@ -66,6 +66,7 @@ protocol AccountBookRepository {
 protocol ExpenseRepository {
     func saveExpense(expense: Expense) -> Bool
     func getExpenses(bookId: Int) -> [Expense]
+    func deleteExpense(id: Int) -> Bool
 }
 
 // MARK: - Implementation
@@ -261,6 +262,25 @@ class SQLiteExpenseRepository: ExpenseRepository {
         sqlite3_finalize(statement)
         return expenses
     }
+    
+    func deleteExpense(id: Int) -> Bool {
+        let query = "DELETE FROM Expense WHERE id = ?;"
+        var statement: OpaquePointer?
+        if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_int(statement, 1, Int32(id))
+            if sqlite3_step(statement) == SQLITE_DONE {
+                print("Expense deleted successfully")
+                sqlite3_finalize(statement)
+                return true
+            } else {
+                print("Failed to delete expense")
+            }
+        } else {
+            print("DELETE statement preparation failed")
+        }
+        sqlite3_finalize(statement)
+        return false
+    }
 }
 
 // MARK: - AccountingManager (Singleton)
@@ -300,6 +320,10 @@ class AccountingManager {
     
     func getExpenses(for bookId: Int) -> [Expense] {
         return expenseRepository.getExpenses(bookId: bookId)
+    }
+    
+    func deleteExpense(id: Int) -> Bool {
+        return expenseRepository.deleteExpense(id: id)
     }
     
     deinit {

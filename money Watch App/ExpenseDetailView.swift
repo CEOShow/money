@@ -8,18 +8,35 @@
 import SwiftUI
 
 struct ExpenseDetailView: View {
-    let expenses: [Expense]
+    @State private var expenses: [Expense]
+    
+    init(expenses: [Expense]) {
+        self._expenses = State(initialValue: expenses)
+    }
     
     var body: some View {
-        List(expenses) { expense in
-            ExpenseRow(expense: expense)
+        List {
+            ForEach(expenses) { expense in
+                ExpenseRow(expense: expense, expenses: $expenses)
+            }
+            .onDelete(perform: deleteExpense)
         }
         .navigationTitle("詳細明細")
+    }
+    
+    private func deleteExpense(at offsets: IndexSet) {
+        for index in offsets {
+            let expense = expenses[index]
+            if AccountingManager.shared.deleteExpense(id: expense.id) {
+                expenses.remove(at: index)
+            }
+        }
     }
 }
 
 struct ExpenseRow: View {
     let expense: Expense
+    @Binding var expenses: [Expense]
     
     var body: some View {
         HStack {
@@ -34,6 +51,13 @@ struct ExpenseRow: View {
             Text(formatCurrency(expense.income))
                 .font(.headline)
                 .foregroundColor(expense.income >= 0 ? .green : .red)
+        }
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+            Button(role: .destructive) {
+                deleteExpense()
+            } label: {
+                Label("刪除", systemImage: "trash")
+            }
         }
     }
     
@@ -50,8 +74,15 @@ struct ExpenseRow: View {
         formatter.currencyCode = "TWD"  // 您可能想要根據帳本的幣別來設定這個
         return formatter.string(from: NSNumber(value: amount)) ?? "\(amount)"
     }
+    
+    private func deleteExpense() {
+        if AccountingManager.shared.deleteExpense(id: expense.id) {
+            if let index = expenses.firstIndex(where: { $0.id == expense.id }) {
+                expenses.remove(at: index)
+            }
+        }
+    }
 }
-
 
 #Preview {
     ExpenseDetailView(expenses: [
