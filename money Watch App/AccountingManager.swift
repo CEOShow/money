@@ -4,6 +4,7 @@
 //
 //  Created by Show on 2024/7/16.
 //
+
 import Foundation
 import SQLite3
 
@@ -283,8 +284,6 @@ class SQLiteExpenseRepository: ExpenseRepository {
     }
 }
 
-// MARK: - AccountingManager (Singleton)
-
 class AccountingManager {
     static let shared = AccountingManager()
     
@@ -324,6 +323,31 @@ class AccountingManager {
     
     func deleteExpense(id: Int) -> Bool {
         return expenseRepository.deleteExpense(id: id)
+    }
+    
+    func getTotals(for bookId: Int) -> (totalIncome: Double, totalExpense: Double) {
+        var totalIncome: Double = 0
+        var totalExpense: Double = 0
+        
+        let query = """
+        SELECT
+            SUM(CASE WHEN income >= 0 THEN income ELSE 0 END) AS totalIncome,
+            SUM(CASE WHEN income < 0 THEN ABS(income) ELSE 0 END) AS totalExpense
+        FROM Expense
+        WHERE bookId = ?;
+        """
+        
+        var statement: OpaquePointer?
+        if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_int(statement, 1, Int32(bookId))
+            if sqlite3_step(statement) == SQLITE_ROW {
+                totalIncome = sqlite3_column_double(statement, 0)
+                totalExpense = sqlite3_column_double(statement, 1)
+            }
+        }
+        sqlite3_finalize(statement)
+        
+        return (totalIncome, totalExpense)
     }
     
     deinit {

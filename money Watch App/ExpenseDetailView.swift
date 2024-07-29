@@ -8,28 +8,19 @@
 import SwiftUI
 
 struct ExpenseDetailView: View {
-    @State private var expenses: [Expense]
-    
-    init(expenses: [Expense]) {
-        self._expenses = State(initialValue: expenses)
-    }
+    let accountBook: AccountBook
+    @Binding var expenses: [Expense]
     
     var body: some View {
         List {
             ForEach(expenses) { expense in
                 ExpenseRow(expense: expense, expenses: $expenses)
             }
-            .onDelete(perform: deleteExpense)
         }
         .navigationTitle("詳細明細")
-    }
-    
-    private func deleteExpense(at offsets: IndexSet) {
-        for index in offsets {
-            let expense = expenses[index]
-            if AccountingManager.shared.deleteExpense(id: expense.id) {
-                expenses.remove(at: index)
-            }
+        .onDisappear {
+            // 在視圖消失時更新 expenses
+            expenses = AccountingManager.shared.getExpenses(for: accountBook.id)
         }
     }
 }
@@ -71,7 +62,7 @@ struct ExpenseRow: View {
     private func formatCurrency(_ amount: Double) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.currencyCode = "TWD"  // 您可能想要根據帳本的幣別來設定這個
+        formatter.currencyCode = "TWD"
         return formatter.string(from: NSNumber(value: amount)) ?? "\(amount)"
     }
     
@@ -85,8 +76,8 @@ struct ExpenseRow: View {
 }
 
 #Preview {
-    ExpenseDetailView(expenses: [
+    ExpenseDetailView(accountBook: AccountBook(id: 1, currency: "TWD", name: "測試帳本"), expenses: .constant([
         Expense(id: 1, bookId: 101, income: 2500, date: Date(), note: "Salary", categoryId: 1),
         Expense(id: 2, bookId: 102, income: -150, date: Date(), note: "Groceries", categoryId: 2)
-    ])
+    ]))
 }
