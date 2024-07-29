@@ -66,13 +66,8 @@ struct MyBookView: View {
             ExpenseDetailView(accountBook: accountBook, expenses: $expenses)
         }
         .onAppear {
-            loadExpenses()
             updateTotals()
         }
-    }
-    
-    private func loadExpenses() {
-        expenses = AccountingManager.shared.getExpenses(for: accountBook.id)
     }
     
     private func updateTotals() {
@@ -87,9 +82,3 @@ struct MyBookView_Previews: PreviewProvider {
         MyBookView(accountBook: AccountBook(id: 1, currency: "TWD", name: "測試帳本"))
     }
 }
-
-#Preview {
-    MyBookView(accountBook: AccountBook(id: 1, currency: "TWD", name: "測試帳本"))
-}
-
-
