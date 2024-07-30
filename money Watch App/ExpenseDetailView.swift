@@ -10,6 +10,7 @@ import SwiftUI
 struct ExpenseDetailView: View {
     let accountBook: AccountBook
     @State private var expenses: [Expense] = []
+    @State private var singletransaction: Double = 0
     
     var body: some View {
         List {
@@ -21,11 +22,14 @@ struct ExpenseDetailView: View {
         .onAppear {
             loadExpenses()
         }
+
+        
     }
     
     private func loadExpenses() {
         expenses = AccountingManager.shared.getExpenses(for: accountBook.id)
     }
+    
 }
 
 struct ExpenseRow: View {
@@ -42,7 +46,7 @@ struct ExpenseRow: View {
                     .foregroundColor(.gray)
             }
             Spacer()
-            Text(formatCurrency(expense.income))
+            Text(formatBalance(expense.income))
                 .font(.headline)
                 .foregroundColor(expense.income >= 0 ? .green : .red)
         }
@@ -76,6 +80,19 @@ struct ExpenseRow: View {
             }
         }
     }
+    private func formatBalance(_ balance: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencySymbol = "$"
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 2
+        
+        let number = NSNumber(value: abs(balance))
+        let formattedString = formatter.string(from: number) ?? "$0"
+        
+        return balance < 0 ? "-\(formattedString)" : formattedString
+    }
+
 }
 
 #Preview {
