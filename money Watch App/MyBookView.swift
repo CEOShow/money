@@ -26,9 +26,10 @@ struct MyBookView: View {
             VStack {
                 Text("餘額")
                     .font(.caption2)
-                Text("$\(totalIncome - totalExpense, specifier: "%.2f")")
-                    .font(.title2)
-                    .foregroundColor(totalIncome - totalExpense >= 0 ? .blue : .red)
+                AutoSizingText(text: formatBalance(totalIncome - totalExpense),
+                               fontSize: 28,
+                               color: totalIncome - totalExpense >= 0 ? .blue : .red)
+                    .frame(height: 40)
             }
             .padding(.vertical, 10)
 
@@ -63,6 +64,36 @@ struct MyBookView: View {
         let totals = AccountingManager.shared.getTotals(for: accountBook.id)
         totalIncome = totals.totalIncome
         totalExpense = totals.totalExpense
+    }
+
+    private func formatBalance(_ balance: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencySymbol = "$"
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 2
+        
+        let number = NSNumber(value: abs(balance))
+        let formattedString = formatter.string(from: number) ?? "$0"
+        
+        return balance < 0 ? "-\(formattedString)" : formattedString
+    }
+}
+
+struct AutoSizingText: View {
+    let text: String
+    let fontSize: CGFloat
+    let color: Color
+    
+    var body: some View {
+        GeometryReader { geometry in
+            Text(text)
+                .font(.system(size: fontSize))
+                .foregroundColor(color)
+                .minimumScaleFactor(0.1)
+                .lineLimit(1)
+                .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
+        }
     }
 }
 
