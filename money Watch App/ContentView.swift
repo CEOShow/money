@@ -13,7 +13,10 @@ struct ContentView: View {
     @State private var refreshID = UUID()
     @State private var calculatorAmount: String = "0"
     @State private var calculatorIsIncome: Bool = false
-    @State private var selectedCategory: Category = .foodAndEntertainment  // 新增這行
+    @State private var selectedCategory: Category = .foodAndEntertainment
+    
+    // 新增這些狀態變量
+    @State private var isShowingNewBook = false
     
     var body: some View {
         NavigationStack(path: $navPath) {
@@ -51,34 +54,25 @@ struct ContentView: View {
                     
                     Spacer(minLength: 50)
                     
-                    NavigationLink(destination: NewBookView(refreshAction: refreshAccountBooks)) {
-                        Text("新增帳本")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
+                    Button("新增帳本") {
+                        isShowingNewBook = true
                     }
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
                 }
                 .padding()
             }
             .navigationDestination(for: AccountBook.self) { book in
                 MyBookView(accountBook: book)
             }
-            .navigationDestination(for: String.self) { stringPath in
-                switch stringPath {
-                case "calculator":
-                    CalculatorView(amount: $calculatorAmount, isIncome: $calculatorIsIncome)
-                case "category":
-                    CategoryView(selectedCategory: $selectedCategory)  // 修改這行
-                case "date":
-                    DateView(navPath: $navPath)
-                default:
-                    EmptyView()
-                }
-            }
         }
         .id(refreshID)
+        .sheet(isPresented: $isShowingNewBook) {
+            NewBookView(isPresented: $isShowingNewBook, refreshAction: refreshAccountBooks)
+        }
         .onAppear {
             refreshAccountBooks()
         }
