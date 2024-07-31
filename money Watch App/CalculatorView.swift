@@ -12,6 +12,7 @@ struct CalculatorView: View {
     @Binding var isIncome: Bool
     @Environment(\.dismiss) private var dismiss
     @State private var currentInput: String = "0"
+    @State private var pressedButton: String? = nil
     
     let buttons: [[String]] = [
         ["1", "2", "3"],
@@ -20,35 +21,39 @@ struct CalculatorView: View {
         ["0", ".", "確認"]
     ]
     
+    let maxInputLength = 9 // 設置最大輸入長度
+    
     var body: some View {
         GeometryReader { geometry in
-            VStack(spacing: 8) { // 調整垂直間距
+            VStack(spacing: 8) {
                 // 顯示金額
                 HStack {
-                    Text(currentInput)
-                        .font(.system(size: 24, weight: .bold)) // 調整字體大小
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .padding(8)
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(8)
-                        .padding(.horizontal, 8)
+                    Spacer()
+                    AdaptiveText(text: formattedInput, maxSize: 32)
+                        .frame(height: 40)
+                        .padding(.trailing, 8)
                     
                     Button(action: { deleteLastDigit() }) {
                         Image(systemName: "delete.left.fill")
                             .resizable()
-                            .frame(width: 24, height: 24) // 調整刪除按鈕大小
+                            .frame(width: 24, height: 24)
                             .padding(8)
                     }.buttonStyle(PlainButtonStyle())
                 }
+                .padding(.horizontal, 8)
+                .background(Color.gray.opacity(0.2))
+                .cornerRadius(8)
+                .padding(.horizontal, 8)
                 
                 // 數字鍵盤
-                VStack(spacing: 4) { // 調整行之間的間距
+                VStack(spacing: 4) {
                     ForEach(buttons, id: \.self) { row in
-                        HStack(spacing: 4) { // 調整按鈕間距
+                        HStack(spacing: 4) {
                             ForEach(row, id: \.self) { button in
                                 CalculatorButton(
                                     title: button,
                                     size: buttonSize(for: geometry.size),
+                                    isPressed: pressedButton == button,
                                     action: { buttonTapped(button) }
                                 )
                             }
@@ -61,24 +66,41 @@ struct CalculatorView: View {
         }
     }
     
+    private var formattedInput: String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 2
+        
+        if let number = Double(currentInput) {
+            return formatter.string(from: NSNumber(value: number)) ?? currentInput
+        }
+        return currentInput
+    }
+    
     private func buttonSize(for size: CGSize) -> CGSize {
-        let width = (size.width - 16 - 12) / 3 // 調整按鈕間距，留出額外空間
-        return CGSize(width: width, height: width * 0.4) // 調整按鈕高度比例，使其扁平
+        let width = (size.width - 16 - 12) / 3
+        return CGSize(width: width, height: width * 0.4)
     }
     
     private func buttonTapped(_ button: String) {
+        pressedButton = button
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            pressedButton = nil
+        }
+        
         switch button {
         case "確認":
             amount = currentInput
             dismiss()
         case ".":
-            if !currentInput.contains(".") {
+            if !currentInput.contains(".") && currentInput.count < maxInputLength {
                 currentInput += "."
             }
         default:
             if currentInput == "0" {
                 currentInput = button
-            } else {
+            } else if currentInput.count < maxInputLength {
                 currentInput += button
             }
         }
@@ -94,19 +116,37 @@ struct CalculatorView: View {
     }
 }
 
+struct AdaptiveText: View {
+    let text: String
+    let maxSize: CGFloat
+    
+    var body: some View {
+        GeometryReader { geometry in
+            Text(text)
+                .font(.system(size: maxSize, weight: .bold))
+                .minimumScaleFactor(0.1)
+                .scaledToFit()
+                .frame(width: geometry.size.width, height: geometry.size.height, alignment: .trailing)
+        }
+    }
+}
+
 struct CalculatorButton: View {
     let title: String
     let size: CGSize
+    let isPressed: Bool
     let action: () -> Void
     
     var body: some View {
         Button(action: action) {
             Text(title)
-                .font(.system(size: 18, weight: .medium)) // 調整字體大小
+                .font(.system(size: 18, weight: .medium))
                 .frame(width: size.width, height: size.height)
                 .background(buttonColor())
                 .foregroundColor(.white)
-                .cornerRadius(8) // 調整圓角半徑
+                .cornerRadius(8)
+                .scaleEffect(isPressed ? 1.5 : 1.0) // 將放大效果從 1.1 增加到 1.2
+                .animation(.spring(response: 0.2, dampingFraction: 0.5, blendDuration: 0.1), value: isPressed)
         }
         .buttonStyle(PlainButtonStyle())
     }
@@ -121,6 +161,8 @@ struct CalculatorButton: View {
     }
 }
 
-#Preview {
-    CalculatorView(amount: .constant("0"), isIncome: .constant(false))
+struct CalculatorView_Previews: PreviewProvider {
+    static var previews: some View {
+        CalculatorView(amount: .constant("0"), isIncome: .constant(false))
+    }
 }
