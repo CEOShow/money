@@ -55,10 +55,15 @@ struct MyBookView: View {
                 }
             }
         }
-        .sheet(isPresented: $showingDetailView) {
+        .sheet(isPresented: $showingDetailView, onDismiss: {
+            updateTotals()
+        }) {
             ExpenseDetailView(accountBook: accountBook)
         }
-        .sheet(isPresented: $showingExpenseInput) {
+        
+        .sheet(isPresented: $showingExpenseInput, onDismiss: {
+            updateTotals()
+        }) {
             ExpenseInputView(accountBook: accountBook)
         }
         .onAppear {
