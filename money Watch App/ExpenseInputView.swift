@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ExpenseInputView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     let accountBook: AccountBook
     @State private var amount: String = "0"
     @State private var selectedCategory: Category = .foodAndEntertainment
@@ -142,7 +142,7 @@ struct ExpenseInputView: View {
             category: selectedCategory
         ) {
             print("紀錄已保存")
-            presentationMode.wrappedValue.dismiss()
+            dismiss()
         } else {
             print("保存失敗，請稍後再試")
         }

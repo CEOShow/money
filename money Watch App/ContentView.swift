@@ -14,8 +14,6 @@ struct ContentView: View {
     @State private var calculatorAmount: String = "0"
     @State private var calculatorIsIncome: Bool = false
     @State private var selectedCategory: Category = .foodAndEntertainment
-    
-    // 新增這些狀態變量
     @State private var isShowingNewBook = false
     
     var body: some View {
