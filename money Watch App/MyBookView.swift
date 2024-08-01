@@ -12,6 +12,7 @@ struct MyBookView: View {
     @State private var totalIncome: Double = 0
     @State private var totalExpense: Double = 0
     @State private var showingDetailView = false
+    @State private var showingExpenseInput = false
 
     var body: some View {
         VStack {
@@ -33,7 +34,9 @@ struct MyBookView: View {
             }
             .padding(.vertical, 10)
 
-            NavigationLink(destination: ExpenseInputView(accountBook: accountBook)) {
+            Button(action: {
+                showingExpenseInput = true
+            }) {
                 Text("+")
                     .font(.title)
                     .foregroundColor(.green)
@@ -54,6 +57,9 @@ struct MyBookView: View {
         }
         .sheet(isPresented: $showingDetailView) {
             ExpenseDetailView(accountBook: accountBook)
+        }
+        .sheet(isPresented: $showingExpenseInput) {
+            ExpenseInputView(accountBook: accountBook)
         }
         .onAppear {
             updateTotals()
