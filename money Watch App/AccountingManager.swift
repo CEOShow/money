@@ -68,6 +68,7 @@ protocol ExpenseRepository {
     func saveExpense(expense: Expense) -> Bool
     func getExpenses(bookId: Int) -> [Expense]
     func deleteExpense(id: Int) -> Bool
+    func updateExpense(_ expense: Expense) -> Bool
 }
 
 // MARK: - Implementation
@@ -282,6 +283,30 @@ class SQLiteExpenseRepository: ExpenseRepository {
         sqlite3_finalize(statement)
         return false
     }
+    
+    func updateExpense(_ expense: Expense) -> Bool {
+        let query = "UPDATE Expense SET income = ?, date = ?, note = ?, categoryId = ? WHERE id = ?;"
+        var statement: OpaquePointer?
+        if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_double(statement, 1, expense.income)
+            let dateString = ISO8601DateFormatter().string(from: expense.date)
+            sqlite3_bind_text(statement, 2, (dateString as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 3, (expense.note as NSString).utf8String, -1, nil)
+            sqlite3_bind_int(statement, 4, Int32(expense.categoryId))
+            sqlite3_bind_int(statement, 5, Int32(expense.id))
+            if sqlite3_step(statement) == SQLITE_DONE {
+                print("Expense updated successfully")
+                sqlite3_finalize(statement)
+                return true
+            } else {
+                print("Failed to update expense")
+            }
+        } else {
+            print("UPDATE statement preparation failed")
+        }
+        sqlite3_finalize(statement)
+        return false
+    }
 }
 
 class AccountingManager {
@@ -323,6 +348,10 @@ class AccountingManager {
     
     func deleteExpense(id: Int) -> Bool {
         return expenseRepository.deleteExpense(id: id)
+    }
+    
+    func updateExpense(_ expense: Expense) -> Bool {
+        return expenseRepository.updateExpense(expense)
     }
     
     func getTotals(for bookId: Int) -> (totalIncome: Double, totalExpense: Double) {
