@@ -12,6 +12,7 @@ struct ExpenseDetailView: View {
     @State private var expenses: [Expense] = []
     @State private var editingExpense: Expense?
     @State private var showingEditView = false
+    @State private var refreshID = UUID()
     
     var body: some View {
         List {
@@ -19,8 +20,11 @@ struct ExpenseDetailView: View {
                 ExpenseRow(expense: expense, expenses: $expenses, editAction: {
                     editingExpense = expense
                     showingEditView = true
+                }, deleteAction: {
+                    deleteExpense(expense)
                 })
                 .listRowInsets(EdgeInsets())
+                .id(refreshID)
             }
         }
         .navigationTitle("詳細明細")
@@ -34,7 +38,8 @@ struct ExpenseDetailView: View {
                         expenses[index] = updatedExpense
                     }
                     showingEditView = false
-                    loadExpenses() // 重新載入所有支出以更新列表
+                    loadExpenses()
+                    refreshID = UUID()
                 })
             }
         }
@@ -43,14 +48,21 @@ struct ExpenseDetailView: View {
     private func loadExpenses() {
         expenses = AccountingManager.shared.getExpenses(for: accountBook.id)
     }
+    
+    private func deleteExpense(_ expense: Expense) {
+        if AccountingManager.shared.deleteExpense(id: expense.id) {
+            expenses.removeAll { $0.id == expense.id }
+            refreshID = UUID()
+        }
+    }
 }
 
 struct ExpenseRow: View {
     let expense: Expense
     @Binding var expenses: [Expense]
     let editAction: () -> Void
+    let deleteAction: () -> Void
     @State private var offset: CGFloat = 0
-    @State private var showingDelete = false
     
     var body: some View {
         ZStack {
@@ -62,7 +74,7 @@ struct ExpenseRow: View {
                         .background(Color.blue)
                 }
                 
-                Button(action: deleteExpense) {
+                Button(action: deleteAction) {
                     Image(systemName: "trash")
                         .foregroundColor(.white)
                         .frame(width: 60, height: 60)
@@ -84,7 +96,9 @@ struct ExpenseRow: View {
                     .foregroundColor(expense.income >= 0 ? .green : .red)
             }
             .padding()
-            .background(Color.blue) // 使用藍色背景
+            .background(Color(white: 0.95)) // 使用 SwiftUI 的顏色
+            .cornerRadius(10)
+            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
             .offset(x: offset)
             .gesture(
                 DragGesture()
@@ -117,27 +131,16 @@ struct ExpenseRow: View {
     
     private func formatBalance(_ balance: Double) -> String {
         let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.currencySymbol = "$"
+        formatter.numberStyle = .decimal
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 2
         
         let number = NSNumber(value: abs(balance))
-        let formattedString = formatter.string(from: number) ?? "$0"
+        let formattedString = formatter.string(from: number) ?? "0"
         
-        return balance < 0 ? "-\(formattedString)" : formattedString
-    }
-    
-    private func deleteExpense() {
-        if AccountingManager.shared.deleteExpense(id: expense.id) {
-            if let index = expenses.firstIndex(where: { $0.id == expense.id }) {
-                expenses.remove(at: index)
-            }
-        }
+        return balance < 0 ? "-$\(formattedString)" : "$\(formattedString)"
     }
 }
-
-
 
 struct ExpenseDetailView_Previews: PreviewProvider {
     static var previews: some View {
