@@ -63,19 +63,24 @@ struct ExpenseRow: View {
     let editAction: () -> Void
     let deleteAction: () -> Void
     @State private var offset: CGFloat = 0
-    
+    @State private var showingDeleteConfirmation = false
+
     var body: some View {
         ZStack {
             HStack(spacing: 0) {
                 Button(action: editAction) {
-                    Image(systemName: "pencil")
+                    Image(systemName: "ellipsis")
                         .foregroundColor(.white)
                         .frame(width: 60, height: 60)
-                        .background(Color.blue)
+                        .background(Color.gray)
                 }
                 
-                Button(action: deleteAction) {
-                    Image(systemName: "trash")
+                Button(action: {
+                    withAnimation {
+                        self.showingDeleteConfirmation = true
+                    }
+                }) {
+                    Image(systemName: "xmark")
                         .foregroundColor(.white)
                         .frame(width: 60, height: 60)
                         .background(Color.red)
@@ -96,7 +101,7 @@ struct ExpenseRow: View {
                     .foregroundColor(expense.income >= 0 ? .green : .red)
             }
             .padding()
-            .background(Color(white: 0.95)) // 使用 SwiftUI 的顏色
+            .background(Color.white) 
             .cornerRadius(10)
             .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
             .offset(x: offset)
@@ -120,8 +125,22 @@ struct ExpenseRow: View {
                     }
             )
         }
+        .alert(isPresented: $showingDeleteConfirmation) {
+            Alert(
+                title: Text("確認刪除"),
+                message: Text("您確定要刪除這筆記錄嗎？"),
+                primaryButton: .destructive(Text("刪除")) {
+                    deleteAction()
+                },
+                secondaryButton: .cancel {
+                    withAnimation {
+                        self.offset = 0
+                    }
+                }
+            )
+        }
     }
-    
+
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium

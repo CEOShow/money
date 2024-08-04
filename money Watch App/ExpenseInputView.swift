@@ -19,7 +19,6 @@ struct ExpenseInputView: View {
     @State private var date: Date = Date()
     @State private var isIncome: Bool = false
     @State private var showingCalculator = false
-    @State private var showingDatePicker = false
     
     init(accountBook: AccountBook, editingExpense: Expense? = nil, onSave: ((Expense) -> Void)? = nil) {
         self.accountBook = accountBook
@@ -27,7 +26,7 @@ struct ExpenseInputView: View {
         self.onSave = onSave
         
         if let expense = editingExpense {
-            _amount = State(initialValue: String(abs(expense.income)))
+            _amount = State(initialValue: String(format: "%.2f", abs(expense.income)))
             _selectedCategory = State(initialValue: Category(rawValue: expense.categoryId) ?? .foodAndEntertainment)
             _note = State(initialValue: expense.note)
             _date = State(initialValue: expense.date)
@@ -101,24 +100,11 @@ struct ExpenseInputView: View {
                 
                 // Date Section
                 Section {
-                    Button(action: {
-                        showingDatePicker = true
-                    }) {
-                        HStack {
-                            Text("選擇日期")
-                            Spacer()
-                            Text(formatDate(date))
-                                .foregroundColor(.gray)
-                            Image(systemName: "chevron.right")
-                                .foregroundColor(.gray)
-                        }
-                    }
-                    .padding()
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(10)
-                }
-                .sheet(isPresented: $showingDatePicker) {
-                    CustomDatePickerView(date: $date, showingDatePicker: $showingDatePicker)
+                    Text(formatDate(date))
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(10)
                 }
                 
                 // Save Button
@@ -175,40 +161,6 @@ struct ExpenseInputView: View {
                 print("保存失敗，請稍後再試")
             }
         }
-    }
-}
-
-struct CustomDatePickerView: View {
-    @Binding var date: Date
-    @Binding var showingDatePicker: Bool
-    
-    var body: some View {
-        VStack {
-            if #available(watchOS 10.0, *) {
-                DatePicker(
-                    "Select Date",
-                    selection: $date,
-                    displayedComponents: [.date]
-                )
-                .datePickerStyle(WheelDatePickerStyle())
-                .labelsHidden()
-                .frame(height: 200)
-                .clipped()
-            } else {
-                // Fallback on earlier versions
-                // TODO: 支援 WatchOS 9
-            }
-            
-            Button("確定") {
-                showingDatePicker = false
-            }
-            .padding()
-            .frame(maxWidth: .infinity)
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(8)
-        }
-        .padding()
     }
 }
 
