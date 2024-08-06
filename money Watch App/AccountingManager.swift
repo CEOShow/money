@@ -247,7 +247,7 @@ class SQLiteExpenseRepository: ExpenseRepository {
     
     func getExpenses(bookId: Int) -> [Expense] {
         var expenses: [Expense] = []
-        let query = "SELECT id, income, date, note, categoryId FROM Expense WHERE bookId = ?;"
+        let query = "SELECT id, income, date, note, categoryId FROM Expense WHERE bookId = ? ORDER BY date DESC;"
         var statement: OpaquePointer?
         if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
             sqlite3_bind_int(statement, 1, Int32(bookId))
