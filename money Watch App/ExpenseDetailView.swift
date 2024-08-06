@@ -70,11 +70,14 @@ struct ExpenseRow: View {
 
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(expense.note)
-                    .font(.headline)
+                    .font(.headline) // 這裡可以根據需要調整大小
+                Text(getCategoryName(for: expense.categoryId))
+                    .font(.title3) // 改成較大的字體
+                    .foregroundColor(.blue)
                 Text(formatDate(expense.date))
-                    .font(.subheadline)
+                    .font(.body) // 調整日期文字的大小
                     .foregroundColor(.gray)
             }
             Spacer()
@@ -88,8 +91,12 @@ struct ExpenseRow: View {
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
-        formatter.timeStyle = .short
+        formatter.timeStyle = .none
         return formatter.string(from: date)
+    }
+    
+    private func getCategoryName(for categoryId: Int) -> String {
+        Category(rawValue: categoryId)?.name ?? "未知類別"
     }
     
     private func formatBalance(_ balance: Double) -> String {
