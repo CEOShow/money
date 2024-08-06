@@ -19,19 +19,19 @@ struct ExpenseDetailView: View {
             ForEach(expenses) { expense in
                 ExpenseRow(expense: expense)
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                        Button(action: {
-                            editingExpense = expense
-                            showingEditView = true
-                        }) {
-                            Label("編輯", systemImage: "pencil")
-                        }
-                        .tint(.blue) // 修改：添加了藍色調整
-                        
                         Button(role: .destructive, action: {
                             deleteExpense(expense)
                         }) {
                             Label("刪除", systemImage: "trash")
                         }
+                        
+                        Button(role: .none , action: {
+                            editingExpense = expense
+                            showingEditView = true
+                        }) {
+                            Label("編輯", systemImage: "pencil")
+                        }
+                        .tint(.blue)
                     }
             }
             .listRowInsets(EdgeInsets())
@@ -92,7 +92,6 @@ struct ExpenseRow: View {
         return formatter.string(from: date)
     }
     
-    // 修改：更新了 formatBalance 函數
     private func formatBalance(_ balance: Double) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -102,7 +101,6 @@ struct ExpenseRow: View {
         let number = NSNumber(value: abs(balance))
         let formattedString = formatter.string(from: number) ?? "0"
         
-        // 如果金額是整數，不顯示小數點後的零
         let finalString = balance.truncatingRemainder(dividingBy: 1) == 0 ?
             String(format: "%.0f", abs(balance)) : formattedString
         

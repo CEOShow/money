@@ -19,6 +19,7 @@ struct ExpenseInputView: View {
     @State private var date: Date = Date()
     @State private var isIncome: Bool = false
     @State private var showingCalculator = false
+    @State private var showingCategoryPicker = false
     
     init(accountBook: AccountBook, editingExpense: Expense? = nil, onSave: ((Expense) -> Void)? = nil) {
         self.accountBook = accountBook
@@ -26,7 +27,7 @@ struct ExpenseInputView: View {
         self.onSave = onSave
         
         if let expense = editingExpense {
-            _amount = State(initialValue: String(format: "%.2f", abs(expense.income)))
+            _amount = State(initialValue: String(format: "%.0f", abs(expense.income)))
             _selectedCategory = State(initialValue: Category(rawValue: expense.categoryId) ?? .foodAndEntertainment)
             _note = State(initialValue: expense.note)
             _date = State(initialValue: expense.date)
@@ -75,7 +76,9 @@ struct ExpenseInputView: View {
                 
                 // Category Section
                 Section {
-                    NavigationLink(destination: CategoryView(selectedCategory: $selectedCategory)) {
+                    Button(action: {
+                        showingCategoryPicker = true
+                    }) {
                         HStack {
                             Text("類別")
                             Spacer()
@@ -88,6 +91,9 @@ struct ExpenseInputView: View {
                     .padding()
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(10)
+                }
+                .sheet(isPresented: $showingCategoryPicker) {
+                    CategoryView(selectedCategory: $selectedCategory)
                 }
                 
                 // Note Section
