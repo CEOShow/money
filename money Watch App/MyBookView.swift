@@ -68,6 +68,7 @@ struct MyBookView: View {
         }
         .onAppear {
             updateTotals()
+            AccountingManager.shared.saveLastOpenedBook(id: accountBook.id)
         }
     }
 

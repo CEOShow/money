@@ -19,6 +19,7 @@
 		C1B6CA422BFCCF95008811B0 /* NewBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B6CA412BFCCF95008811B0 /* NewBookView.swift */; };
 		C1B6CA442BFCD44C008811B0 /* MyBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B6CA432BFCD44C008811B0 /* MyBookView.swift */; };
 		C1B6CA482BFCDB54008811B0 /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B6CA472BFCDB54008811B0 /* CalculatorView.swift */; };
+		C1ED27892C630BEA00BB5D67 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1ED27882C630BEA00BB5D67 /* AppView.swift */; };
 		C1F457E12C565E2600D5EEA1 /* ExpenseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F457E02C565E2600D5EEA1 /* ExpenseDetailView.swift */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +37,7 @@
 		C1B6CA412BFCCF95008811B0 /* NewBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookView.swift; sourceTree = "<group>"; };
 		C1B6CA432BFCD44C008811B0 /* MyBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBookView.swift; sourceTree = "<group>"; };
 		C1B6CA472BFCDB54008811B0 /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
+		C1ED27882C630BEA00BB5D67 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		C1F457E02C565E2600D5EEA1 /* ExpenseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -70,6 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				C11A387D2BE4FF9B003ED157 /* moneyApp.swift */,
+				C1ED27882C630BEA00BB5D67 /* AppView.swift */,
 				C11A387F2BE4FF9B003ED157 /* ContentView.swift */,
 				C171A2F82BFE0DD3009E20C5 /* CategoryView.swift */,
 				C171A2FA2BFE1774009E20C5 /* DateView.swift */,
@@ -172,6 +175,7 @@
 				C1539C522C4A1A85003DB0AC /* CurrencySelectionView.swift in Sources */,
 				C171A2FB2BFE1774009E20C5 /* DateView.swift in Sources */,
 				C11A387E2BE4FF9B003ED157 /* moneyApp.swift in Sources */,
+				C1ED27892C630BEA00BB5D67 /* AppView.swift in Sources */,
 				C1F457E12C565E2600D5EEA1 /* ExpenseDetailView.swift in Sources */,
 				C1B6CA422BFCCF95008811B0 /* NewBookView.swift in Sources */,
 				C1B6CA442BFCD44C008811B0 /* MyBookView.swift in Sources */,
