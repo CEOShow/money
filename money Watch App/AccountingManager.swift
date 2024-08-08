@@ -10,7 +10,7 @@ import SQLite3
 
 // MARK: - Models
 
-struct AccountBook: Identifiable, Hashable {
+struct AccountBook: Identifiable, Hashable, Codable {
     let id: Int
     let currency: String
     let name: String
@@ -316,6 +316,8 @@ class AccountingManager {
     private let accountBookRepository: AccountBookRepository
     private let expenseRepository: ExpenseRepository
     
+    private let lastOpenedBookKey = "lastOpenedBookId"
+    
     private init() {
         dbManager = SQLiteDatabaseManager()
         accountBookRepository = SQLiteAccountBookRepository(dbManager: dbManager)
@@ -377,6 +379,14 @@ class AccountingManager {
         sqlite3_finalize(statement)
         
         return (totalIncome, totalExpense)
+    }
+    
+    func saveLastOpenedBook(id: Int) {
+        UserDefaults.standard.set(id, forKey: lastOpenedBookKey)
+    }
+
+    func getLastOpenedBookId() -> Int? {
+        return UserDefaults.standard.object(forKey: lastOpenedBookKey) as? Int
     }
     
     deinit {
