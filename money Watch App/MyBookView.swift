@@ -20,12 +20,12 @@ struct MyBookView: View {
                 .font(.headline)
                 .padding(.bottom, 5)
 
-            Text("幣別: \(accountBook.currency)")
+            Text(NSLocalizedString("Currency", comment: "") + ": \(accountBook.currency)")
                 .font(.caption)
                 .foregroundColor(.gray)
 
             VStack {
-                Text("餘額")
+                Text(NSLocalizedString("Balance", comment: ""))
                     .font(.caption2)
                 AutoSizingText(text: formatBalance(totalIncome - totalExpense),
                                fontSize: 28,

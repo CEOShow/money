@@ -8,38 +8,38 @@
 import SwiftUI
 
 struct NewBookView: View {
-    @State private var name: String = ""  // 帳本名稱
-    @State private var currency: String = "TWD"  // 默認幣值為 TWD
-    @Binding var isPresented: Bool  // 用於控制視圖的顯示與隱藏
-    var refreshAction: () -> Void  // 用於刷新列表的動作
+    @State private var name: String = ""
+    @State private var currency: String = "TWD"
+    @Binding var isPresented: Bool
+    var refreshAction: () -> Void
     
     var body: some View {
         NavigationStack {
             Form {
-                TextField("帳本名稱", text: $name)  // 用於輸入帳本名稱
+                TextField(NSLocalizedString("Book Name", comment: ""), text: $name)
                 
                 NavigationLink(destination: CurrencySelectionView(selectedCurrency: $currency)) {
                     HStack {
-                        Text("幣值")
+                        Text(NSLocalizedString("Currency", comment: ""))
                         Spacer()
-                        Text(currency)  // 顯示選擇的幣值
+                        Text(currency)
                             .foregroundColor(.gray)
                     }
                 }
                 
-                Button("新增帳本") {
-                    let success = AccountingManager.shared.createAccountBook(currency: currency, name: name)  // 創建帳本
+                Button(NSLocalizedString("Create Book", comment: "")) {
+                    let success = AccountingManager.shared.createAccountBook(currency: currency, name: name)
                     if success {
-                        refreshAction()  // 執行刷新動作
-                        isPresented = false  // 關閉視圖
+                        refreshAction()
+                        isPresented = false
                     }
                 }
             }
-            .navigationTitle("新增帳本")  // 設置導航欄標題
+            .navigationTitle(NSLocalizedString("Add Book", comment: ""))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("取消") {
-                        isPresented = false  // 取消操作，關閉視圖
+                    Button(NSLocalizedString("Cancel", comment: "")) {
+                        isPresented = false
                     }
                 }
             }
@@ -52,7 +52,7 @@ struct NewBookView_Previews: PreviewProvider {
     
     static var previews: some View {
         NewBookView(isPresented: $isPresented, refreshAction: {
-            print("刷新動作在預覽中被調用")
+            print("Refresh action called in preview")
         })
     }
 }
