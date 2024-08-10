@@ -8,15 +8,32 @@
 import SwiftUI
 
 struct ExpenseInputView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     let accountBook: AccountBook
+    var editingExpense: Expense?
+    var onSave: ((Expense) -> Void)?
+    
     @State private var amount: String = "0"
     @State private var selectedCategory: Category = .foodAndEntertainment
     @State private var note: String = ""
     @State private var date: Date = Date()
     @State private var isIncome: Bool = false
     @State private var showingCalculator = false
-    @State private var showingDatePicker = false
+    @State private var showingCategoryPicker = false
+    
+    init(accountBook: AccountBook, editingExpense: Expense? = nil, onSave: ((Expense) -> Void)? = nil) {
+        self.accountBook = accountBook
+        self.editingExpense = editingExpense
+        self.onSave = onSave
+        
+        if let expense = editingExpense {
+            _amount = State(initialValue: String(format: "%.0f", abs(expense.income)))
+            _selectedCategory = State(initialValue: Category(rawValue: expense.categoryId) ?? .foodAndEntertainment)
+            _note = State(initialValue: expense.note)
+            _date = State(initialValue: expense.date)
+            _isIncome = State(initialValue: expense.income >= 0)
+        }
+    }
     
     var body: some View {
         ScrollView {
@@ -59,7 +76,9 @@ struct ExpenseInputView: View {
                 
                 // Category Section
                 Section {
-                    NavigationLink(destination: CategoryView(selectedCategory: $selectedCategory)) {
+                    Button(action: {
+                        showingCategoryPicker = true
+                    }) {
                         HStack {
                             Text("類別")
                             Spacer()
@@ -73,6 +92,9 @@ struct ExpenseInputView: View {
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(10)
                 }
+                .sheet(isPresented: $showingCategoryPicker) {
+                    CategoryView(selectedCategory: $selectedCategory)
+                }
                 
                 // Note Section
                 Section {
@@ -84,29 +106,16 @@ struct ExpenseInputView: View {
                 
                 // Date Section
                 Section {
-                    Button(action: {
-                        showingDatePicker = true
-                    }) {
-                        HStack {
-                            Text("選擇日期")
-                            Spacer()
-                            Text(formatDate(date))
-                                .foregroundColor(.gray)
-                            Image(systemName: "chevron.right")
-                                .foregroundColor(.gray)
-                        }
-                    }
-                    .padding()
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(10)
-                }
-                .sheet(isPresented: $showingDatePicker) {
-                    CustomDatePickerView(date: $date, showingDatePicker: $showingDatePicker)
+                    Text(formatDate(date))
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(10)
                 }
                 
                 // Save Button
                 Button(action: saveExpense) {
-                    Text("保存")
+                    Text(editingExpense == nil ? "保存" : "更新")
                         .frame(maxWidth: .infinity)
                         .foregroundColor(.white)
                         .padding()
@@ -116,7 +125,7 @@ struct ExpenseInputView: View {
             }
             .padding()
         }
-        .navigationTitle("新增紀錄")
+        .navigationTitle(editingExpense == nil ? "新增紀錄" : "編輯紀錄")
     }
     
     private func formatDate(_ date: Date) -> String {
@@ -134,47 +143,30 @@ struct ExpenseInputView: View {
         
         let income = isIncome ? amountValue : -amountValue
         
-        if AccountingManager.shared.addExpense(
-            bookId: accountBook.id,
-            income: income,
-            date: date,
-            note: note,
-            category: selectedCategory
-        ) {
-            print("紀錄已保存")
-            presentationMode.wrappedValue.dismiss()
-        } else {
-            print("保存失敗，請稍後再試")
-        }
-    }
-}
-
-struct CustomDatePickerView: View {
-    @Binding var date: Date
-    @Binding var showingDatePicker: Bool
-    
-    var body: some View {
-        VStack {
-            DatePicker(
-                "Select Date",
-                selection: $date,
-                displayedComponents: [.date]
-            )
-            .datePickerStyle(WheelDatePickerStyle())
-            .labelsHidden()
-            .frame(height: 200)
-            .clipped()
+        if let editingExpense = editingExpense {
+            let updatedExpense = Expense(id: editingExpense.id, bookId: accountBook.id, income: income, date: date, note: note, categoryId: selectedCategory.rawValue)
             
-            Button("確定") {
-                showingDatePicker = false
+            if AccountingManager.shared.updateExpense(updatedExpense) {
+                print("紀錄已更新")
+                onSave?(updatedExpense)
+                dismiss()
+            } else {
+                print("更新失敗，請稍後再試")
             }
-            .padding()
-            .frame(maxWidth: .infinity)
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(8)
+        } else {
+            if AccountingManager.shared.addExpense(
+                bookId: accountBook.id,
+                income: income,
+                date: date,
+                note: note,
+                category: selectedCategory
+            ) {
+                print("紀錄已保存")
+                dismiss()
+            } else {
+                print("保存失敗，請稍後再試")
+            }
         }
-        .padding()
     }
 }
 

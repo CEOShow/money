@@ -9,54 +9,43 @@ import SwiftUI
 
 struct MyBookView: View {
     let accountBook: AccountBook
-    @State private var expenses: [Expense] = []
     @State private var totalIncome: Double = 0
     @State private var totalExpense: Double = 0
     @State private var showingDetailView = false
-    
+    @State private var showingExpenseInput = false
+
     var body: some View {
         VStack {
             Text(accountBook.name)
-                .font(.largeTitle)
-                .padding()
-            
+                .font(.headline)
+                .padding(.bottom, 5)
+
             Text("幣別: \(accountBook.currency)")
-                .font(.subheadline)
+                .font(.caption)
                 .foregroundColor(.gray)
-            
-            HStack {
-                VStack {
-                    Text("收入")
-                    Text("$\(totalIncome, specifier: "%.2f")")
-                        .foregroundColor(.green)
-                }
-                Divider()
-                VStack {
-                    Text("餘額")
-                    Text("$\(totalIncome - totalExpense, specifier: "%.2f")")
-                        .foregroundColor(totalIncome - totalExpense >= 0 ? .blue : .red)
-                }
-                Divider()
-                VStack {
-                    Text("支出")
-                    Text("$\(totalExpense, specifier: "%.2f")")
-                        .foregroundColor(.red)
-                }
+
+            VStack {
+                Text("餘額")
+                    .font(.caption2)
+                AutoSizingText(text: formatBalance(totalIncome - totalExpense),
+                               fontSize: 28,
+                               color: totalIncome - totalExpense >= 0 ? .blue : .red)
+                    .frame(height: 40)
             }
-            .padding()
-            
-            List(expenses) { expense in
-                ExpenseRow(expense: expense)
-            }
-            
-            NavigationLink(destination: ExpenseInputView(accountBook: accountBook)) {
+            .padding(.vertical, 10)
+
+            Button(action: {
+                showingExpenseInput = true
+            }) {
                 Text("+")
-                    .font(.largeTitle)
+                    .font(.title)
                     .foregroundColor(.green)
                     .padding()
                     .background(Circle().fill(Color.green.opacity(0.2)))
             }
+            .padding(.top, 5)
         }
+        .padding()
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button(action: {
@@ -66,31 +55,62 @@ struct MyBookView: View {
                 }
             }
         }
-        .sheet(isPresented: $showingDetailView) {
-            ExpenseDetailView(expenses: expenses)
+        .sheet(isPresented: $showingDetailView, onDismiss: {
+            updateTotals()
+        }) {
+            ExpenseDetailView(accountBook: accountBook)
+        }
+        
+        .sheet(isPresented: $showingExpenseInput, onDismiss: {
+            updateTotals()
+        }) {
+            ExpenseInputView(accountBook: accountBook)
         }
         .onAppear {
-            loadExpenses()
+            updateTotals()
+            AccountingManager.shared.saveLastOpenedBook(id: accountBook.id)
         }
     }
-    
-    private func loadExpenses() {
-        expenses = AccountingManager.shared.getExpenses(for: accountBook.id)
-        calculateTotals()
+
+    private func updateTotals() {
+        let totals = AccountingManager.shared.getTotals(for: accountBook.id)
+        totalIncome = totals.totalIncome
+        totalExpense = totals.totalExpense
     }
-    
-    private func calculateTotals() {
-        totalIncome = expenses.filter { $0.income > 0 }.reduce(0) { $0 + $1.income }
-        totalExpense = expenses.filter { $0.income < 0 }.reduce(0) { $0 + abs($1.income) }
+
+    private func formatBalance(_ balance: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencySymbol = "$"
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 2
+        
+        let number = NSNumber(value: abs(balance))
+        let formattedString = formatter.string(from: number) ?? "$0"
+        
+        return balance < 0 ? "-\(formattedString)" : formattedString
     }
 }
 
+struct AutoSizingText: View {
+    let text: String
+    let fontSize: CGFloat
+    let color: Color
+    
+    var body: some View {
+        GeometryReader { geometry in
+            Text(text)
+                .font(.system(size: fontSize))
+                .foregroundColor(color)
+                .minimumScaleFactor(0.1)
+                .lineLimit(1)
+                .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
+        }
+    }
+}
 
 struct MyBookView_Previews: PreviewProvider {
     static var previews: some View {
         MyBookView(accountBook: AccountBook(id: 1, currency: "TWD", name: "測試帳本"))
     }
-}
-#Preview {
-    MyBookView(accountBook: AccountBook(id: 1, currency: "TWD", name: "測試帳本"))
 }

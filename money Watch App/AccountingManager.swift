@@ -4,12 +4,13 @@
 //
 //  Created by Show on 2024/7/16.
 //
+
 import Foundation
 import SQLite3
 
 // MARK: - Models
 
-struct AccountBook: Identifiable, Hashable {
+struct AccountBook: Identifiable, Hashable, Codable {
     let id: Int
     let currency: String
     let name: String
@@ -66,6 +67,8 @@ protocol AccountBookRepository {
 protocol ExpenseRepository {
     func saveExpense(expense: Expense) -> Bool
     func getExpenses(bookId: Int) -> [Expense]
+    func deleteExpense(id: Int) -> Bool
+    func updateExpense(_ expense: Expense) -> Bool
 }
 
 // MARK: - Implementation
@@ -244,7 +247,7 @@ class SQLiteExpenseRepository: ExpenseRepository {
     
     func getExpenses(bookId: Int) -> [Expense] {
         var expenses: [Expense] = []
-        let query = "SELECT id, income, date, note, categoryId FROM Expense WHERE bookId = ?;"
+        let query = "SELECT id, income, date, note, categoryId FROM Expense WHERE bookId = ? ORDER BY date DESC;"
         var statement: OpaquePointer?
         if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
             sqlite3_bind_int(statement, 1, Int32(bookId))
@@ -261,9 +264,50 @@ class SQLiteExpenseRepository: ExpenseRepository {
         sqlite3_finalize(statement)
         return expenses
     }
+    
+    func deleteExpense(id: Int) -> Bool {
+        let query = "DELETE FROM Expense WHERE id = ?;"
+        var statement: OpaquePointer?
+        if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_int(statement, 1, Int32(id))
+            if sqlite3_step(statement) == SQLITE_DONE {
+                print("Expense deleted successfully")
+                sqlite3_finalize(statement)
+                return true
+            } else {
+                print("Failed to delete expense")
+            }
+        } else {
+            print("DELETE statement preparation failed")
+        }
+        sqlite3_finalize(statement)
+        return false
+    }
+    
+    func updateExpense(_ expense: Expense) -> Bool {
+        let query = "UPDATE Expense SET income = ?, date = ?, note = ?, categoryId = ? WHERE id = ?;"
+        var statement: OpaquePointer?
+        if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_double(statement, 1, expense.income)
+            let dateString = ISO8601DateFormatter().string(from: expense.date)
+            sqlite3_bind_text(statement, 2, (dateString as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 3, (expense.note as NSString).utf8String, -1, nil)
+            sqlite3_bind_int(statement, 4, Int32(expense.categoryId))
+            sqlite3_bind_int(statement, 5, Int32(expense.id))
+            if sqlite3_step(statement) == SQLITE_DONE {
+                print("Expense updated successfully")
+                sqlite3_finalize(statement)
+                return true
+            } else {
+                print("Failed to update expense")
+            }
+        } else {
+            print("UPDATE statement preparation failed")
+        }
+        sqlite3_finalize(statement)
+        return false
+    }
 }
-
-// MARK: - AccountingManager (Singleton)
 
 class AccountingManager {
     static let shared = AccountingManager()
@@ -271,6 +315,8 @@ class AccountingManager {
     private let dbManager: SQLiteDatabaseManager
     private let accountBookRepository: AccountBookRepository
     private let expenseRepository: ExpenseRepository
+    
+    private let lastOpenedBookKey = "lastOpenedBookId"
     
     private init() {
         dbManager = SQLiteDatabaseManager()
@@ -300,6 +346,47 @@ class AccountingManager {
     
     func getExpenses(for bookId: Int) -> [Expense] {
         return expenseRepository.getExpenses(bookId: bookId)
+    }
+    
+    func deleteExpense(id: Int) -> Bool {
+        return expenseRepository.deleteExpense(id: id)
+    }
+    
+    func updateExpense(_ expense: Expense) -> Bool {
+        return expenseRepository.updateExpense(expense)
+    }
+    
+    func getTotals(for bookId: Int) -> (totalIncome: Double, totalExpense: Double) {
+        var totalIncome: Double = 0
+        var totalExpense: Double = 0
+        
+        let query = """
+        SELECT
+            SUM(CASE WHEN income >= 0 THEN income ELSE 0 END) AS totalIncome,
+            SUM(CASE WHEN income < 0 THEN ABS(income) ELSE 0 END) AS totalExpense
+        FROM Expense
+        WHERE bookId = ?;
+        """
+        
+        var statement: OpaquePointer?
+        if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_int(statement, 1, Int32(bookId))
+            if sqlite3_step(statement) == SQLITE_ROW {
+                totalIncome = sqlite3_column_double(statement, 0)
+                totalExpense = sqlite3_column_double(statement, 1)
+            }
+        }
+        sqlite3_finalize(statement)
+        
+        return (totalIncome, totalExpense)
+    }
+    
+    func saveLastOpenedBook(id: Int) {
+        UserDefaults.standard.set(id, forKey: lastOpenedBookKey)
+    }
+
+    func getLastOpenedBookId() -> Int? {
+        return UserDefaults.standard.object(forKey: lastOpenedBookKey) as? Int
     }
     
     deinit {
