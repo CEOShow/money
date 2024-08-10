@@ -1,0 +1,36 @@
+/* 
+  Localizable.strings
+  money
+
+  Created by Show on 2024/8/10.
+  
+*/
+
+"Home" = "Home";
+"Add Book" = "Add Book";
+"You don't have any account books yet. Tap the button below to add a new one." = "You don't have any account books yet. Tap the button below to add a new one.";
+"Currency" = "Currency";
+"Save" = "Save";
+"Update" = "Update";
+"Add Record" = "Add Record";
+"Edit Record" = "Edit Record";
+"Expense" = "Expense";
+"Income" = "Income";
+"Category" = "Category";
+"Enter note" = "Enter note";
+"Balance" = "Balance";
+"Details" = "Details";
+"Delete" = "Delete";
+"Edit" = "Edit";
+"Unknown Category" = "Unknown Category";
+"Book Name" = "Book Name";
+"Create Book" = "Create Book";
+"Cancel" = "Cancel";
+"Select Currency" = "Select Currency";
+"Food & Entertainment" = "Food & Entertainment";
+"Shopping" = "Shopping";
+"Pocket Money" = "Pocket Money";
+"Travel" = "Travel";
+"Transportation" = "Transportation";
+"Select Category" = "Select Category";
+

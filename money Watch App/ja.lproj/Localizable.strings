@@ -1,0 +1,35 @@
+/* 
+  Localizable.strings
+  money
+
+  Created by Show on 2024/8/10.
+  
+*/
+
+"Home" = "ホーム";
+"Add Book" = "帳簿追加";
+"You don't have any account books yet. Tap the button below to add a new one." = "まだ帳簿がありません。下のボタンをタップして新しい帳簿を追加してください。";
+"Currency" = "通貨";
+"Save" = "保存";
+"Update" = "更新";
+"Add Record" = "記録追加";
+"Edit Record" = "記録編集";
+"Expense" = "支出";
+"Income" = "収入";
+"Category" = "カテゴリー";
+"Enter note" = "メモを入力";
+"Balance" = "残高";
+"Details" = "詳細";
+"Delete" = "削除";
+"Edit" = "編集";
+"Unknown Category" = "不明なカテゴリー";
+"Book Name" = "帳簿名";
+"Create Book" = "帳簿作成";
+"Cancel" = "キャンセル";
+"Select Currency" = "通貨選択";
+"Food & Entertainment" = "飲食・娯楽";
+"Shopping" = "ショッピング";
+"Pocket Money" = "小遣い";
+"Travel" = "旅行";
+"Transportation" = "交通";
+"Select Category" = "カテゴリー選択";

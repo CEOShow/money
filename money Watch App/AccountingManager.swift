@@ -40,14 +40,18 @@ enum Category: Int, CaseIterable {
     case travel
     case transportation
     
-    var name: String {
+    var key: String {
         switch self {
-        case .foodAndEntertainment: return "吃喝玩樂"
-        case .shopping: return "購物"
-        case .pocketMoney: return "零用錢"
-        case .travel: return "旅行"
-        case .transportation: return "交通"
+        case .foodAndEntertainment: return "Food & Entertainment"
+        case .shopping: return "Shopping"
+        case .pocketMoney: return "Pocket Money"
+        case .travel: return "Travel"
+        case .transportation: return "Transportation"
         }
+    }
+    
+    var name: String {
+        NSLocalizedString(key, comment: "")
     }
 }
 

@@ -55,7 +55,7 @@ struct ExpenseInputView: View {
 
                     HStack {
                         Button(action: { isIncome = false }) {
-                            Text("支出")
+                            Text(NSLocalizedString("Expense", comment: ""))
                                 .padding()
                                 .frame(maxWidth: .infinity)
                                 .background(isIncome ? Color.gray.opacity(0.3) : Color.red)
@@ -64,7 +64,7 @@ struct ExpenseInputView: View {
                         }
                         
                         Button(action: { isIncome = true }) {
-                            Text("收入")
+                            Text(NSLocalizedString("Income", comment: ""))
                                 .padding()
                                 .frame(maxWidth: .infinity)
                                 .background(isIncome ? Color.green : Color.gray.opacity(0.3))
@@ -80,9 +80,9 @@ struct ExpenseInputView: View {
                         showingCategoryPicker = true
                     }) {
                         HStack {
-                            Text("類別")
+                            Text(NSLocalizedString("Category", comment: ""))
                             Spacer()
-                            Text(selectedCategory.name)
+                            Text(NSLocalizedString(selectedCategory.name, comment: ""))
                                 .foregroundColor(.gray)
                             Image(systemName: "chevron.right")
                                 .foregroundColor(.gray)
@@ -98,7 +98,7 @@ struct ExpenseInputView: View {
                 
                 // Note Section
                 Section {
-                    TextField("輸入備註", text: $note)
+                    TextField(NSLocalizedString("Enter note", comment: ""), text: $note)
                         .padding()
                         .background(Color.gray.opacity(0.1))
                         .cornerRadius(10)
@@ -115,7 +115,7 @@ struct ExpenseInputView: View {
                 
                 // Save Button
                 Button(action: saveExpense) {
-                    Text(editingExpense == nil ? "保存" : "更新")
+                    Text(editingExpense == nil ? NSLocalizedString("Save", comment: "") : NSLocalizedString("Update", comment: ""))
                         .frame(maxWidth: .infinity)
                         .foregroundColor(.white)
                         .padding()
@@ -125,7 +125,7 @@ struct ExpenseInputView: View {
             }
             .padding()
         }
-        .navigationTitle(editingExpense == nil ? "新增紀錄" : "編輯紀錄")
+        .navigationTitle(editingExpense == nil ? NSLocalizedString("Add Record", comment: "") : NSLocalizedString("Edit Record", comment: ""))
     }
     
     private func formatDate(_ date: Date) -> String {

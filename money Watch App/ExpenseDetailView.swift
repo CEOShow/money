@@ -22,14 +22,14 @@ struct ExpenseDetailView: View {
                         Button(role: .destructive, action: {
                             deleteExpense(expense)
                         }) {
-                            Label("刪除", systemImage: "trash")
+                            Label(NSLocalizedString("Delete", comment: ""), systemImage: "trash")
                         }
                         
                         Button(role: .none , action: {
                             editingExpense = expense
                             showingEditView = true
                         }) {
-                            Label("編輯", systemImage: "pencil")
+                        Label(NSLocalizedString("Edit", comment: ""), systemImage: "pencil")
                         }
                         .tint(.blue)
                     }
@@ -37,7 +37,7 @@ struct ExpenseDetailView: View {
             .listRowInsets(EdgeInsets())
             .id(refreshID)
         }
-        .navigationTitle("詳細明細")
+        .navigationTitle(NSLocalizedString("Details", comment: ""))
         .onAppear {
             loadExpenses()
         }
@@ -72,12 +72,12 @@ struct ExpenseRow: View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
                 Text(expense.note)
-                    .font(.headline) // 這裡可以根據需要調整大小
+                    .font(.headline)
                 Text(getCategoryName(for: expense.categoryId))
-                    .font(.title3) // 改成較大的字體
+                    .font(.title3)
                     .foregroundColor(.blue)
                 Text(formatDate(expense.date))
-                    .font(.body) // 調整日期文字的大小
+                    .font(.body)
                     .foregroundColor(.gray)
             }
             Spacer()
@@ -96,7 +96,7 @@ struct ExpenseRow: View {
     }
     
     private func getCategoryName(for categoryId: Int) -> String {
-        Category(rawValue: categoryId)?.name ?? "未知類別"
+        Category(rawValue: categoryId)?.name ?? NSLocalizedString("Unknown Category", comment: "")
     }
     
     private func formatBalance(_ balance: Double) -> String {

@@ -45,7 +45,7 @@ struct CurrencySelectionView: View {
                 }
             }
         }
-        .navigationTitle("選擇幣值")
+        .navigationTitle(NSLocalizedString("Select Currency", comment: ""))
     }
 }
 

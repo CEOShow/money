@@ -14,12 +14,12 @@ struct ContentView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                Text("主頁")
+                Text("Home", bundle: .main)
                     .font(.largeTitle)
                     .padding()
                 
                 if accountBooks.isEmpty {
-                    Text("你還沒有帳本，點擊下方按鈕新增帳本")
+                    Text("You don't have any account books yet. Tap the button below to add a new one.", bundle: .main)
                         .foregroundColor(.gray)
                         .padding()
                 } else {
@@ -46,7 +46,7 @@ struct ContentView: View {
                 
                 Spacer(minLength: 50)
                 
-                Button("新增帳本") {
+                Button(String(localized: "Add Book")) {
                     isShowingNewBook = true
                 }
                 .padding()
