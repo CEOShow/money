@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WatchDatePicker
 
 struct ExpenseInputView: View {
     @Environment(\.dismiss) var dismiss
@@ -106,11 +107,13 @@ struct ExpenseInputView: View {
                 
                 // Date Section
                 Section {
-                    Text(formatDate(date))
-                        .padding()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(10)
+//                    Text(formatDate(date))
+//                        .padding()
+//                        .frame(maxWidth: .infinity, alignment: .leading)
+//                        .background(Color.gray.opacity(0.1))
+//                        .cornerRadius(10)
+                    
+                    DatePicker("Select date", selection: $date)
                 }
                 
                 // Save Button
