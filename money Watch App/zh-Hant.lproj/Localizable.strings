@@ -9,7 +9,6 @@
 "Home" = "主頁";
 "Add Book" = "新增帳本";
 "You don't have any account books yet. Tap the button below to add a new one." = "你還沒有帳本，點擊下方按鈕新增帳本";
-"Currency" = "幣別";
 "Save" = "保存";
 "Update" = "更新";
 "Add Record" = "新增紀錄";
@@ -28,3 +27,9 @@
 "Create Book" = "新增帳本";
 "Cancel" = "取消";
 "Select Currency" = "選擇幣值";
+"Food & Entertainment" = "吃喝玩樂";
+"Shopping" = "購物";
+"Pocket Money" = "零用錢";
+"Travel" = "旅行";
+"Transportation" = "交通";
+"Select Category" = "選擇類別";

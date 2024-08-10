@@ -28,11 +28,9 @@
 "Cancel" = "Cancel";
 "Select Currency" = "Select Currency";
 "Food & Entertainment" = "Food & Entertainment";
-"Transportation" = "Transportation";
 "Shopping" = "Shopping";
-"Utilities" = "Utilities";
-"Housing" = "Housing";
-"Insurance" = "Insurance";
-"Medical" = "Medical";
-"Investment" = "Investment";
-"Others" = "Others";
+"Pocket Money" = "Pocket Money";
+"Travel" = "Travel";
+"Transportation" = "Transportation";
+"Select Category" = "Select Category";
+

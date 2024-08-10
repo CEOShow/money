@@ -28,11 +28,8 @@
 "Cancel" = "キャンセル";
 "Select Currency" = "通貨選択";
 "Food & Entertainment" = "飲食・娯楽";
-"Transportation" = "交通";
 "Shopping" = "ショッピング";
-"Utilities" = "公共料金";
-"Housing" = "住居費";
-"Insurance" = "保険";
-"Medical" = "医療費";
-"Investment" = "投資";
-"Others" = "その他";
+"Pocket Money" = "小遣い";
+"Travel" = "旅行";
+"Transportation" = "交通";
+"Select Category" = "カテゴリー選択";
