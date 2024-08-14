@@ -34,6 +34,11 @@ struct NewBookView: View {
                         isPresented = false
                     }
                 }
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
             }
             .navigationTitle(NSLocalizedString("Add Book", comment: ""))
             .toolbar {

@@ -44,7 +44,7 @@ struct ContentView: View {
                     }
                 }
                 
-                Spacer(minLength: 50)
+                Spacer(minLength: 10)
                 
                 Button(String(localized: "Add Book")) {
                     isShowingNewBook = true

@@ -83,7 +83,7 @@ class SQLiteDatabaseManager: DatabaseManager {
     
     init() {
         dbPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!.appending("/accounting.sqlite")
-        print("SQLite database path: \(dbPath)")
+//        print("SQLite database path: \(dbPath)")
     }
     
     func openDatabase() -> Bool {
