@@ -13,6 +13,7 @@
 		C11A38852BE4FF9D003ED157 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C11A38842BE4FF9D003ED157 /* Preview Assets.xcassets */; };
 		C12E8C772C46285600896E95 /* AccountingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12E8C762C46285600896E95 /* AccountingManager.swift */; };
 		C1539C522C4A1A85003DB0AC /* CurrencySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1539C512C4A1A85003DB0AC /* CurrencySelectionView.swift */; };
+		C16A00F22C678DEE00450168 /* WatchDatePicker in Frameworks */ = {isa = PBXBuildFile; productRef = C16A00F12C678DEE00450168 /* WatchDatePicker */; };
 		C171A2F92BFE0DD3009E20C5 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171A2F82BFE0DD3009E20C5 /* CategoryView.swift */; };
 		C171A2FB2BFE1774009E20C5 /* DateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171A2FA2BFE1774009E20C5 /* DateView.swift */; };
 		C18364CF2C675281000A02EB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C18364CD2C675281000A02EB /* Localizable.strings */; };
@@ -50,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C16A00F22C678DEE00450168 /* WatchDatePicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +120,9 @@
 			dependencies = (
 			);
 			name = "money Watch App";
+			packageProductDependencies = (
+				C16A00F12C678DEE00450168 /* WatchDatePicker */,
+			);
 			productName = "money Watch App";
 			productReference = C11A387A2BE4FF9B003ED157 /* money Watch App.app */;
 			productType = "com.apple.product-type.application";
@@ -148,6 +153,9 @@
 				ja,
 			);
 			mainGroup = C11A38712BE4FF9B003ED157;
+			packageReferences = (
+				C16A00F02C678DEE00450168 /* XCRemoteSwiftPackageReference "watch-date-picker" */,
+			);
 			productRefGroup = C11A387B2BE4FF9B003ED157 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -409,6 +417,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C16A00F02C678DEE00450168 /* XCRemoteSwiftPackageReference "watch-date-picker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/freysie/watch-date-picker";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C16A00F12C678DEE00450168 /* WatchDatePicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C16A00F02C678DEE00450168 /* XCRemoteSwiftPackageReference "watch-date-picker" */;
+			productName = WatchDatePicker;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C11A38722BE4FF9B003ED157 /* Project object */;
 }
