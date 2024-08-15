@@ -51,7 +51,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C1B8DAF62C6BBD0800C8DD48 /* money.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = money.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1B8DAF62C6BBD0800C8DD48 /* 9歲記帳.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "9歲記帳.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1B8DAFC2C6BBD0800C8DD48 /* 9歲記帳.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "9歲記帳.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1B8DB012C6BBD0800C8DD48 /* moneyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moneyApp.swift; sourceTree = "<group>"; };
 		C1B8DB032C6BBD0800C8DD48 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -95,7 +95,7 @@
 		C1B8DAF72C6BBD0800C8DD48 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C1B8DAF62C6BBD0800C8DD48 /* money.app */,
+				C1B8DAF62C6BBD0800C8DD48 /* 9歲記帳.app */,
 				C1B8DAFC2C6BBD0800C8DD48 /* 9歲記帳.app */,
 			);
 			name = Products;
@@ -148,7 +148,7 @@
 			);
 			name = money;
 			productName = money;
-			productReference = C1B8DAF62C6BBD0800C8DD48 /* money.app */;
+			productReference = C1B8DAF62C6BBD0800C8DD48 /* 9歲記帳.app */;
 			productType = "com.apple.product-type.application.watchapp2-container";
 		};
 		C1B8DAFB2C6BBD0800C8DD48 /* 9歲記帳 */ = {
@@ -397,7 +397,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"money Watch App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -425,7 +425,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"money Watch App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -453,11 +453,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_KEY_CFBundleDisplayName = money;
+				CURRENT_PROJECT_VERSION = 4;
+				INFOPLIST_KEY_CFBundleDisplayName = "9歲記帳";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.show.money;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "9歲記帳";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 			};
@@ -468,11 +468,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_KEY_CFBundleDisplayName = money;
+				CURRENT_PROJECT_VERSION = 4;
+				INFOPLIST_KEY_CFBundleDisplayName = "9歲記帳";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.show.money;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "9歲記帳";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
