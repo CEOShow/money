@@ -18,7 +18,7 @@ struct MyBookView: View {
         VStack {
             Text(accountBook.name)
                 .font(.headline)
-                .padding(.bottom, 5)
+                .padding(.bottom, 2)
 
             Text(NSLocalizedString("Currency", comment: "") + ": \(accountBook.currency)")
                 .font(.caption)
@@ -30,9 +30,9 @@ struct MyBookView: View {
                 AutoSizingText(text: formatBalance(totalIncome - totalExpense),
                                fontSize: 28,
                                color: totalIncome - totalExpense >= 0 ? .blue : .red)
-                    .frame(height: 40)
+                    .frame(height: 30)
             }
-            .padding(.vertical, 10)
+            .padding(.vertical, 2)
 
             Button(action: {
                 showingExpenseInput = true
@@ -43,7 +43,7 @@ struct MyBookView: View {
                     .padding()
                     .background(Circle().fill(Color.green.opacity(0.2)))
             }
-            .padding(.top, 5)
+            .padding(.top, 2)
         }
         .padding()
         .toolbar {
