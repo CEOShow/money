@@ -12,13 +12,18 @@ struct CalculatorView: View {
     @Binding var isIncome: Bool
     @Environment(\.dismiss) private var dismiss
     @State private var currentInput: String = "0"
+    @State private var previousInput: String = ""
+    @State private var currentOperation: String? = nil
+    @State private var lastNumber: String = ""
+    @State private var shouldResetInput = false
     @State private var pressedButton: String? = nil
     
     let buttons: [[String]] = [
-        ["1", "2", "3"],
-        ["4", "5", "6"],
-        ["7", "8", "9"],
-        ["0", ".", "確認"]
+        ["7", "8", "9", "÷"],
+        ["4", "5", "6", "×"],
+        ["1", "2", "3", "-"],
+        ["0", ".", "=", "+"],
+        ["C", "確認"]
     ]
     
     let maxInputLength = 9 // 設置最大輸入長度
@@ -52,7 +57,7 @@ struct CalculatorView: View {
                             ForEach(row, id: \.self) { button in
                                 CalculatorButton(
                                     title: button,
-                                    size: buttonSize(for: geometry.size),
+                                    size: buttonSize(for: geometry.size, button: button),
                                     isPressed: pressedButton == button,
                                     action: { buttonTapped(button) }
                                 )
@@ -77,9 +82,13 @@ struct CalculatorView: View {
         return currentInput
     }
     
-    private func buttonSize(for size: CGSize) -> CGSize {
-        let width = (size.width - 16 - 12) / 3
-        return CGSize(width: width, height: width * 0.4)
+    private func buttonSize(for size: CGSize, button: String) -> CGSize {
+        let width = (size.width - 20 - 16) / 4
+        let height = width * 0.4
+        if button == "確認" {
+            return CGSize(width: width * 2 + 4, height: height)
+        }
+        return CGSize(width: width, height: height)
     }
     
     private func buttonTapped(_ button: String) {
@@ -93,26 +102,89 @@ struct CalculatorView: View {
         case "確認":
             amount = currentInput
             dismiss()
+        case "C":
+            clear()
+        case "+", "-", "×", "÷":
+            setOperation(button)
+        case "=":
+            calculateResult()
         case ".":
-            if !currentInput.contains(".") && currentInput.count < maxInputLength {
+            if !currentInput.contains(".") {
                 currentInput += "."
             }
         default:
-            if currentInput == "0" {
+            if shouldResetInput {
                 currentInput = button
-            } else if currentInput.count < maxInputLength {
-                currentInput += button
+                shouldResetInput = false
+            } else {
+                currentInput = currentInput == "0" ? button : currentInput + button
             }
         }
     }
     
     private func deleteLastDigit() {
-        if !currentInput.isEmpty {
+        if currentInput.count > 1 {
             currentInput.removeLast()
-            if currentInput.isEmpty {
-                currentInput = "0"
-            }
+        } else {
+            currentInput = "0"
         }
+    }
+    
+    private func clear() {
+        currentInput = "0"
+        previousInput = ""
+        currentOperation = nil
+        lastNumber = ""
+        shouldResetInput = false
+    }
+    
+    private func setOperation(_ operation: String) {
+        if currentOperation != nil {
+            calculateResult()
+        }
+        previousInput = currentInput
+        currentOperation = operation
+        shouldResetInput = true
+    }
+    
+    private func calculateResult() {
+        if currentOperation == nil {
+            if !lastNumber.isEmpty && !previousInput.isEmpty {
+                // 重複上一次的操作
+                currentInput = calculate(previousInput, lastNumber, currentOperation ?? "+")
+            }
+        } else {
+            if previousInput.isEmpty {
+                previousInput = currentInput
+            }
+            lastNumber = currentInput
+            currentInput = calculate(previousInput, currentInput, currentOperation ?? "+")
+        }
+        
+        previousInput = currentInput
+        shouldResetInput = true
+    }
+
+    private func calculate(_ a: String, _ b: String, _ operation: String) -> String {
+        guard let numA = Double(a), let numB = Double(b) else { return "Error" }
+        
+        let result: Double
+        switch operation {
+        case "+": result = numA + numB
+        case "-": result = numA - numB
+        case "×": result = numA * numB
+        case "÷": result = numB != 0 ? numA / numB : Double.infinity
+        default: return "Error"
+        }
+        
+        return formatResult(result)
+    }
+
+    private func formatResult(_ result: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 8
+        return formatter.string(from: NSNumber(value: result)) ?? String(result)
     }
 }
 
@@ -145,7 +217,7 @@ struct CalculatorButton: View {
                 .background(buttonColor())
                 .foregroundColor(.white)
                 .cornerRadius(8)
-                .scaleEffect(isPressed ? 1.5 : 1.0) // 將放大效果從 1.1 增加到 1.2
+                .scaleEffect(isPressed ? 1.5 : 1.0)
                 .animation(.spring(response: 0.2, dampingFraction: 0.5, blendDuration: 0.1), value: isPressed)
         }
         .buttonStyle(PlainButtonStyle())
@@ -155,6 +227,10 @@ struct CalculatorButton: View {
         switch title {
         case "確認":
             return .green
+        case "+", "-", "×", "÷", "=":
+            return .orange
+        case "C":
+            return .red
         default:
             return .blue
         }
