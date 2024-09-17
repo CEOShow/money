@@ -43,6 +43,7 @@ struct MyBookView: View {
                     .padding()
                     .background(Circle().fill(Color.green.opacity(0.2)))
             }
+            .buttonStyle(PlainButtonStyle())
             .padding(.top, 2)
         }
         .padding()
@@ -53,6 +54,7 @@ struct MyBookView: View {
                 }) {
                     Image(systemName: "list.bullet")
                 }
+                .buttonStyle(PlainButtonStyle())
             }
         }
         .sheet(isPresented: $showingDetailView, onDismiss: {

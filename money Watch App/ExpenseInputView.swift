@@ -50,6 +50,7 @@ struct ExpenseInputView: View {
                             .background(Color.gray.opacity(0.1))
                             .cornerRadius(10)
                     }
+                    .buttonStyle(PlainButtonStyle())
                     .sheet(isPresented: $showingCalculator) {
                         CalculatorView(amount: $amount, isIncome: $isIncome)
                     }
@@ -63,6 +64,7 @@ struct ExpenseInputView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
+                        .buttonStyle(PlainButtonStyle())
                         
                         Button(action: { isIncome = true }) {
                             Text(NSLocalizedString("Income", comment: ""))
@@ -72,6 +74,7 @@ struct ExpenseInputView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
+                        .buttonStyle(PlainButtonStyle())
                     }
                 }
                 
@@ -89,6 +92,7 @@ struct ExpenseInputView: View {
                                 .foregroundColor(.gray)
                         }
                     }
+                    .buttonStyle(PlainButtonStyle())
                     .padding()
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(10)
@@ -107,12 +111,6 @@ struct ExpenseInputView: View {
                 
                 // Date Section
                 Section {
-//                    Text(formatDate(date))
-//                        .padding()
-//                        .frame(maxWidth: .infinity, alignment: .leading)
-//                        .background(Color.gray.opacity(0.1))
-//                        .cornerRadius(10)
-                    
                     DatePicker("Select date", selection: $date)
                 }
                 
@@ -125,6 +123,7 @@ struct ExpenseInputView: View {
                         .background(Color.blue)
                         .cornerRadius(10)
                 }
+                .buttonStyle(PlainButtonStyle())
             }
             .padding()
         }
