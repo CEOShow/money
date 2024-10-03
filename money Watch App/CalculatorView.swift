@@ -17,40 +17,46 @@ struct CalculatorView: View {
     @State private var lastNumber: String = ""
     @State private var shouldResetInput = false
     @State private var pressedButton: String? = nil
+    @State private var fontSize: CGFloat = 32
     
     let buttons: [[String]] = [
+        ["C", "確認"],
         ["7", "8", "9", "÷"],
         ["4", "5", "6", "×"],
         ["1", "2", "3", "-"],
         ["0", ".", "=", "+"],
-        ["C", "確認"]
     ]
     
-    let maxInputLength = 9 // 設置最大輸入長度
+    let maxInputLength = 12 // 最大輸入長度
+    let minFontSize: CGFloat = 16 // 最小字體大小
     
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 8) {
-                // 顯示金額
                 HStack {
                     Spacer()
-                    AdaptiveText(text: formattedInput, maxSize: 32)
-                        .frame(height: 40)
+                    Text(formattedInput)
+                        .font(.system(size: fontSize, weight: .bold))
+                        .lineLimit(1)
+                        .frame(maxWidth: .infinity, alignment: .trailing) // 將文本對齊到右邊
                         .padding(.trailing, 8)
+                        .onChange(of: formattedInput) { newValue in
+                            adjustFontSize(for: newValue, in: geometry.size.width - 80)
+                        }
                     
                     Button(action: { deleteLastDigit() }) {
                         Image(systemName: "delete.left.fill")
                             .resizable()
                             .frame(width: 24, height: 24)
                             .padding(8)
-                    }.buttonStyle(PlainButtonStyle())
+                    }
+                    .buttonStyle(PlainButtonStyle())
                 }
                 .padding(.horizontal, 8)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
                 .padding(.horizontal, 8)
                 
-                // 數字鍵盤
                 VStack(spacing: 4) {
                     ForEach(buttons, id: \.self) { row in
                         HStack(spacing: 4) {
@@ -69,6 +75,19 @@ struct CalculatorView: View {
             }
             .background(Color.primary.colorInvert())
         }
+    }
+
+    private func adjustFontSize(for text: String, in width: CGFloat) {
+        let testString = text as NSString
+        var newSize = fontSize
+        let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: newSize, weight: .bold)]
+        
+        // 根據寬度調整字體大小
+        while testString.size(withAttributes: attributes).width > width && newSize > minFontSize {
+            newSize -= 1
+        }
+        
+        fontSize = newSize
     }
     
     private var formattedInput: String {
@@ -117,7 +136,9 @@ struct CalculatorView: View {
                 currentInput = button
                 shouldResetInput = false
             } else {
-                currentInput = currentInput == "0" ? button : currentInput + button
+                if currentInput.count < maxInputLength || currentInput == "0" {
+                    currentInput = currentInput == "0" ? button : currentInput + button
+                }
             }
         }
     }
@@ -125,6 +146,7 @@ struct CalculatorView: View {
     private func deleteLastDigit() {
         if currentInput.count > 1 {
             currentInput.removeLast()
+            fontSize = 32
         } else {
             currentInput = "0"
         }
@@ -136,6 +158,7 @@ struct CalculatorView: View {
         currentOperation = nil
         lastNumber = ""
         shouldResetInput = false
+        fontSize = 32
     }
     
     private func setOperation(_ operation: String) {
@@ -150,7 +173,6 @@ struct CalculatorView: View {
     private func calculateResult() {
         if currentOperation == nil {
             if !lastNumber.isEmpty && !previousInput.isEmpty {
-                // 重複上一次的操作
                 currentInput = calculate(previousInput, lastNumber, currentOperation ?? "+")
             }
         } else {
@@ -166,40 +188,47 @@ struct CalculatorView: View {
     }
 
     private func calculate(_ a: String, _ b: String, _ operation: String) -> String {
-        guard let numA = Double(a), let numB = Double(b) else { return "Error" }
+        guard let numA = Double(a), let numB = Double(b) else { return currentInput }
         
         let result: Double
         switch operation {
         case "+": result = numA + numB
         case "-": result = numA - numB
         case "×": result = numA * numB
-        case "÷": result = numB != 0 ? numA / numB : Double.infinity
-        default: return "Error"
+        case "÷":
+            if numB == 0 {
+                return currentInput
+            }
+            result = numA / numB
+        default: return currentInput
         }
         
         return formatResult(result)
     }
 
     private func formatResult(_ result: Double) -> String {
+        if result.isInfinite || result.isNaN {
+            return currentInput
+        }
+        
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.maximumFractionDigits = 8
-        return formatter.string(from: NSNumber(value: result)) ?? String(result)
-    }
-}
-
-struct AdaptiveText: View {
-    let text: String
-    let maxSize: CGFloat
-    
-    var body: some View {
-        GeometryReader { geometry in
-            Text(text)
-                .font(.system(size: maxSize, weight: .bold))
-                .minimumScaleFactor(0.1)
-                .scaledToFit()
-                .frame(width: geometry.size.width, height: geometry.size.height, alignment: .trailing)
+        
+        if abs(result) > 999999999 {
+            formatter.maximumFractionDigits = 0
+        } else if abs(result) < 0.000001 && result != 0 {
+            formatter.minimumFractionDigits = 8
+        } else {
+            if result.truncatingRemainder(dividingBy: 1) == 0 {
+                formatter.maximumFractionDigits = 0
+            } else {
+                formatter.maximumFractionDigits = 8
+            }
         }
+        
+        let resultString = formatter.string(from: NSNumber(value: result)) ?? String(format: "%.2f", result)
+        return resultString
     }
 }
 
@@ -239,6 +268,7 @@ struct CalculatorButton: View {
 
 struct CalculatorView_Previews: PreviewProvider {
     static var previews: some View {
-        CalculatorView(amount: .constant("0"), isIncome: .constant(false))
+        CalculatorView(amount: .constant(""), isIncome: .constant(true))
+            .previewDevice("Apple Watch Series 7")
     }
 }
