@@ -116,6 +116,7 @@ struct CalculatorView: View {
         default:
             if currentInput.count < maxInputLength {
                 if shouldResetInput {
+                    // 按下運算符後不清空，只顯示運算符後的第一個數字
                     currentInput = button
                     shouldResetInput = false
                 } else {
@@ -149,8 +150,7 @@ struct CalculatorView: View {
         currentOperation = operation
         shouldResetInput = true
         
-        // 在按下運算符時，將 currentInput 重設為 "0"
-        currentInput = "0"
+        // 在按下運算符時，將 currentInput 保持，直到輸入新的數字
     }
     
     private func calculateResult() {
@@ -187,9 +187,11 @@ struct CalculatorView: View {
         }
         
         let formatter = NumberFormatter()
-        formatter.maximumFractionDigits = 8
-        formatter.minimumFractionDigits = 0
         formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 8 // 最多顯示 8 位小數
+        formatter.minimumFractionDigits = 0
+        formatter.groupingSeparator = ","  // 千位分隔符
+        formatter.groupingSize = 3         // 每 3 位加一個分隔符
         if let formattedString = formatter.string(from: NSNumber(value: number)) {
             return formattedString
         }
