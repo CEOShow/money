@@ -29,7 +29,6 @@ struct CalculatorView: View {
     ]
     
     let maxInputLength = 8 // 最大數字長度 8
-    let maxValue: Double = 99999999 // 最大數值 99999999
     
     var body: some View {
         GeometryReader { geometry in
@@ -37,12 +36,12 @@ struct CalculatorView: View {
                 // 顯示輸入內容
                 HStack {
                     Spacer()
-                    Text(formattedInput)
-                        .font(.system(size: 23, weight: .bold)) // 字體大小設為 24
-                        .lineLimit(1) // 防止換行
+                    Text(currentInput)
+                        .font(.system(size: 23, weight: .bold))
+                        .lineLimit(1)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .padding(.trailing, 8)
-                        .minimumScaleFactor(0.5) // 設定最小縮小比例為 50%
+                        .minimumScaleFactor(0.5)
                     
                     // 刪除按鈕
                     Button(action: { deleteLastDigit() }) {
@@ -51,7 +50,7 @@ struct CalculatorView: View {
                             .frame(width: 24, height: 24)
                             .padding(8)
                     }
-                    .buttonStyle(PlainButtonStyle()) // 設定按鈕樣式
+                    .buttonStyle(PlainButtonStyle())
                 }
                 .padding(.horizontal, 8)
                 .background(Color.gray.opacity(0.2))
@@ -67,13 +66,13 @@ struct CalculatorView: View {
                                     title: button,
                                     size: buttonSize(for: geometry.size, button: button),
                                     isPressed: pressedButton == button,
-                                    isEnabled: button != "確認" || isValidNumber, // 確保按下"確認"是有效的
+                                    isEnabled: button != "確認" || currentInput != "錯誤", // 只有顯示「錯誤」時才禁用「確認」按鈕
                                     action: {
                                         WKInterfaceDevice.current().play(.click)
                                         buttonTapped(button)
                                     }
                                 )
-                                .buttonStyle(PlainButtonStyle()) // 設定按鈕樣式
+                                .buttonStyle(PlainButtonStyle())
                             }
                         }
                     }
@@ -82,30 +81,6 @@ struct CalculatorView: View {
             }
             .background(Color.primary.colorInvert())
         }
-    }
-    
-    private var isValidNumber: Bool {
-        guard let number = Double(currentInput) else { return false }
-        return number <= maxValue && currentInput != "錯誤" && currentInput != "0"
-    }
-    
-    private var formattedInput: String {
-        if currentInput == "錯誤" {
-            return currentInput
-        }
-        
-        guard let number = Double(currentInput) else { return currentInput }
-        
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        
-        if number.truncatingRemainder(dividingBy: 1) == 0 {
-            formatter.maximumFractionDigits = 0
-        } else {
-            formatter.maximumFractionDigits = 2
-        }
-        
-        return formatter.string(from: NSNumber(value: number)) ?? currentInput
     }
     
     private func buttonSize(for size: CGSize, button: String) -> CGSize {
@@ -126,10 +101,8 @@ struct CalculatorView: View {
         
         switch button {
         case "確認":
-            if isValidNumber {
-                amount = currentInput
-                dismiss()
-            }
+            amount = currentInput
+            dismiss()
         case "C":
             clear()
         case "+", "-", "×", "÷":
@@ -141,25 +114,19 @@ struct CalculatorView: View {
                 currentInput += "."
             }
         default:
-            // 限制數字長度和數值
             if currentInput.count < maxInputLength {
                 if shouldResetInput {
                     currentInput = button
                     shouldResetInput = false
                 } else {
-                    let newInput = currentInput == "0" ? button : currentInput + button
-                    if let number = Double(newInput), number <= maxValue {
-                        currentInput = newInput
-                    }
+                    currentInput = currentInput == "0" ? button : currentInput + button
                 }
             }
         }
     }
     
     private func deleteLastDigit() {
-        if currentInput == "錯誤" {
-            currentInput = "0"
-        } else if currentInput.count > 1 {
+        if currentInput.count > 1 {
             currentInput.removeLast()
         } else {
             currentInput = "0"
@@ -181,73 +148,52 @@ struct CalculatorView: View {
         previousInput = currentInput
         currentOperation = operation
         shouldResetInput = true
+        
+        // 在按下運算符時，將 currentInput 重設為 "0"
+        currentInput = "0"
     }
     
     private func calculateResult() {
-        if currentOperation == nil {
-            if !lastNumber.isEmpty && !previousInput.isEmpty {
-                currentInput = calculate(previousInput, lastNumber, currentOperation ?? "+")
+        if let operation = currentOperation, let numA = Double(previousInput), let numB = Double(currentInput) {
+            let result: Double
+            switch operation {
+            case "+":
+                result = numA + numB
+            case "-":
+                result = numA - numB
+            case "×":
+                result = numA * numB
+            case "÷":
+                // 當除數是 0 且被除數也是 0 時，顯示錯誤
+                if numB == 0 {
+                    currentInput = "錯誤"
+                    return
+                }
+                result = numA / numB
+            default:
+                return
             }
-        } else {
-            if previousInput.isEmpty {
-                previousInput = currentInput
-            }
-            lastNumber = currentInput
-            currentInput = calculate(previousInput, currentInput, currentOperation ?? "+")
+            
+            // 結果顯示時避免出現科學記號 (e) 或過長數字，顯示最多 8 位數
+            currentInput = formatNumber(result)
         }
-        
-        previousInput = currentInput
+        currentOperation = nil
         shouldResetInput = true
     }
     
-    private func calculate(_ a: String, _ b: String, _ operation: String) -> String {
-        guard let numA = Double(a), let numB = Double(b) else { return currentInput }
-        
-        let result: Double
-        switch operation {
-        case "+":
-            result = numA + numB
-            if result > maxValue {
-                return previousInput
-            }
-        case "-":
-            result = numA - numB
-        case "×":
-            let product = numA * numB
-            if product > maxValue {
-                return previousInput
-            }
-            result = product
-        case "÷":
-            if numB == 0 {
-                return "錯誤"
-            }
-            result = numA / numB
-        default: return currentInput
-        }
-        
-        if result.isInfinite || result.isNaN {
-            return "錯誤"
-        }
-        
-        return formatResult(result)
-    }
-    
-    private func formatResult(_ result: Double) -> String {
-        if result.isInfinite || result.isNaN {
+    private func formatNumber(_ number: Double) -> String {
+        if number.isInfinite || number.isNaN {
             return "錯誤"
         }
         
         let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = 8
+        formatter.minimumFractionDigits = 0
         formatter.numberStyle = .decimal
-        
-        if result.truncatingRemainder(dividingBy: 1) == 0 {
-            formatter.maximumFractionDigits = 0
-        } else {
-            formatter.maximumFractionDigits = 2
+        if let formattedString = formatter.string(from: NSNumber(value: number)) {
+            return formattedString
         }
-        
-        return formatter.string(from: NSNumber(value: result)) ?? "錯誤"
+        return "錯誤"
     }
 }
 
@@ -269,7 +215,7 @@ struct CalculatorButton: View {
                 .scaleEffect(isPressed ? 0.9 : 1.0)
                 .animation(.spring(response: 0.2, dampingFraction: 0.5, blendDuration: 0.1), value: isPressed)
         }
-        .buttonStyle(PlainButtonStyle()) // 設定按鈕樣式
+        .buttonStyle(PlainButtonStyle())
     }
     
     private func buttonColor() -> Color {
