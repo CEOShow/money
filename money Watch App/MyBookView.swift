@@ -104,12 +104,21 @@ struct MyBookView: View {
             }
         }
         .padding()
+        .background(
+            LinearGradient(
+                gradient: Gradient(colors: [.blue, .purple]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+        )
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button(action: {
                     showingDetailView = true
                 }) {
                     Image(systemName: "list.bullet")
+                        .foregroundColor(.white)
                 }
                 .buttonStyle(PlainButtonStyle())
             }
