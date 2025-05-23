@@ -13,7 +13,12 @@ struct MyBookView: View {
     @State private var totalExpense: Double = 0
     @State private var showingDetailView = false
     @State private var showingExpenseInput = false
+    @State private var showingStatsView = false
+    @State private var showingBudgetView = false
+    @State private var showingVoiceExpense = false
+    @State private var showingQuickExpense = false
     @State private var displayMode: DisplayMode = .total
+    @StateObject private var themeManager = ThemeManager.shared
     
     enum DisplayMode: CaseIterable {
         case total, income, expense
@@ -78,6 +83,8 @@ struct MyBookView: View {
             
             VStack {
                 Spacer()
+                
+                // 第一排按鈕
                 HStack {
                     Button(action: {
                         let currentIndex = DisplayMode.allCases.firstIndex(of: displayMode)!
@@ -85,10 +92,42 @@ struct MyBookView: View {
                         displayMode = DisplayMode.allCases[nextIndex]
                     }) {
                         Image(systemName: "gear")
+                            .font(.system(size: 16))
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .padding(.leading)
-                    .padding(.bottom)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        showingStatsView = true
+                    }) {
+                        Image(systemName: "chart.pie")
+                            .font(.system(size: 16))
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        showingVoiceExpense = true
+                    }) {
+                        Image(systemName: "mic")
+                            .font(.system(size: 16))
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
+                .padding(.horizontal)
+                .padding(.bottom, 8)
+                
+                // 第二排按鈕
+                HStack {
+                    Button(action: {
+                        showingQuickExpense = true
+                    }) {
+                        Image(systemName: "bolt")
+                            .font(.system(size: 16))
+                    }
+                    .buttonStyle(PlainButtonStyle())
                     
                     Spacer()
                     
@@ -96,21 +135,17 @@ struct MyBookView: View {
                         showingExpenseInput = true
                     }) {
                         Image(systemName: "plus")
+                            .font(.system(size: 16))
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .padding(.trailing)
-                    .padding(.bottom)
                 }
+                .padding(.horizontal)
+                .padding(.bottom)
             }
         }
         .padding()
         .background(
-            LinearGradient(
-                gradient: Gradient(colors: [.blue, .purple]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            themeManager.currentBackground()
         )
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
@@ -118,6 +153,16 @@ struct MyBookView: View {
                     showingDetailView = true
                 }) {
                     Image(systemName: "list.bullet")
+                        .foregroundColor(.white)
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+            
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    showingBudgetView = true
+                }) {
+                    Image(systemName: "creditcard")
                         .foregroundColor(.white)
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -132,6 +177,22 @@ struct MyBookView: View {
             updateTotals()
         }) {
             ExpenseInputView(accountBook: accountBook)
+        }
+        .sheet(isPresented: $showingStatsView) {
+            ExpenseStatsView(accountBook: accountBook)
+        }
+        .sheet(isPresented: $showingBudgetView) {
+            BudgetView(accountBook: accountBook)
+        }
+        .sheet(isPresented: $showingVoiceExpense) {
+            VoiceExpenseView(accountBook: accountBook, onSave: {
+                updateTotals()
+            })
+        }
+        .sheet(isPresented: $showingQuickExpense) {
+            QuickExpenseView(accountBook: accountBook, onSave: {
+                updateTotals()
+            })
         }
         .onAppear {
             updateTotals()

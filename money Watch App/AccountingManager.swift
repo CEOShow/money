@@ -33,6 +33,30 @@ struct Expense: Identifiable {
     let categoryId: Int
 }
 
+// 新增: 預算結構
+struct Budget: Identifiable {
+    let id: Int
+    let bookId: Int
+    let categoryId: Int
+    let amount: Double
+    let period: BudgetPeriod
+    let createdDate: Date
+}
+
+enum BudgetPeriod: Int, CaseIterable {
+    case monthly = 1
+    case weekly
+    case daily
+    
+    var name: String {
+        switch self {
+        case .monthly: return NSLocalizedString("Monthly", comment: "")
+        case .weekly: return NSLocalizedString("Weekly", comment: "")
+        case .daily: return NSLocalizedString("Daily", comment: "")
+        }
+    }
+}
+
 enum Category: Int, CaseIterable {
     case foodAndEntertainment = 1
     case shopping
@@ -132,9 +156,23 @@ class SQLiteDatabaseManager: DatabaseManager {
         );
         """
         
+        let createBudgetTable = """
+        CREATE TABLE IF NOT EXISTS Budget (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            bookId INTEGER,
+            categoryId INTEGER,
+            amount REAL,
+            period INTEGER,
+            createdDate TEXT,
+            FOREIGN KEY (bookId) REFERENCES AccountBook(id),
+            FOREIGN KEY (categoryId) REFERENCES Category(id)
+        );
+        """
+        
         executeQuery(query: createExpenseTable)
         executeQuery(query: createAccountBookTable)
         executeQuery(query: createCategoryTable)
+        executeQuery(query: createBudgetTable)
         
         // Initialize categories
         for category in Category.allCases {
@@ -393,7 +431,193 @@ class AccountingManager {
         return UserDefaults.standard.object(forKey: lastOpenedBookKey) as? Int
     }
     
+    // 新增: 獲取分類支出統計
+    func getCategoryExpenseStats(for bookId: Int) -> [CategoryExpenseStat] {
+        var stats: [CategoryExpenseStat] = []
+        let query = """
+        SELECT 
+            categoryId,
+            SUM(CASE WHEN income < 0 THEN ABS(income) ELSE 0 END) as totalExpense
+        FROM Expense 
+        WHERE bookId = ? 
+        GROUP BY categoryId
+        HAVING totalExpense > 0
+        ORDER BY totalExpense DESC;
+        """
+        
+        var statement: OpaquePointer?
+        if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_int(statement, 1, Int32(bookId))
+            while sqlite3_step(statement) == SQLITE_ROW {
+                let categoryId = Int(sqlite3_column_int(statement, 0))
+                let totalExpense = sqlite3_column_double(statement, 1)
+                stats.append(CategoryExpenseStat(categoryId: categoryId, totalExpense: totalExpense))
+            }
+        }
+        sqlite3_finalize(statement)
+        
+        // 計算百分比
+        let totalExpense = stats.reduce(0) { $0 + $1.totalExpense }
+        return stats.map { stat in
+            CategoryExpenseStat(
+                categoryId: stat.categoryId,
+                totalExpense: stat.totalExpense,
+                percentage: totalExpense > 0 ? (stat.totalExpense / totalExpense) * 100 : 0
+            )
+        }
+    }
+    
+    // 新增: 預算管理方法
+    func saveBudget(bookId: Int, categoryId: Int, amount: Double, period: BudgetPeriod) -> Bool {
+        // 先檢查是否已存在該分類的預算，如果存在則更新
+        if let existingBudget = getBudget(bookId: bookId, categoryId: categoryId) {
+            return updateBudget(id: existingBudget.id, amount: amount, period: period)
+        }
+        
+        let query = "INSERT INTO Budget (bookId, categoryId, amount, period, createdDate) VALUES (?, ?, ?, ?, ?);"
+        var statement: OpaquePointer?
+        if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_int(statement, 1, Int32(bookId))
+            sqlite3_bind_int(statement, 2, Int32(categoryId))
+            sqlite3_bind_double(statement, 3, amount)
+            sqlite3_bind_int(statement, 4, Int32(period.rawValue))
+            let dateString = ISO8601DateFormatter().string(from: Date())
+            sqlite3_bind_text(statement, 5, (dateString as NSString).utf8String, -1, nil)
+            if sqlite3_step(statement) == SQLITE_DONE {
+                print("Budget saved successfully")
+                sqlite3_finalize(statement)
+                return true
+            }
+        }
+        sqlite3_finalize(statement)
+        return false
+    }
+    
+    func getBudgets(for bookId: Int) -> [Budget] {
+        var budgets: [Budget] = []
+        let query = "SELECT id, categoryId, amount, period, createdDate FROM Budget WHERE bookId = ?;"
+        var statement: OpaquePointer?
+        if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_int(statement, 1, Int32(bookId))
+            while sqlite3_step(statement) == SQLITE_ROW {
+                let id = Int(sqlite3_column_int(statement, 0))
+                let categoryId = Int(sqlite3_column_int(statement, 1))
+                let amount = sqlite3_column_double(statement, 2)
+                let period = BudgetPeriod(rawValue: Int(sqlite3_column_int(statement, 3))) ?? .monthly
+                let dateString = String(cString: sqlite3_column_text(statement, 4))
+                let date = ISO8601DateFormatter().date(from: dateString) ?? Date()
+                budgets.append(Budget(id: id, bookId: bookId, categoryId: categoryId, amount: amount, period: period, createdDate: date))
+            }
+        }
+        sqlite3_finalize(statement)
+        return budgets
+    }
+    
+    func getBudget(bookId: Int, categoryId: Int) -> Budget? {
+        let query = "SELECT id, amount, period, createdDate FROM Budget WHERE bookId = ? AND categoryId = ?;"
+        var statement: OpaquePointer?
+        if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_int(statement, 1, Int32(bookId))
+            sqlite3_bind_int(statement, 2, Int32(categoryId))
+            if sqlite3_step(statement) == SQLITE_ROW {
+                let id = Int(sqlite3_column_int(statement, 0))
+                let amount = sqlite3_column_double(statement, 1)
+                let period = BudgetPeriod(rawValue: Int(sqlite3_column_int(statement, 2))) ?? .monthly
+                let dateString = String(cString: sqlite3_column_text(statement, 3))
+                let date = ISO8601DateFormatter().date(from: dateString) ?? Date()
+                sqlite3_finalize(statement)
+                return Budget(id: id, bookId: bookId, categoryId: categoryId, amount: amount, period: period, createdDate: date)
+            }
+        }
+        sqlite3_finalize(statement)
+        return nil
+    }
+    
+    func updateBudget(id: Int, amount: Double, period: BudgetPeriod) -> Bool {
+        let query = "UPDATE Budget SET amount = ?, period = ? WHERE id = ?;"
+        var statement: OpaquePointer?
+        if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_double(statement, 1, amount)
+            sqlite3_bind_int(statement, 2, Int32(period.rawValue))
+            sqlite3_bind_int(statement, 3, Int32(id))
+            if sqlite3_step(statement) == SQLITE_DONE {
+                sqlite3_finalize(statement)
+                return true
+            }
+        }
+        sqlite3_finalize(statement)
+        return false
+    }
+    
+    func deleteBudget(id: Int) -> Bool {
+        let query = "DELETE FROM Budget WHERE id = ?;"
+        var statement: OpaquePointer?
+        if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_int(statement, 1, Int32(id))
+            if sqlite3_step(statement) == SQLITE_DONE {
+                sqlite3_finalize(statement)
+                return true
+            }
+        }
+        sqlite3_finalize(statement)
+        return false
+    }
+    
+    // 獲取預算使用情況
+    func getBudgetProgress(for bookId: Int, categoryId: Int, period: BudgetPeriod) -> (spent: Double, budget: Double) {
+        guard let budget = getBudget(bookId: bookId, categoryId: categoryId) else {
+            return (0, 0)
+        }
+        
+        let now = Date()
+        let calendar = Calendar.current
+        var startDate: Date
+        
+        switch period {
+        case .monthly:
+            startDate = calendar.dateInterval(of: .month, for: now)?.start ?? now
+        case .weekly:
+            startDate = calendar.dateInterval(of: .weekOfYear, for: now)?.start ?? now
+        case .daily:
+            startDate = calendar.startOfDay(for: now)
+        }
+        
+        let query = """
+        SELECT SUM(CASE WHEN income < 0 THEN ABS(income) ELSE 0 END) as totalSpent
+        FROM Expense 
+        WHERE bookId = ? AND categoryId = ? AND date >= ?;
+        """
+        
+        var spent: Double = 0
+        var statement: OpaquePointer?
+        if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_int(statement, 1, Int32(bookId))
+            sqlite3_bind_int(statement, 2, Int32(categoryId))
+            let dateString = ISO8601DateFormatter().string(from: startDate)
+            sqlite3_bind_text(statement, 3, (dateString as NSString).utf8String, -1, nil)
+            if sqlite3_step(statement) == SQLITE_ROW {
+                spent = sqlite3_column_double(statement, 0)
+            }
+        }
+        sqlite3_finalize(statement)
+        
+        return (spent, budget.amount)
+    }
+    
     deinit {
         dbManager.closeDatabase()
+    }
+}
+
+// 新增: 分類支出統計結構
+struct CategoryExpenseStat {
+    let categoryId: Int
+    let totalExpense: Double
+    let percentage: Double
+    
+    init(categoryId: Int, totalExpense: Double, percentage: Double = 0) {
+        self.categoryId = categoryId
+        self.totalExpense = totalExpense
+        self.percentage = percentage
     }
 }

@@ -11,6 +11,7 @@ struct ContentView: View {
    @State private var accountBooks: [AccountBook] = []
    @State private var isShowingNewBook = false
    @State private var isShowingSettings = false
+   @StateObject private var themeManager = ThemeManager.shared
 
    var body: some View {
        ZStack(alignment: .bottomTrailing) {
@@ -67,12 +68,7 @@ struct ContentView: View {
                .padding()
            }
            .background(
-               LinearGradient(
-                gradient: Gradient(colors: [.blue, .purple]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-               )
-               .ignoresSafeArea()
+               themeManager.currentBackground()
            )
            .sheet(isPresented: $isShowingNewBook) {
                NewBookView(isPresented: $isShowingNewBook, refreshAction: refreshAccountBooks)

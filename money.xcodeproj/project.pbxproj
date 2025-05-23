@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C1684AA02DE0D1420090963A /* BudgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1684A9B2DE0D1420090963A /* BudgetView.swift */; };
+		C1684AA12DE0D1420090963A /* ExpenseStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1684A9C2DE0D1420090963A /* ExpenseStatsView.swift */; };
+		C1684AA22DE0D1420090963A /* ThemeSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1684A9F2DE0D1420090963A /* ThemeSettingsView.swift */; };
+		C1684AA32DE0D1420090963A /* SiriShortcutsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1684A9D2DE0D1420090963A /* SiriShortcutsManager.swift */; };
+		C1684AA42DE0D1420090963A /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1684A9E2DE0D1420090963A /* ThemeManager.swift */; };
+		C1684AA82DE0D16B0090963A /* MoneyWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1684AA72DE0D16B0090963A /* MoneyWidget.swift */; };
+		C1684AAA2DE0D2C60090963A /* VoiceExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1684AA92DE0D2C60090963A /* VoiceExpenseView.swift */; };
+		C1684AAC2DE0D3DB0090963A /* QuickExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1684AAB2DE0D3DB0090963A /* QuickExpenseView.swift */; };
 		C1835C9C2D44E36800E7D618 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1835C9B2D44E36800E7D618 /* SettingsView.swift */; };
 		C1B8DAFD2C6BBD0800C8DD48 /* 9歲記帳.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = C1B8DAFC2C6BBD0800C8DD48 /* 9歲記帳.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C1B8DB022C6BBD0800C8DD48 /* moneyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B8DB012C6BBD0800C8DD48 /* moneyApp.swift */; };
@@ -52,6 +60,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C1684A9B2DE0D1420090963A /* BudgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetView.swift; sourceTree = "<group>"; };
+		C1684A9C2DE0D1420090963A /* ExpenseStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseStatsView.swift; sourceTree = "<group>"; };
+		C1684A9D2DE0D1420090963A /* SiriShortcutsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriShortcutsManager.swift; sourceTree = "<group>"; };
+		C1684A9E2DE0D1420090963A /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		C1684A9F2DE0D1420090963A /* ThemeSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSettingsView.swift; sourceTree = "<group>"; };
+		C1684AA72DE0D16B0090963A /* MoneyWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyWidget.swift; sourceTree = "<group>"; };
+		C1684AA92DE0D2C60090963A /* VoiceExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceExpenseView.swift; sourceTree = "<group>"; };
+		C1684AAB2DE0D3DB0090963A /* QuickExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickExpenseView.swift; sourceTree = "<group>"; };
 		C1835C9B2D44E36800E7D618 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C1B8DAF62C6BBD0800C8DD48 /* 9歲記帳.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "9歲記帳.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1B8DAFC2C6BBD0800C8DD48 /* 9歲記帳.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "9歲記帳.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,8 +125,16 @@
 				C1B8DB2B2C6BBE8A00C8DD48 /* Localizable.strings */,
 				C1B8DB012C6BBD0800C8DD48 /* moneyApp.swift */,
 				C1B8DB142C6BBE0100C8DD48 /* AppView.swift */,
+				C1684AA72DE0D16B0090963A /* MoneyWidget.swift */,
 				C1B8DB1C2C6BBE0200C8DD48 /* NewBookView.swift */,
+				C1684AAB2DE0D3DB0090963A /* QuickExpenseView.swift */,
 				C1B8DB032C6BBD0800C8DD48 /* ContentView.swift */,
+				C1684A9B2DE0D1420090963A /* BudgetView.swift */,
+				C1684A9C2DE0D1420090963A /* ExpenseStatsView.swift */,
+				C1684A9D2DE0D1420090963A /* SiriShortcutsManager.swift */,
+				C1684A9E2DE0D1420090963A /* ThemeManager.swift */,
+				C1684A9F2DE0D1420090963A /* ThemeSettingsView.swift */,
+				C1684AA92DE0D2C60090963A /* VoiceExpenseView.swift */,
 				C1835C9B2D44E36800E7D618 /* SettingsView.swift */,
 				C1B8DB1E2C6BBE0200C8DD48 /* CategoryView.swift */,
 				C1B8DB162C6BBE0100C8DD48 /* DateView.swift */,
@@ -245,6 +269,7 @@
 				C1B8DB232C6BBE0200C8DD48 /* ExpenseInputView.swift in Sources */,
 				C1B8DB222C6BBE0200C8DD48 /* DateView.swift in Sources */,
 				C1B8DB242C6BBE0200C8DD48 /* CurrencySelectionView.swift in Sources */,
+				C1684AA82DE0D16B0090963A /* MoneyWidget.swift in Sources */,
 				C1B8DB272C6BBE0200C8DD48 /* CalculatorView.swift in Sources */,
 				C1B8DB202C6BBE0200C8DD48 /* AppView.swift in Sources */,
 				C1B8DB292C6BBE0200C8DD48 /* ExpenseDetailView.swift in Sources */,
@@ -253,7 +278,14 @@
 				C1B8DB042C6BBD0800C8DD48 /* ContentView.swift in Sources */,
 				C1B8DB1F2C6BBE0200C8DD48 /* AccountingManager.swift in Sources */,
 				C1B8DB022C6BBD0800C8DD48 /* moneyApp.swift in Sources */,
+				C1684AA02DE0D1420090963A /* BudgetView.swift in Sources */,
+				C1684AAC2DE0D3DB0090963A /* QuickExpenseView.swift in Sources */,
+				C1684AA12DE0D1420090963A /* ExpenseStatsView.swift in Sources */,
+				C1684AA22DE0D1420090963A /* ThemeSettingsView.swift in Sources */,
+				C1684AA32DE0D1420090963A /* SiriShortcutsManager.swift in Sources */,
+				C1684AA42DE0D1420090963A /* ThemeManager.swift in Sources */,
 				C1835C9C2D44E36800E7D618 /* SettingsView.swift in Sources */,
+				C1684AAA2DE0D2C60090963A /* VoiceExpenseView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,7 +451,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 9.4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Debug;
 		};
@@ -448,7 +480,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 9.4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Release;
 		};

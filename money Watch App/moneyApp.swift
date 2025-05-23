@@ -8,6 +8,7 @@
 import SwiftUI
 
 @main
+@available(watchOS 10.0, *)
 struct money_Watch_AppApp: App {
     init() {
         // 初始化 AccountingManager
