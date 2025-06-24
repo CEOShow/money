@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-// import WatchDatePicker
+import WatchDatePicker
 
 @available(watchOS 10.0, *)
 struct ExpenseInputView: View {
@@ -87,7 +87,7 @@ struct ExpenseInputView: View {
                         HStack {
                             Text(NSLocalizedString("Category", comment: ""))
                             Spacer()
-                            Text(selectedCategory.name)
+                            Text(NSLocalizedString(selectedCategory.name, comment: ""))
                                 .foregroundColor(.gray)
                             Image(systemName: "chevron.right")
                                 .foregroundColor(.gray)
@@ -112,7 +112,10 @@ struct ExpenseInputView: View {
                 
                 // Date Section
                 Section {
-                    DatePicker("Select date", selection: $date)
+                    WatchDatePicker.DatePicker(
+                        "Date & Time",
+                        selection: $date
+                    )
                 }
                 
                 // Save Button
@@ -147,14 +150,7 @@ struct ExpenseInputView: View {
         let income = isIncome ? amountValue : -amountValue
         
         if let editingExpense = editingExpense {
-            let updatedExpense = Expense(
-                id: editingExpense.id,
-                bookId: accountBook.id,
-                income: income,
-                date: date,
-                note: note,
-                categoryId: selectedCategory.rawValue
-            )
+            let updatedExpense = Expense(id: editingExpense.id, bookId: accountBook.id, income: income, date: date, note: note, categoryId: selectedCategory.rawValue)
             
             if AccountingManager.shared.updateExpense(updatedExpense) {
                 print("紀錄已更新")
