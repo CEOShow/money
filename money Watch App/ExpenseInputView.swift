@@ -105,9 +105,8 @@ struct ExpenseInputView: View {
                 // Note Section
                 Section {
                     TextField(NSLocalizedString("Enter note", comment: ""), text: $note)
-                        .padding()
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(10)
+                        .textFieldStyle(.plain)
+                        .padding(.horizontal)
                 }
                 
                 // Date Section
