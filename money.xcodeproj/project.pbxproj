@@ -16,6 +16,7 @@
 		C1684AAA2DE0D2C60090963A /* VoiceExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1684AA92DE0D2C60090963A /* VoiceExpenseView.swift */; };
 		C1684AAC2DE0D3DB0090963A /* QuickExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1684AAB2DE0D3DB0090963A /* QuickExpenseView.swift */; };
 		C1835C9C2D44E36800E7D618 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1835C9B2D44E36800E7D618 /* SettingsView.swift */; };
+		C1A521A32E193FC5000D4680 /* EditBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A521A22E193FC5000D4680 /* EditBookView.swift */; };
 		C1B8DAFD2C6BBD0800C8DD48 /* 9歲記帳.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = C1B8DAFC2C6BBD0800C8DD48 /* 9歲記帳.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C1B8DB022C6BBD0800C8DD48 /* moneyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B8DB012C6BBD0800C8DD48 /* moneyApp.swift */; };
 		C1B8DB042C6BBD0800C8DD48 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B8DB032C6BBD0800C8DD48 /* ContentView.swift */; };
@@ -69,6 +70,7 @@
 		C1684AA92DE0D2C60090963A /* VoiceExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceExpenseView.swift; sourceTree = "<group>"; };
 		C1684AAB2DE0D3DB0090963A /* QuickExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickExpenseView.swift; sourceTree = "<group>"; };
 		C1835C9B2D44E36800E7D618 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		C1A521A22E193FC5000D4680 /* EditBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBookView.swift; sourceTree = "<group>"; };
 		C1B8DAF62C6BBD0800C8DD48 /* 9歲記帳.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "9歲記帳.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1B8DAFC2C6BBD0800C8DD48 /* 9歲記帳.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "9歲記帳.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1B8DB012C6BBD0800C8DD48 /* moneyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moneyApp.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				C1835C9B2D44E36800E7D618 /* SettingsView.swift */,
 				C1B8DB1E2C6BBE0200C8DD48 /* CategoryView.swift */,
 				C1B8DB162C6BBE0100C8DD48 /* DateView.swift */,
+				C1A521A22E193FC5000D4680 /* EditBookView.swift */,
 				C1B8DB132C6BBE0100C8DD48 /* AccountingManager.swift */,
 				C1B8DB172C6BBE0100C8DD48 /* ExpenseInputView.swift */,
 				C1B8DB182C6BBE0100C8DD48 /* CurrencySelectionView.swift */,
@@ -286,6 +289,7 @@
 				C1684AA42DE0D1420090963A /* ThemeManager.swift in Sources */,
 				C1835C9C2D44E36800E7D618 /* SettingsView.swift in Sources */,
 				C1684AAA2DE0D2C60090963A /* VoiceExpenseView.swift in Sources */,
+				C1A521A32E193FC5000D4680 /* EditBookView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

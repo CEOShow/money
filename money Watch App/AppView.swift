@@ -15,6 +15,7 @@ struct AppView: View {
         if #available(watchOS 10, *) {
             NavigationStack(path: $navigationPath) {
                 ContentView()
+                    .environmentObject(NavigationManager(navigationPath: $navigationPath))
                     .navigationDestination(for: AccountBook.self) { book in
                         MyBookView(accountBook: book)
                     }
@@ -28,6 +29,7 @@ struct AppView: View {
         } else {
             NavigationStack(path: $navigationPath) {
                 ContentView()
+                    .environmentObject(NavigationManager(navigationPath: $navigationPath))
                     .navigationDestination(for: AccountBook.self) { book in
                         MyBookView(accountBook: book)
                     }
@@ -46,6 +48,20 @@ struct AppView: View {
            let lastBook = AccountingManager.shared.getAllAccountBooks().first(where: { $0.id == lastBookId }) {
             navigationPath.append(lastBook)
         }
+    }
+}
+
+
+
+class NavigationManager: ObservableObject {
+    @Binding var navigationPath: NavigationPath
+    
+    init(navigationPath: Binding<NavigationPath>) {
+        self._navigationPath = navigationPath
+    }
+    
+    func navigate(to book: AccountBook) {
+        navigationPath.append(book)
     }
 }
 

@@ -90,6 +90,8 @@ protocol DatabaseManager {
 protocol AccountBookRepository {
     func saveAccountBook(currency: String, name: String) -> Bool
     func getAccountBooks() -> [AccountBook]
+    func deleteAccountBook(id: Int) -> Bool
+    func updateAccountBook(_ accountBook: AccountBook) -> Bool
 }
 
 protocol ExpenseRepository {
@@ -254,6 +256,63 @@ class SQLiteAccountBookRepository: AccountBookRepository {
         sqlite3_finalize(statement)
         return accountBooks
     }
+    
+    func deleteAccountBook(id: Int) -> Bool {
+        // 先刪除該帳本相關的所有記錄
+        let deleteExpensesQuery = "DELETE FROM Expense WHERE bookId = ?;"
+        var statement: OpaquePointer?
+        if sqlite3_prepare_v2(dbManager.db, deleteExpensesQuery, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_int(statement, 1, Int32(id))
+            sqlite3_step(statement)
+        }
+        sqlite3_finalize(statement)
+        
+        // 刪除該帳本相關的所有預算
+        let deleteBudgetsQuery = "DELETE FROM Budget WHERE bookId = ?;"
+        if sqlite3_prepare_v2(dbManager.db, deleteBudgetsQuery, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_int(statement, 1, Int32(id))
+            sqlite3_step(statement)
+        }
+        sqlite3_finalize(statement)
+        
+        // 最後刪除帳本本身
+        let deleteBookQuery = "DELETE FROM AccountBook WHERE id = ?;"
+        if sqlite3_prepare_v2(dbManager.db, deleteBookQuery, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_int(statement, 1, Int32(id))
+            if sqlite3_step(statement) == SQLITE_DONE {
+                print("Account book deleted successfully")
+                sqlite3_finalize(statement)
+                return true
+            } else {
+                print("Failed to delete account book")
+            }
+        } else {
+            print("DELETE statement preparation failed")
+        }
+        sqlite3_finalize(statement)
+        return false
+    }
+    
+    func updateAccountBook(_ accountBook: AccountBook) -> Bool {
+        let query = "UPDATE AccountBook SET currency = ?, name = ? WHERE id = ?;"
+        var statement: OpaquePointer?
+        if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_text(statement, 1, (accountBook.currency as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 2, (accountBook.name as NSString).utf8String, -1, nil)
+            sqlite3_bind_int(statement, 3, Int32(accountBook.id))
+            if sqlite3_step(statement) == SQLITE_DONE {
+                print("Account book updated successfully")
+                sqlite3_finalize(statement)
+                return true
+            } else {
+                print("Failed to update account book")
+            }
+        } else {
+            print("UPDATE statement preparation failed")
+        }
+        sqlite3_finalize(statement)
+        return false
+    }
 }
 
 class SQLiteExpenseRepository: ExpenseRepository {
@@ -379,6 +438,14 @@ class AccountingManager {
     
     func getAllAccountBooks() -> [AccountBook] {
         return accountBookRepository.getAccountBooks()
+    }
+    
+    func deleteAccountBook(id: Int) -> Bool {
+        return accountBookRepository.deleteAccountBook(id: id)
+    }
+    
+    func updateAccountBook(_ accountBook: AccountBook) -> Bool {
+        return accountBookRepository.updateAccountBook(accountBook)
     }
     
     func addExpense(bookId: Int, income: Double, date: Date, note: String, category: Category) -> Bool {
