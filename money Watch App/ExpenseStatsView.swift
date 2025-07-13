@@ -84,10 +84,10 @@ struct CategoryStatRow: View {
                     .fill(colorForCategory(stat.categoryId))
                     .frame(width: max(4, stat.percentage * 0.4), height: 8)
                 
-                Text("\(Int(stat.percentage))%")
+                Text(String(format: "%.0f%%", stat.percentage))
                     .font(.caption2)
                     .fontWeight(.semibold)
-                    .frame(minWidth: 24, alignment: .trailing)
+                    .frame(minWidth: 30, alignment: .trailing)
             }
         }
         .padding(.horizontal, 8)
@@ -111,15 +111,7 @@ struct PieChartView: View {
                 )
             }
             
-            // 中央顯示總支出
-            VStack(spacing: 2) {
-                Text("總支出")
-                    .font(.caption2)
-                    .foregroundColor(.secondary)
-                Text(formatCurrency(stats.reduce(0) { $0 + $1.totalExpense }))
-                    .font(.caption)
-                    .fontWeight(.semibold)
-            }
+            // 移除中央的文字顯示，讓圓形圖表保持空白
         }
     }
     

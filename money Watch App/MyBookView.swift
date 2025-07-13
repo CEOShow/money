@@ -78,6 +78,24 @@ struct MyBookView: View {
                 }
                 .padding(.vertical, 2)
                 
+                // 支出分析按鈕移動到餘額下面
+                Button(action: {
+                    showingStatsView = true
+                }) {
+                    Image(systemName: "chart.pie")
+                        .font(.system(size: 16))
+                        .foregroundColor(.white)
+                        .frame(width: 32, height: 32)
+                        .background(Color.white.opacity(0.2))
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle()
+                                .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                        )
+                }
+                .buttonStyle(PlainButtonStyle())
+                .padding(.top, 8)
+                
                 Spacer()
             }
             
@@ -93,16 +111,14 @@ struct MyBookView: View {
                     }) {
                         Image(systemName: "gear")
                             .font(.system(size: 16))
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        showingStatsView = true
-                    }) {
-                        Image(systemName: "chart.pie")
-                            .font(.system(size: 16))
+                            .foregroundColor(.white)
+                            .frame(width: 32, height: 32)
+                            .background(Color.white.opacity(0.2))
+                            .clipShape(Circle())
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                            )
                     }
                     .buttonStyle(PlainButtonStyle())
                     
@@ -113,6 +129,14 @@ struct MyBookView: View {
                     }) {
                         Image(systemName: "mic")
                             .font(.system(size: 16))
+                            .foregroundColor(.white)
+                            .frame(width: 32, height: 32)
+                            .background(Color.white.opacity(0.2))
+                            .clipShape(Circle())
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                            )
                     }
                     .buttonStyle(PlainButtonStyle())
                 }
@@ -126,6 +150,14 @@ struct MyBookView: View {
                     }) {
                         Image(systemName: "bolt")
                             .font(.system(size: 16))
+                            .foregroundColor(.white)
+                            .frame(width: 32, height: 32)
+                            .background(Color.white.opacity(0.2))
+                            .clipShape(Circle())
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                            )
                     }
                     .buttonStyle(PlainButtonStyle())
                     
@@ -136,6 +168,14 @@ struct MyBookView: View {
                     }) {
                         Image(systemName: "plus")
                             .font(.system(size: 16))
+                            .foregroundColor(.white)
+                            .frame(width: 32, height: 32)
+                            .background(Color.white.opacity(0.2))
+                            .clipShape(Circle())
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                            )
                     }
                     .buttonStyle(PlainButtonStyle())
                 }
