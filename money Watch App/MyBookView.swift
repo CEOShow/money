@@ -15,8 +15,6 @@ struct MyBookView: View {
     @State private var showingExpenseInput = false
     @State private var showingStatsView = false
     @State private var showingBudgetView = false
-    @State private var showingVoiceExpense = false
-    @State private var showingQuickExpense = false
     @State private var displayMode: DisplayMode = .total
     @StateObject private var themeManager = ThemeManager.shared
     
@@ -78,6 +76,8 @@ struct MyBookView: View {
                 }
                 .padding(.vertical, 2)
                 
+
+                
                 Spacer()
             }
             
@@ -87,45 +87,18 @@ struct MyBookView: View {
                 // 第一排按鈕
                 HStack {
                     Button(action: {
-                        let currentIndex = DisplayMode.allCases.firstIndex(of: displayMode)!
-                        let nextIndex = (currentIndex + 1) % DisplayMode.allCases.count
-                        displayMode = DisplayMode.allCases[nextIndex]
-                    }) {
-                        Image(systemName: "gear")
-                            .font(.system(size: 16))
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    Spacer()
-                    
-                    Button(action: {
                         showingStatsView = true
                     }) {
                         Image(systemName: "chart.pie")
                             .font(.system(size: 16))
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        showingVoiceExpense = true
-                    }) {
-                        Image(systemName: "mic")
-                            .font(.system(size: 16))
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                }
-                .padding(.horizontal)
-                .padding(.bottom, 8)
-                
-                // 第二排按鈕
-                HStack {
-                    Button(action: {
-                        showingQuickExpense = true
-                    }) {
-                        Image(systemName: "bolt")
-                            .font(.system(size: 16))
+                            .foregroundColor(.white)
+                            .frame(width: 32, height: 32)
+                            .background(Color.white.opacity(0.2))
+                            .clipShape(Circle())
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                            )
                     }
                     .buttonStyle(PlainButtonStyle())
                     
@@ -136,6 +109,55 @@ struct MyBookView: View {
                     }) {
                         Image(systemName: "plus")
                             .font(.system(size: 16))
+                            .foregroundColor(.white)
+                            .frame(width: 32, height: 32)
+                            .background(Color.white.opacity(0.2))
+                            .clipShape(Circle())
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                            )
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
+                .padding(.horizontal)
+                .padding(.bottom, 8)
+                
+                // 第二排按鈕
+                HStack {
+                    Button(action: {
+                        let currentIndex = DisplayMode.allCases.firstIndex(of: displayMode)!
+                        let nextIndex = (currentIndex + 1) % DisplayMode.allCases.count
+                        displayMode = DisplayMode.allCases[nextIndex]
+                    }) {
+                        Image(systemName: "gear")
+                            .font(.system(size: 16))
+                            .foregroundColor(.white)
+                            .frame(width: 32, height: 32)
+                            .background(Color.white.opacity(0.2))
+                            .clipShape(Circle())
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                            )
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        showingBudgetView = true
+                    }) {
+                        Image(systemName: "creditcard")
+                            .font(.system(size: 16))
+                            .foregroundColor(.white)
+                            .frame(width: 32, height: 32)
+                            .background(Color.white.opacity(0.2))
+                            .clipShape(Circle())
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                            )
                     }
                     .buttonStyle(PlainButtonStyle())
                 }
@@ -144,7 +166,7 @@ struct MyBookView: View {
             }
         }
         .padding()
-        .background(
+                .background(
             themeManager.currentBackground()
         )
         .toolbar {
@@ -153,17 +175,15 @@ struct MyBookView: View {
                     showingDetailView = true
                 }) {
                     Image(systemName: "list.bullet")
+                        .font(.system(size: 16))
                         .foregroundColor(.white)
-                }
-                .buttonStyle(PlainButtonStyle())
-            }
-            
-            ToolbarItem(placement: .topBarLeading) {
-                Button(action: {
-                    showingBudgetView = true
-                }) {
-                    Image(systemName: "creditcard")
-                        .foregroundColor(.white)
+                        .frame(width: 32, height: 32)
+                        .background(Color.white.opacity(0.2))
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle()
+                                .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                        )
                 }
                 .buttonStyle(PlainButtonStyle())
             }
@@ -183,16 +203,6 @@ struct MyBookView: View {
         }
         .sheet(isPresented: $showingBudgetView) {
             BudgetView(accountBook: accountBook)
-        }
-        .sheet(isPresented: $showingVoiceExpense) {
-            VoiceExpenseView(accountBook: accountBook, onSave: {
-                updateTotals()
-            })
-        }
-        .sheet(isPresented: $showingQuickExpense) {
-            QuickExpenseView(accountBook: accountBook, onSave: {
-                updateTotals()
-            })
         }
         .onAppear {
             updateTotals()

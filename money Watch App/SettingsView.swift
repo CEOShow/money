@@ -65,21 +65,11 @@ struct SettingsView: View {
                             .frame(width: 20)
                         Text("關於")
                         Spacer()
-                        Text("v1.0")
+                        Text("v2.0")
                             .foregroundColor(.secondary)
                     }
                     
-                    // 隱私政策
-                    HStack {
-                        Image(systemName: "hand.raised")
-                            .foregroundColor(.purple)
-                            .frame(width: 20)
-                        Text("隱私政策")
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundColor(.secondary)
-                            .font(.caption)
-                    }
+
                     
                     // 意見回饋
                     HStack {
