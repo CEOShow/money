@@ -85,6 +85,19 @@ struct SettingsView: View {
                 } header: {
                     Text("支援")
                 }
+
+                // 其他設置項目之後，添加小工具配置部分
+                Section {
+                    NavigationLink(destination: WidgetConfigurationView()) {
+                        HStack {
+                            Image(systemName: "widgets")
+                                .foregroundColor(.blue)
+                            Text("小工具設定")
+                        }
+                    }
+                } header: {
+                    Text("小工具")
+                }
             }
             .navigationTitle("設定")
             .navigationBarTitleDisplayMode(.inline)

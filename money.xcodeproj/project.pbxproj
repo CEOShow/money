@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -33,6 +33,11 @@
 		C1B8DB2A2C6BBE0200C8DD48 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B8DB1E2C6BBE0200C8DD48 /* CategoryView.swift */; };
 		C1B8DB2D2C6BBE8A00C8DD48 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C1B8DB2B2C6BBE8A00C8DD48 /* Localizable.strings */; };
 		C1B8DB322C6BBEC100C8DD48 /* WatchDatePicker in Frameworks */ = {isa = PBXBuildFile; productRef = C1B8DB312C6BBEC100C8DD48 /* WatchDatePicker */; };
+		C1D99CCE2E2BB83E00470801 /* MoneyWidgetTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D99CCD2E2BB83E00470801 /* MoneyWidgetTypes.swift */; };
+		C1D99CD02E2BB85700470801 /* WidgetConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D99CCF2E2BB85700470801 /* WidgetConfigurationView.swift */; };
+		C1D99D062E2BB9D600470801 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D99CD72E2BB94200470801 /* WidgetKit.framework */; };
+		C1D99D072E2BB9D600470801 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D99CD92E2BB94200470801 /* SwiftUI.framework */; };
+		C1D99D122E2BB9D700470801 /* MoneyWidgetExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C1D99D052E2BB9D600470801 /* MoneyWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +47,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = C1B8DAFB2C6BBD0800C8DD48;
 			remoteInfo = "money Watch App";
+		};
+		C1D99D102E2BB9D700470801 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C1B8DAF02C6BBD0800C8DD48 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C1D99D042E2BB9D600470801;
+			remoteInfo = MoneyWidgetExtensionExtension;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -57,6 +69,17 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C1D99CE82E2BB94500470801 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C1D99D122E2BB9D700470801 /* MoneyWidgetExtensionExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +91,7 @@
 		C1684AA72DE0D16B0090963A /* MoneyWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyWidget.swift; sourceTree = "<group>"; };
 		C1684AAB2DE0D3DB0090963A /* QuickExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickExpenseView.swift; sourceTree = "<group>"; };
 		C1835C9B2D44E36800E7D618 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		C1A15FD72E2CD749003DEE80 /* 9歲記帳Release.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "9歲記帳Release.entitlements"; sourceTree = "<group>"; };
 		C1A521A22E193FC5000D4680 /* EditBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBookView.swift; sourceTree = "<group>"; };
 		C1B8DAF62C6BBD0800C8DD48 /* 9歲記帳.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "9歲記帳.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1B8DAFC2C6BBD0800C8DD48 /* 9歲記帳.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "9歲記帳.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,7 +112,26 @@
 		C1B8DB2C2C6BBE8A00C8DD48 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C1B8DB2E2C6BBE9300C8DD48 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C1B8DB2F2C6BBE9600C8DD48 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C1D99CCD2E2BB83E00470801 /* MoneyWidgetTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyWidgetTypes.swift; sourceTree = "<group>"; };
+		C1D99CCF2E2BB85700470801 /* WidgetConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetConfigurationView.swift; sourceTree = "<group>"; };
+		C1D99CD72E2BB94200470801 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		C1D99CD92E2BB94200470801 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		C1D99D052E2BB9D600470801 /* MoneyWidgetExtensionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MoneyWidgetExtensionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C1D99D132E2BB9D700470801 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C1D99D042E2BB9D600470801 /* MoneyWidgetExtensionExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		C1D99D082E2BB9D600470801 /* MoneyWidgetExtension */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (C1D99D132E2BB9D700470801 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = MoneyWidgetExtension; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		C1B8DAF92C6BBD0800C8DD48 /* Frameworks */ = {
@@ -99,13 +142,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C1D99D022E2BB9D600470801 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C1D99D072E2BB9D600470801 /* SwiftUI.framework in Frameworks */,
+				C1D99D062E2BB9D600470801 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		C1B8DAEF2C6BBD0800C8DD48 = {
 			isa = PBXGroup;
 			children = (
+				C1A15FD72E2CD749003DEE80 /* 9歲記帳Release.entitlements */,
 				C1B8DB002C6BBD0800C8DD48 /* money Watch App */,
+				C1D99D082E2BB9D600470801 /* MoneyWidgetExtension */,
+				C1D99CD62E2BB94200470801 /* Frameworks */,
 				C1B8DAF72C6BBD0800C8DD48 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -115,6 +170,7 @@
 			children = (
 				C1B8DAF62C6BBD0800C8DD48 /* 9歲記帳.app */,
 				C1B8DAFC2C6BBD0800C8DD48 /* 9歲記帳.app */,
+				C1D99D052E2BB9D600470801 /* MoneyWidgetExtensionExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -132,8 +188,10 @@
 				C1684A9B2DE0D1420090963A /* BudgetView.swift */,
 				C1684A9C2DE0D1420090963A /* ExpenseStatsView.swift */,
 				C1684A9D2DE0D1420090963A /* SiriShortcutsManager.swift */,
+				C1D99CCF2E2BB85700470801 /* WidgetConfigurationView.swift */,
 				C1684A9E2DE0D1420090963A /* ThemeManager.swift */,
 				C1684A9F2DE0D1420090963A /* ThemeSettingsView.swift */,
+				C1D99CCD2E2BB83E00470801 /* MoneyWidgetTypes.swift */,
 				C1835C9B2D44E36800E7D618 /* SettingsView.swift */,
 				C1B8DB1E2C6BBE0200C8DD48 /* CategoryView.swift */,
 				C1B8DB162C6BBE0100C8DD48 /* DateView.swift */,
@@ -156,6 +214,15 @@
 				C1B8DB082C6BBD0900C8DD48 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C1D99CD62E2BB94200470801 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C1D99CD72E2BB94200470801 /* WidgetKit.framework */,
+				C1D99CD92E2BB94200470801 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,10 +252,12 @@
 				C1B8DAF82C6BBD0800C8DD48 /* Sources */,
 				C1B8DAF92C6BBD0800C8DD48 /* Frameworks */,
 				C1B8DAFA2C6BBD0800C8DD48 /* Resources */,
+				C1D99CE82E2BB94500470801 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C1D99D112E2BB9D700470801 /* PBXTargetDependency */,
 			);
 			name = "9歲記帳";
 			packageProductDependencies = (
@@ -198,6 +267,28 @@
 			productReference = C1B8DAFC2C6BBD0800C8DD48 /* 9歲記帳.app */;
 			productType = "com.apple.product-type.application";
 		};
+		C1D99D042E2BB9D600470801 /* MoneyWidgetExtensionExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C1D99D142E2BB9D700470801 /* Build configuration list for PBXNativeTarget "MoneyWidgetExtensionExtension" */;
+			buildPhases = (
+				C1D99D012E2BB9D600470801 /* Sources */,
+				C1D99D022E2BB9D600470801 /* Frameworks */,
+				C1D99D032E2BB9D600470801 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C1D99D082E2BB9D600470801 /* MoneyWidgetExtension */,
+			);
+			name = MoneyWidgetExtensionExtension;
+			packageProductDependencies = (
+			);
+			productName = MoneyWidgetExtensionExtension;
+			productReference = C1D99D052E2BB9D600470801 /* MoneyWidgetExtensionExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -205,7 +296,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1540;
+				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					C1B8DAF52C6BBD0800C8DD48 = {
@@ -213,6 +304,9 @@
 					};
 					C1B8DAFB2C6BBD0800C8DD48 = {
 						CreatedOnToolsVersion = 15.4;
+					};
+					C1D99D042E2BB9D600470801 = {
+						CreatedOnToolsVersion = 16.3;
 					};
 				};
 			};
@@ -236,6 +330,7 @@
 			targets = (
 				C1B8DAF52C6BBD0800C8DD48 /* money */,
 				C1B8DAFB2C6BBD0800C8DD48 /* 9歲記帳 */,
+				C1D99D042E2BB9D600470801 /* MoneyWidgetExtensionExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -258,6 +353,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C1D99D032E2BB9D600470801 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -271,12 +373,14 @@
 				C1B8DB242C6BBE0200C8DD48 /* CurrencySelectionView.swift in Sources */,
 				C1684AA82DE0D16B0090963A /* MoneyWidget.swift in Sources */,
 				C1B8DB272C6BBE0200C8DD48 /* CalculatorView.swift in Sources */,
+				C1D99CCE2E2BB83E00470801 /* MoneyWidgetTypes.swift in Sources */,
 				C1B8DB202C6BBE0200C8DD48 /* AppView.swift in Sources */,
 				C1B8DB292C6BBE0200C8DD48 /* ExpenseDetailView.swift in Sources */,
 				C1B8DB2A2C6BBE0200C8DD48 /* CategoryView.swift in Sources */,
 				C1B8DB282C6BBE0200C8DD48 /* NewBookView.swift in Sources */,
 				C1B8DB042C6BBD0800C8DD48 /* ContentView.swift in Sources */,
 				C1B8DB1F2C6BBE0200C8DD48 /* AccountingManager.swift in Sources */,
+				C1D99CD02E2BB85700470801 /* WidgetConfigurationView.swift in Sources */,
 				C1B8DB022C6BBD0800C8DD48 /* moneyApp.swift in Sources */,
 				C1684AA02DE0D1420090963A /* BudgetView.swift in Sources */,
 				C1684AAC2DE0D3DB0090963A /* QuickExpenseView.swift in Sources */,
@@ -289,6 +393,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C1D99D012E2BB9D600470801 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -296,6 +407,11 @@
 			isa = PBXTargetDependency;
 			target = C1B8DAFB2C6BBD0800C8DD48 /* 9歲記帳 */;
 			targetProxy = C1B8DAFE2C6BBD0800C8DD48 /* PBXContainerItemProxy */;
+		};
+		C1D99D112E2BB9D700470801 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C1D99D042E2BB9D600470801 /* MoneyWidgetExtensionExtension */;
+			targetProxy = C1D99D102E2BB9D700470801 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -460,6 +576,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "9歲記帳Release.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"money Watch App/Preview Content\"";
@@ -487,7 +604,6 @@
 		C1B8DB112C6BBD0900C8DD48 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				INFOPLIST_KEY_CFBundleDisplayName = "9歲記帳";
@@ -502,7 +618,6 @@
 		C1B8DB122C6BBD0900C8DD48 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				INFOPLIST_KEY_CFBundleDisplayName = "9歲記帳";
@@ -512,6 +627,66 @@
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C1D99D152E2BB9D700470801 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MoneyWidgetExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MoneyWidgetExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.show.money.watchkitapp.MoneyWidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.6;
+			};
+			name = Debug;
+		};
+		C1D99D162E2BB9D700470801 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = MoneyWidgetExtensionExtensionRelease.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MoneyWidgetExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MoneyWidgetExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.show.money.watchkitapp.MoneyWidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Release;
 		};
@@ -541,6 +716,15 @@
 			buildConfigurations = (
 				C1B8DB112C6BBD0900C8DD48 /* Debug */,
 				C1B8DB122C6BBD0900C8DD48 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C1D99D142E2BB9D700470801 /* Build configuration list for PBXNativeTarget "MoneyWidgetExtensionExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C1D99D152E2BB9D700470801 /* Debug */,
+				C1D99D162E2BB9D700470801 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

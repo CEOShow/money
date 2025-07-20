@@ -108,8 +108,44 @@ class SQLiteDatabaseManager: DatabaseManager {
     private let dbPath: String
     
     init() {
-        dbPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!.appending("/accounting.sqlite")
-//        print("SQLite database path: \(dbPath)")
+        // 使用App Groups共享容器來存儲數據庫
+        if let sharedContainerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.show.money") {
+            dbPath = sharedContainerURL.appendingPathComponent("accounting.sqlite").path
+            
+            // 檢查是否需要遷移舊數據
+            migrateDataIfNeeded(to: dbPath)
+        } else {
+            // 回退到原來的路徑（如果App Groups設置失敗）
+            dbPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!.appending("/accounting.sqlite")
+            print("⚠️ App Groups not available, using private directory")
+        }
+        print("📁 SQLite database path: \(dbPath)")
+    }
+    
+    private func migrateDataIfNeeded(to newPath: String) {
+        let fileManager = FileManager.default
+        let oldPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!.appending("/accounting.sqlite")
+        
+        // 如果新位置已有數據庫，不需要遷移
+        if fileManager.fileExists(atPath: newPath) {
+            print("✅ Database already exists in shared container")
+            return
+        }
+        
+        // 如果舊位置有數據庫，進行遷移
+        if fileManager.fileExists(atPath: oldPath) {
+            do {
+                try fileManager.copyItem(atPath: oldPath, toPath: newPath)
+                print("📦 Successfully migrated database from \(oldPath) to \(newPath)")
+                
+                // 可選：刪除舊的數據庫文件
+                // try fileManager.removeItem(atPath: oldPath)
+            } catch {
+                print("❌ Failed to migrate database: \(error)")
+            }
+        } else {
+            print("📱 No existing database found, will create new one")
+        }
     }
     
     func openDatabase() -> Bool {
@@ -491,10 +527,20 @@ class AccountingManager {
     }
     
     func saveLastOpenedBook(id: Int) {
+        // 同時保存到標準UserDefaults和App Groups共享容器
         UserDefaults.standard.set(id, forKey: lastOpenedBookKey)
+        
+        if let appGroupDefaults = UserDefaults(suiteName: "group.com.show.money") {
+            appGroupDefaults.set(id, forKey: lastOpenedBookKey)
+        }
     }
 
     func getLastOpenedBookId() -> Int? {
+        // 優先從App Groups讀取，如果沒有則從標準UserDefaults讀取
+        if let appGroupDefaults = UserDefaults(suiteName: "group.com.show.money"),
+           let bookId = appGroupDefaults.object(forKey: lastOpenedBookKey) as? Int {
+            return bookId
+        }
         return UserDefaults.standard.object(forKey: lastOpenedBookKey) as? Int
     }
     

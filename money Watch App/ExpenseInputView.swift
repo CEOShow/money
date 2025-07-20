@@ -111,10 +111,19 @@ struct ExpenseInputView: View {
                 
                 // Date Section
                 Section {
+                    #if canImport(WatchDatePicker)
                     WatchDatePicker.DatePicker(
                         "Date & Time",
                         selection: $date
                     )
+                    #else
+                    DatePicker(
+                        "Date & Time",
+                        selection: $date,
+                        displayedComponents: [.date, .hourAndMinute]
+                    )
+                    .datePickerStyle(.compact)
+                    #endif
                 }
                 
                 // Save Button

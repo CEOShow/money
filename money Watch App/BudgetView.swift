@@ -34,7 +34,6 @@ struct BudgetView: View {
                         .background(Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(6)
-                        .buttonStyle(PlainButtonStyle())
                     }
                     .padding()
                 } else {
