@@ -1,4 +1,4 @@
-/* 
+/*
   Localizable.strings
   money
 
@@ -36,3 +36,89 @@
 "Select date" = "選擇日期";
 "Edit Book" = "編輯帳本";
 "Enter book name" = "輸入帳本名稱";
+
+// 設定
+"Settings" = "設定";
+"General" = "一般設定";
+"Support" = "支援";
+"Theme Settings" = "主題設定";
+"Language" = "語言";
+"About" = "關於";
+"Done" = "完成";
+
+// 預算管理
+"Budget Management" = "預算管理";
+"Track your spending" = "追蹤您的支出";
+"Start setting budgets" = "開始設定預算";
+"Set budgets for different categories\nto better control your spending" = "為不同分類設定預算\n讓您更好控制支出";
+"Set your first budget" = "設定第一個預算";
+"This Month Overview" = "本月總覽";
+"Spent" = "已花費";
+"Total Budget" = "總預算";
+"used" = "已使用";
+"Remaining" = "剩餘";
+"Set Budget" = "設定預算";
+"Budget Amount" = "預算金額";
+"Budget Period" = "預算週期";
+"Save Budget" = "儲存預算";
+"Add Budget" = "新增預算";
+
+// 支出統計
+"Expense Statistics" = "支出統計";
+"No expense records" = "暫無支出記錄";
+"Expense Analysis" = "支出分析";
+
+// 主題設定
+"Theme" = "主題";
+"Background Type" = "背景類型";
+"Gradient Theme" = "漸層主題";
+"Solid Color Theme" = "純色主題";
+"Image Theme" = "圖片主題";
+"Preview" = "預覽";
+"My Account" = "我的帳本";
+
+// 背景類型
+"Gradient" = "漸層";
+"Solid Color" = "純色";
+"Image" = "圖片";
+
+// 漸層主題
+"Blue Purple Gradient" = "藍紫漸層";
+"Pink Orange Gradient" = "粉橙漸層";
+"Green Blue Gradient" = "綠藍漸層";
+"Purple Red Gradient" = "紫紅漸層";
+"Orange Yellow Gradient" = "橙黃漸層";
+"Dark Blue Gradient" = "深藍漸層";
+
+// 純色主題
+"Blue" = "藍色";
+"Green" = "綠色";
+"Purple" = "紫色";
+"Red" = "紅色";
+"Orange" = "橙色";
+"Pink" = "粉色";
+"Gray" = "灰色";
+"Black" = "黑色";
+
+// Background Types
+"Gradient" = "Gradient";
+"Solid Color" = "Solid Color";
+"Image" = "Image";
+
+// Gradient Themes
+"Blue Purple Gradient" = "Blue Purple Gradient";
+"Pink Orange Gradient" = "Pink Orange Gradient";
+"Green Blue Gradient" = "Green Blue Gradient";
+"Purple Red Gradient" = "Purple Red Gradient";
+"Orange Yellow Gradient" = "Orange Yellow Gradient";
+"Dark Blue Gradient" = "Dark Blue Gradient";
+
+// Solid Color Themes
+"Blue" = "Blue";
+"Green" = "Green";
+"Purple" = "Purple";
+"Red" = "Red";
+"Orange" = "Orange";
+"Pink" = "Pink";
+"Gray" = "Gray";
+"Black" = "Black";

@@ -16,21 +16,21 @@ struct ExpenseStatsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 12) {
-                Text("支出統計")
+                Text("Expense Statistics")
                     .font(.headline)
                     .padding(.top)
                 
                 if categoryStats.isEmpty {
-                    Text("暫無支出記錄")
+                    Text("No expense records")
                         .foregroundColor(.gray)
                         .padding()
                 } else {
-                    // 圓餅圖
+                    // Pie Chart
                     PieChartView(stats: categoryStats)
                         .frame(height: 120)
                         .padding(.horizontal)
                     
-                    // 統計列表
+                    // Statistics List
                     VStack(spacing: 8) {
                         ForEach(categoryStats, id: \.categoryId) { stat in
                             CategoryStatRow(stat: stat)
@@ -40,7 +40,7 @@ struct ExpenseStatsView: View {
                 }
             }
         }
-        .navigationTitle("支出分析")
+        .navigationTitle("Expense Analysis")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             loadStats()
@@ -62,13 +62,13 @@ struct CategoryStatRow: View {
     
     var body: some View {
         HStack {
-            // 分類標示
+            // Category indicator
             Circle()
                 .fill(colorForCategory(stat.categoryId))
                 .frame(width: 12, height: 12)
             
             VStack(alignment: .leading, spacing: 2) {
-                Text(category?.name ?? "未知分類")
+                Text(category?.name ?? "Unknown Category")
                     .font(.caption)
                     .fontWeight(.medium)
                 Text(formatCurrency(stat.totalExpense))
@@ -78,7 +78,7 @@ struct CategoryStatRow: View {
             
             Spacer()
             
-            // 百分比條
+            // Percentage bar
             HStack(spacing: 4) {
                 RoundedRectangle(cornerRadius: 2)
                     .fill(colorForCategory(stat.categoryId))
@@ -111,7 +111,7 @@ struct PieChartView: View {
                 )
             }
             
-            // 移除中央的文字顯示，讓圓形圖表保持空白
+            // Remove central text display to keep the chart hollow
         }
     }
     
@@ -156,5 +156,5 @@ private func formatCurrency(_ amount: Double) -> String {
 }
 
 #Preview {
-    ExpenseStatsView(accountBook: AccountBook(id: 1, currency: "TWD", name: "測試帳本"))
-} 
+    ExpenseStatsView(accountBook: AccountBook(id: 1, currency: "TWD", name: "Test Account Book"))
+}

@@ -12,19 +12,19 @@ struct CurrencySelectionView: View {
     @Environment(\.presentationMode) var presentationMode
     
     let currencies = [
-        "TWD - 新台幣",
-        "JPY - 日圓",
-        "KRW - 韓元",
-        "CNY - 人民幣",
-        "THB - 泰銖",
-        "VND - 越南盾",
-        "USD - 美元",
-        "EUR - 歐元",
-        "GBP - 英鎊",
-        "AUD - 澳元",
-        "CAD - 加拿大元",
-        "CHF - 瑞士法郎",
-        "HKD - 港幣"
+        "TWD - Taiwan Dollar",
+        "JPY - Japanese Yen",
+        "KRW - Korean Won",
+        "CNY - Chinese Yuan",
+        "THB - Thai Baht",
+        "VND - Vietnamese Dong",
+        "USD - US Dollar",
+        "EUR - Euro",
+        "GBP - British Pound",
+        "AUD - Australian Dollar",
+        "CAD - Canadian Dollar",
+        "CHF - Swiss Franc",
+        "HKD - Hong Kong Dollar"
     ]
     
     var body: some View {

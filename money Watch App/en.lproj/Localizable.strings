@@ -1,4 +1,4 @@
-/* 
+/*
   Localizable.strings
   money
 
@@ -36,3 +36,66 @@
 "Select date" = "Select date";
 "Edit Book" = "Edit Book";
 "Enter book name" = "Enter book name";
+
+// Settings
+"Settings" = "Settings";
+"General" = "General";
+"Support" = "Support";
+"Theme Settings" = "Theme Settings";
+"Language" = "Language";
+"About" = "About";
+"Done" = "Done";
+
+// Budget Management
+"Budget Management" = "Budget Management";
+"Track your spending" = "Track your spending";
+"Start setting budgets" = "Start setting budgets";
+"Set budgets for different categories\nto better control your spending" = "Set budgets for different categories\nto better control your spending";
+"Set your first budget" = "Set your first budget";
+"This Month Overview" = "This Month Overview";
+"Spent" = "Spent";
+"Total Budget" = "Total Budget";
+"used" = "used";
+"Remaining" = "Remaining";
+"Set Budget" = "Set Budget";
+"Budget Amount" = "Budget Amount";
+"Budget Period" = "Budget Period";
+"Save Budget" = "Save Budget";
+"Add Budget" = "Add Budget";
+
+// Expense Statistics
+"Expense Statistics" = "Expense Statistics";
+"No expense records" = "No expense records";
+"Expense Analysis" = "Expense Analysis";
+
+// Theme Settings
+"Theme" = "Theme";
+"Background Type" = "Background Type";
+"Gradient Theme" = "Gradient Theme";
+"Solid Color Theme" = "Solid Color Theme";
+"Image Theme" = "Image Theme";
+"Preview" = "Preview";
+"My Account" = "My Account";
+
+// Background Types
+"Gradient" = "Gradient";
+"Solid Color" = "Solid Color";
+"Image" = "Image";
+
+// Gradient Themes
+"Blue Purple Gradient" = "Blue Purple Gradient";
+"Pink Orange Gradient" = "Pink Orange Gradient";
+"Green Blue Gradient" = "Green Blue Gradient";
+"Purple Red Gradient" = "Purple Red Gradient";
+"Orange Yellow Gradient" = "Orange Yellow Gradient";
+"Dark Blue Gradient" = "Dark Blue Gradient";
+
+// Solid Color Themes
+"Blue" = "Blue";
+"Green" = "Green";
+"Purple" = "Purple";
+"Red" = "Red";
+"Orange" = "Orange";
+"Pink" = "Pink";
+"Gray" = "Gray";
+"Black" = "Black";

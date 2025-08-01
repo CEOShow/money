@@ -16,44 +16,83 @@ struct BudgetView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 12) {
-                Text("預算管理")
-                    .font(.headline)
-                    .padding(.top)
+            VStack(spacing: 16) {
+                // Header Section
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Budget Management")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.primary)
+                        Text("Track your spending")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                }
+                .padding(.top, 8)
+                .padding(.horizontal)
                 
                 if budgets.isEmpty {
-                    VStack(spacing: 8) {
-                        Text("尚未設定任何預算")
-                            .foregroundColor(.gray)
-                        Button("設定第一個預算") {
+                    // Empty state design
+                    VStack(spacing: 16) {
+                        // Icon
+                        Image(systemName: "chart.pie.fill")
+                            .font(.system(size: 32))
+                            .foregroundStyle(.blue.gradient)
+                            .padding(.top, 20)
+                        
+                        VStack(spacing: 8) {
+                            Text("Start setting budgets")
+                                .font(.headline)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.primary)
+                            
+                            Text("Set budgets for different categories\nto better control your spending")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .multilineTextAlignment(.center)
+                                .lineLimit(3)
+                        }
+                        
+                        Button("Set your first budget") {
                             showingAddBudget = true
                         }
-                        .font(.caption)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(6)
-                        .buttonStyle(PlainButtonStyle())
-                    }
-                    .padding()
-                } else {
-                    LazyVStack(spacing: 8) {
-                        ForEach(budgets) { budget in
-                            BudgetRowView(budget: budget, accountBook: accountBook)
-                        }
+                        .buttonStyle(PrimaryButtonStyle())
+                        .padding(.top, 8)
                     }
                     .padding(.horizontal)
+                    .padding(.vertical, 20)
+                    .background {
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(.ultraThinMaterial)
+                            .stroke(.quaternary, lineWidth: 0.5)
+                    }
+                    .padding(.horizontal)
+                } else {
+                    // Budget summary statistics
+                    BudgetSummaryCard(budgets: budgets, accountBook: accountBook)
+                        .padding(.horizontal)
+                    
+                    // Budget list
+                    LazyVStack(spacing: 12) {
+                        ForEach(budgets) { budget in
+                            BudgetRowView(budget: budget, accountBook: accountBook)
+                                .padding(.horizontal)
+                        }
+                    }
                 }
             }
+            .padding(.bottom)
         }
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button(action: {
                     showingAddBudget = true
                 }) {
-                    Image(systemName: "plus")
-                        .foregroundColor(.blue)
+                    Image(systemName: "plus.circle.fill")
+                        .font(.title3)
+                        .foregroundStyle(.blue.gradient)
                 }
             }
         }
@@ -73,6 +112,112 @@ struct BudgetView: View {
 }
 
 @available(watchOS 10.0, *)
+struct BudgetSummaryCard: View {
+    let budgets: [Budget]
+    let accountBook: AccountBook
+    @State private var totalBudget: Double = 0
+    @State private var totalSpent: Double = 0
+    
+    var body: some View {
+        VStack(spacing: 12) {
+            HStack {
+                Text("This Month Overview")
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.secondary)
+                Spacer()
+            }
+            
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Spent")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                    Text(formatCurrency(totalSpent))
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .foregroundStyle(totalSpent > totalBudget ? .red : .primary)
+                }
+                
+                Spacer()
+                
+                VStack(alignment: .trailing, spacing: 4) {
+                    Text("Total Budget")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                    Text(formatCurrency(totalBudget))
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.primary)
+                }
+            }
+            
+            // Total progress bar
+            VStack(spacing: 4) {
+                let percentage = totalBudget > 0 ? min(totalSpent / totalBudget, 1.0) : 0
+                HStack {
+                    Text("\(Int(percentage * 100))% used")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    Text("Remaining \(formatCurrency(max(totalBudget - totalSpent, 0)))")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+                
+                GeometryReader { geometry in
+                    ZStack(alignment: .leading) {
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(.quaternary)
+                            .frame(height: 6)
+                        
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(progressGradient(for: percentage))
+                            .frame(width: geometry.size.width * percentage, height: 6)
+                            .animation(.easeInOut(duration: 0.3), value: percentage)
+                    }
+                }
+                .frame(height: 6)
+            }
+        }
+        .padding()
+        .background {
+            RoundedRectangle(cornerRadius: 16)
+                .fill(.ultraThinMaterial)
+                .stroke(.quaternary, lineWidth: 0.5)
+        }
+        .onAppear {
+            calculateTotals()
+        }
+    }
+    
+    private func progressGradient(for percentage: Double) -> LinearGradient {
+        if percentage > 1.0 {
+            return LinearGradient(colors: [.red, .red.opacity(0.8)], startPoint: .leading, endPoint: .trailing)
+        } else if percentage > 0.8 {
+            return LinearGradient(colors: [.orange, .orange.opacity(0.8)], startPoint: .leading, endPoint: .trailing)
+        } else {
+            return LinearGradient(colors: [.green, .green.opacity(0.8)], startPoint: .leading, endPoint: .trailing)
+        }
+    }
+    
+    private func calculateTotals() {
+        totalBudget = 0
+        totalSpent = 0
+        
+        for budget in budgets {
+            let progress = AccountingManager.shared.getBudgetProgress(
+                for: accountBook.id,
+                categoryId: budget.categoryId,
+                period: budget.period
+            )
+            totalBudget += progress.budget
+            totalSpent += progress.spent
+        }
+    }
+}
+
+@available(watchOS 10.0, *)
 struct BudgetRowView: View {
     let budget: Budget
     let accountBook: AccountBook
@@ -88,62 +233,129 @@ struct BudgetRowView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
+        VStack(spacing: 0) {
+            // Top information
+            HStack(alignment: .center, spacing: 12) {
+                // Category icon
+                ZStack {
+                    Circle()
+                        .fill(categoryColor.opacity(0.2))
+                        .frame(width: 32, height: 32)
+                    
+                    Text(categoryColor == .orange ? "🍽️" :
+                         categoryColor == .blue ? "🚗" :
+                         categoryColor == .pink ? "🛍️" :
+                         categoryColor == .green ? "💰" :
+                         categoryColor == .purple ? "✈️" : "💰")
+                        .font(.caption)
+                }
+                
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(category?.name ?? "未知分類")
+                    Text(category?.name ?? "Unknown Category")
                         .font(.caption)
                         .fontWeight(.semibold)
+                        .foregroundStyle(.primary)
+                    
                     Text(budget.period.name)
                         .font(.caption2)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                 }
                 
                 Spacer()
                 
                 VStack(alignment: .trailing, spacing: 2) {
-                    Text(formatCurrency(progress.budget))
+                    Text(formatCurrency(progress.spent))
                         .font(.caption)
-                        .fontWeight(.semibold)
-                    Text("預算")
+                        .fontWeight(.bold)
+                        .foregroundStyle(progressPercentage > 1.0 ? .red : .primary)
+                    
+                    Text("/ \(formatCurrency(progress.budget))")
                         .font(.caption2)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                 }
             }
+            .padding(.horizontal, 16)
+            .padding(.top, 16)
+            .padding(.bottom, 12)
             
-            // 進度條
-            VStack(alignment: .leading, spacing: 4) {
+            // Progress bar area
+            VStack(spacing: 8) {
                 HStack {
-                    Text("已花費: \(formatCurrency(progress.spent))")
-                        .font(.caption2)
-                        .foregroundColor(progressPercentage > 0.8 ? .red : .primary)
-                    Spacer()
-                    Text("\(Int(progressPercentage * 100))%")
+                    Text("\(Int(progressPercentage * 100))% used")
                         .font(.caption2)
                         .fontWeight(.medium)
-                        .foregroundColor(progressPercentage > 1.0 ? .red : .primary)
+                        .foregroundStyle(progressPercentage > 0.8 ? .orange : .secondary)
+                    
+                    Spacer()
+                    
+                    Text(formatCurrency(max(progress.budget - progress.spent, 0)))
+                        .font(.caption2)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.secondary)
                 }
                 
-                ProgressView(value: progressPercentage)
-                    .progressViewStyle(LinearProgressViewStyle(tint: progressColor))
-                    .scaleEffect(y: 1.5)
+                // Custom progress bar
+                GeometryReader { geometry in
+                    ZStack(alignment: .leading) {
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(.quaternary)
+                            .frame(height: 8)
+                        
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(progressGradient)
+                            .frame(width: geometry.size.width * progressPercentage, height: 8)
+                            .animation(.easeInOut(duration: 0.5), value: progressPercentage)
+                        
+                        // Indicator for overbudget
+                        if progressPercentage > 1.0 {
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(.red.opacity(0.3))
+                                .frame(height: 8)
+                                .overlay {
+                                    HStack {
+                                        Spacer()
+                                        Image(systemName: "exclamationmark.triangle.fill")
+                                            .font(.system(size: 8))
+                                            .foregroundStyle(.red)
+                                            .padding(.trailing, 4)
+                                    }
+                                }
+                        }
+                    }
+                }
+                .frame(height: 8)
             }
+            .padding(.horizontal, 16)
+            .padding(.bottom, 16)
         }
-        .padding()
-        .background(Color.gray.opacity(0.2))
-        .cornerRadius(8)
+        .background {
+            RoundedRectangle(cornerRadius: 16)
+                .fill(.ultraThinMaterial)
+                .stroke(.quaternary, lineWidth: 0.5)
+        }
         .onAppear {
             updateProgress()
         }
     }
     
-    private var progressColor: Color {
+    private var categoryColor: Color {
+        switch category {
+        case .foodAndEntertainment: return .orange
+        case .transportation: return .blue
+        case .shopping: return .pink
+        case .pocketMoney: return .green
+        case .travel: return .purple
+        default: return .gray
+        }
+    }
+    
+    private var progressGradient: LinearGradient {
         if progressPercentage > 1.0 {
-            return .red
+            return LinearGradient(colors: [.red, .red.opacity(0.8)], startPoint: .leading, endPoint: .trailing)
         } else if progressPercentage > 0.8 {
-            return .orange
+            return LinearGradient(colors: [.orange, .orange.opacity(0.8)], startPoint: .leading, endPoint: .trailing)
         } else {
-            return .green
+            return LinearGradient(colors: [categoryColor, categoryColor.opacity(0.8)], startPoint: .leading, endPoint: .trailing)
         }
     }
     
@@ -162,51 +374,107 @@ struct AddBudgetView: View {
     let onSave: () -> Void
     
     @State private var selectedCategory: Category = .foodAndEntertainment
-    @State private var budgetAmount: String = ""
+    @State private var budgetAmount: String = "0"
     @State private var selectedPeriod: BudgetPeriod = .monthly
+    @State private var showingCategoryPicker = false
+    @State private var showingCalculator = false
+    @State private var isIncome: Bool = false // Budget is always expense, but CalculatorView needs this parameter
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 16) {
-                    Text("設定預算")
-                        .font(.headline)
-                        .padding(.top)
-                    
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("分類")
+                VStack(spacing: 20) {
+                    // Title
+                    VStack(spacing: 8) {
+                        Text("Set Budget")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                        Text("Set spending limit for category")
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.top)
+                    
+                    // Amount input
+                    VStack(alignment: .leading, spacing: 12) {
+                        HStack {
+                            Text("Budget Amount")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.secondary)
+                            Spacer()
+                        }
                         
-                        Picker("分類", selection: $selectedCategory) {
-                            ForEach(Category.allCases, id: \.self) { category in
-                                Text(category.name)
-                                    .tag(category)
+                        Button(action: {
+                            showingCalculator = true
+                        }) {
+                            HStack {
+                                Text(budgetAmount)
+                                    .font(.headline)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.primary)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundStyle(.secondary)
+                            }
+                            .padding(12)
+                            .background {
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(.ultraThinMaterial)
+                                    .stroke(.quaternary, lineWidth: 0.5)
                             }
                         }
-                        .pickerStyle(WheelPickerStyle())
-                        .frame(height: 100)
+                        .buttonStyle(PlainButtonStyle())
+                        .sheet(isPresented: $showingCalculator) {
+                            CalculatorView(amount: $budgetAmount, isIncome: $isIncome)
+                        }
                     }
                     
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("預算金額")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+                    // Category selection
+                    VStack(alignment: .leading, spacing: 12) {
+                        HStack {
+                            Text("Select Category")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.secondary)
+                            Spacer()
+                        }
                         
-                        TextField("輸入金額", text: $budgetAmount)
-                            .textFieldStyle(PlainTextFieldStyle())
-                            .padding(8)
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(6)
+                        Button(action: {
+                            showingCategoryPicker = true
+                        }) {
+                            HStack {
+                                Text(selectedCategory.name)
+                                    .font(.body)
+                                    .foregroundStyle(.primary)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundStyle(.secondary)
+                            }
+                            .padding(12)
+                            .background {
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(.ultraThinMaterial)
+                                    .stroke(.quaternary, lineWidth: 0.5)
+                            }
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .sheet(isPresented: $showingCategoryPicker) {
+                            CategoryView(selectedCategory: $selectedCategory)
+                        }
                     }
                     
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("週期")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+                    // Period selection
+                    VStack(alignment: .leading, spacing: 12) {
+                        HStack {
+                            Text("Budget Period")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.secondary)
+                            Spacer()
+                        }
                         
-                        // 使用按鈕網格代替分段控制器（適合 watchOS）
                         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 8) {
                             ForEach(BudgetPeriod.allCases, id: \.self) { period in
                                 Button(action: {
@@ -214,11 +482,22 @@ struct AddBudgetView: View {
                                 }) {
                                     Text(period.name)
                                         .font(.caption)
-                                        .foregroundColor(selectedPeriod == period ? .white : .primary)
+                                        .fontWeight(.medium)
+                                        .foregroundStyle(selectedPeriod == period ? .white : .primary)
                                         .frame(maxWidth: .infinity)
-                                        .padding(.vertical, 8)
-                                        .background(selectedPeriod == period ? Color.blue : Color.gray.opacity(0.2))
-                                        .cornerRadius(6)
+                                        .padding(.vertical, 10)
+                                        .background {
+                                            Group {
+                                                if selectedPeriod == period {
+                                                    RoundedRectangle(cornerRadius: 10)
+                                                        .fill(.blue.gradient)
+                                                } else {
+                                                    RoundedRectangle(cornerRadius: 10)
+                                                        .fill(.ultraThinMaterial)
+                                                        .stroke(.quaternary, lineWidth: 0.5)
+                                                }
+                                            }
+                                        }
                                 }
                                 .buttonStyle(PlainButtonStyle())
                             }
@@ -227,25 +506,24 @@ struct AddBudgetView: View {
                     
                     Spacer(minLength: 20)
                     
-                    Button("儲存預算") {
+                    // Save button
+                    Button("Save Budget") {
                         saveBudget()
                     }
-                    .disabled(budgetAmount.isEmpty || Double(budgetAmount) == nil)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(budgetAmount.isEmpty ? Color.gray : Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
+                    .buttonStyle(PrimaryButtonStyle())
+                    .disabled(budgetAmount == "0" || Double(budgetAmount) == nil)
                 }
                 .padding()
             }
-            .navigationTitle("新增預算")
+            .navigationTitle("Add Budget")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("取消") {
+                    Button("Cancel") {
                         dismiss()
                     }
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
                 }
             }
         }
@@ -268,6 +546,25 @@ struct AddBudgetView: View {
     }
 }
 
+// Custom button style
+struct PrimaryButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.caption)
+            .fontWeight(.semibold)
+            .foregroundStyle(.white)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 12)
+            .background {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(.blue.gradient)
+                    .opacity(configuration.isPressed ? 0.8 : 1.0)
+            }
+            .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
+            .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
+    }
+}
+
 private func formatCurrency(_ amount: Double) -> String {
     let formatter = NumberFormatter()
     formatter.numberStyle = .currency
@@ -276,5 +573,5 @@ private func formatCurrency(_ amount: Double) -> String {
 }
 
 #Preview {
-    BudgetView(accountBook: AccountBook(id: 1, currency: "TWD", name: "測試帳本"))
-} 
+    BudgetView(accountBook: AccountBook(id: 1, currency: "TWD", name: "Test Account Book"))
+}

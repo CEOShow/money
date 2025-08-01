@@ -1,4 +1,4 @@
-/* 
+/*
   Localizable.strings
   money
 
@@ -36,3 +36,66 @@
 "Select date" = "日付を選択";
 "Edit Book" = "帳簿編集";
 "Enter book name" = "帳簿名を入力";
+
+// 設定
+"Settings" = "設定";
+"General" = "一般";
+"Support" = "サポート";
+"Theme Settings" = "テーマ設定";
+"Language" = "言語";
+"About" = "について";
+"Done" = "完了";
+
+// 予算管理
+"Budget Management" = "予算管理";
+"Track your spending" = "支出を追跡";
+"Start setting budgets" = "予算設定を開始";
+"Set budgets for different categories\nto better control your spending" = "カテゴリー別に予算を設定して\n支出をより良くコントロール";
+"Set your first budget" = "最初の予算を設定";
+"This Month Overview" = "今月の概要";
+"Spent" = "支出済み";
+"Total Budget" = "総予算";
+"used" = "使用済み";
+"Remaining" = "残り";
+"Set Budget" = "予算設定";
+"Budget Amount" = "予算金額";
+"Budget Period" = "予算期間";
+"Save Budget" = "予算を保存";
+"Add Budget" = "予算追加";
+
+// 支出統計
+"Expense Statistics" = "支出統計";
+"No expense records" = "支出記録がありません";
+"Expense Analysis" = "支出分析";
+
+// テーマ設定
+"Theme" = "テーマ";
+"Background Type" = "背景の種類";
+"Gradient Theme" = "グラデーションテーマ";
+"Solid Color Theme" = "単色テーマ";
+"Image Theme" = "画像テーマ";
+"Preview" = "プレビュー";
+"My Account" = "マイアカウント";
+
+// 背景の種類
+"Gradient" = "グラデーション";
+"Solid Color" = "単色";
+"Image" = "画像";
+
+// グラデーションテーマ
+"Blue Purple Gradient" = "ブルーパープルグラデーション";
+"Pink Orange Gradient" = "ピンクオレンジグラデーション";
+"Green Blue Gradient" = "グリーンブルーグラデーション";
+"Purple Red Gradient" = "パープルレッドグラデーション";
+"Orange Yellow Gradient" = "オレンジイエローグラデーション";
+"Dark Blue Gradient" = "ダークブルーグラデーション";
+
+// 単色テーマ
+"Blue" = "青";
+"Green" = "緑";
+"Purple" = "紫";
+"Red" = "赤";
+"Orange" = "オレンジ";
+"Pink" = "ピンク";
+"Gray" = "グレー";
+"Black" = "黒";

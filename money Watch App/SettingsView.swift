@@ -23,7 +23,7 @@ struct SettingsView: View {
                             Image(systemName: "paintbrush.fill")
                                 .foregroundColor(.blue)
                                 .frame(width: 20)
-                            Text("主題設定")
+                            Text("Theme Settings")
                                 .foregroundColor(.primary)
                             Spacer()
                             Image(systemName: "chevron.right")
@@ -32,29 +32,8 @@ struct SettingsView: View {
                         }
                     }
                     
-                    // 語言設定
-                    HStack {
-                        Image(systemName: "globe")
-                            .foregroundColor(.green)
-                            .frame(width: 20)
-                        Text("語言")
-                        Spacer()
-                        Text("繁體中文")
-                            .foregroundColor(.secondary)
-                    }
-                    
-                    // 幣別設定
-                    HStack {
-                        Image(systemName: "dollarsign.circle")
-                            .foregroundColor(.orange)
-                            .frame(width: 20)
-                        Text("預設幣別")
-                        Spacer()
-                        Text("TWD")
-                            .foregroundColor(.secondary)
-                    }
                 } header: {
-                    Text("一般設定")
+                    Text("General")
                 }
                 
                 Section {
@@ -63,34 +42,20 @@ struct SettingsView: View {
                         Image(systemName: "info.circle")
                             .foregroundColor(.gray)
                             .frame(width: 20)
-                        Text("關於")
+                        Text("About")
                         Spacer()
                         Text("v2.0")
                             .foregroundColor(.secondary)
                     }
-                    
-
-                    
-                    // 意見回饋
-                    HStack {
-                        Image(systemName: "envelope")
-                            .foregroundColor(.pink)
-                            .frame(width: 20)
-                        Text("意見回饋")
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundColor(.secondary)
-                            .font(.caption)
-                    }
                 } header: {
-                    Text("支援")
+                    Text("Support")
                 }
             }
-            .navigationTitle("設定")
+            .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("完成") {
+                    Button("Done") {
                         isPresented = false
                     }
                 }

@@ -29,7 +29,7 @@ struct CategoryView: View {
                 }
             }
         }
-        .navigationTitle("選擇類別")
+        .navigationTitle("Select Category")
     }
 }
 

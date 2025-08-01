@@ -8,22 +8,20 @@
 import SwiftUI
 import Foundation
 
-// 背景主題類型
+// Background theme types
 enum BackgroundType: String, CaseIterable {
     case gradient = "gradient"
     case solidColor = "solidColor"
-    case image = "image"
     
     var displayName: String {
         switch self {
-        case .gradient: return "漸層"
-        case .solidColor: return "純色"
-        case .image: return "圖片"
+        case .gradient: return "Gradient"
+        case .solidColor: return "Solid Color"
         }
     }
 }
 
-// 預設漸層主題
+// Predefined gradient themes
 enum GradientTheme: String, CaseIterable {
     case bluePurple = "bluePurple"
     case pinkOrange = "pinkOrange"
@@ -34,12 +32,12 @@ enum GradientTheme: String, CaseIterable {
     
     var displayName: String {
         switch self {
-        case .bluePurple: return "藍紫漸層"
-        case .pinkOrange: return "粉橙漸層"
-        case .greenBlue: return "綠藍漸層"
-        case .purpleRed: return "紫紅漸層"
-        case .orangeYellow: return "橙黃漸層"
-        case .darkBlue: return "深藍漸層"
+        case .bluePurple: return "Blue Purple Gradient"
+        case .pinkOrange: return "Pink Orange Gradient"
+        case .greenBlue: return "Green Blue Gradient"
+        case .purpleRed: return "Purple Red Gradient"
+        case .orangeYellow: return "Orange Yellow Gradient"
+        case .darkBlue: return "Dark Blue Gradient"
         }
     }
     
@@ -85,7 +83,7 @@ enum GradientTheme: String, CaseIterable {
     }
 }
 
-// 純色主題
+// Solid color themes
 enum SolidColorTheme: String, CaseIterable {
     case blue = "blue"
     case green = "green"
@@ -98,14 +96,14 @@ enum SolidColorTheme: String, CaseIterable {
     
     var displayName: String {
         switch self {
-        case .blue: return "藍色"
-        case .green: return "綠色"
-        case .purple: return "紫色"
-        case .red: return "紅色"
-        case .orange: return "橙色"
-        case .pink: return "粉色"
-        case .gray: return "灰色"
-        case .black: return "黑色"
+        case .blue: return "Blue"
+        case .green: return "Green"
+        case .purple: return "Purple"
+        case .red: return "Red"
+        case .orange: return "Orange"
+        case .pink: return "Pink"
+        case .gray: return "Gray"
+        case .black: return "Black"
         }
     }
     
@@ -145,7 +143,7 @@ class ThemeManager: ObservableObject {
     }
     
     private init() {
-        // 載入儲存的設定
+        // Load saved settings
         if let backgroundTypeString = UserDefaults.standard.string(forKey: "backgroundType"),
            let savedBackgroundType = BackgroundType(rawValue: backgroundTypeString) {
             self.backgroundType = savedBackgroundType
@@ -168,7 +166,7 @@ class ThemeManager: ObservableObject {
         }
     }
     
-    // 獲取當前背景視圖
+    // Get current background view
     @ViewBuilder
     func currentBackground() -> some View {
         switch backgroundType {
@@ -178,10 +176,6 @@ class ThemeManager: ObservableObject {
         case .solidColor:
             solidColorTheme.color
                 .ignoresSafeArea()
-        case .image:
-            // 暫時使用漸層，之後可以擴展為圖片
-            gradientTheme.gradient
-                .ignoresSafeArea()
         }
     }
-} 
+}

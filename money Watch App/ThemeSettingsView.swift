@@ -16,83 +16,106 @@ struct ThemeSettingsView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 20) {
-                    Text("主題設定")
-                        .font(.headline)
-                        .padding(.top)
-                    
-                    // 背景類型選擇
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("背景類型")
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
-                        
-                        // 使用按鈕網格代替分段控制器（適合 watchOS）
-                        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 8) {
-                            ForEach(BackgroundType.allCases, id: \.self) { type in
-                                Button(action: {
-                                    themeManager.backgroundType = type
-                                }) {
-                                    Text(type.displayName)
-                                        .font(.caption)
-                                        .foregroundColor(themeManager.backgroundType == type ? .white : .primary)
-                                        .frame(maxWidth: .infinity)
-                                        .padding(.vertical, 8)
-                                        .background(themeManager.backgroundType == type ? Color.blue : Color.gray.opacity(0.2))
-                                        .cornerRadius(8)
-                                }
-                                .buttonStyle(PlainButtonStyle())
-                            }
-                        }
-                    }
-                    
-                    // 根據選擇的背景類型顯示不同選項
-                    switch themeManager.backgroundType {
-                    case .gradient:
-                        GradientThemeSection(themeManager: themeManager)
-                    case .solidColor:
-                        SolidColorThemeSection(themeManager: themeManager)
-                    case .image:
-                        ImageThemeSection()
-                    }
-                    
-                    // 預覽區域
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("預覽")
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
-                        
-                        ZStack {
-                            themeManager.currentBackground()
-                            
-                            VStack {
-                                Text("我的帳本")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                Text("$12,345")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.green)
-                            }
-                        }
-                        .frame(height: 100)
-                        .cornerRadius(12)
-                    }
-                    
-                    Spacer(minLength: 20)
-                }
-                .padding()
+                mainContent
             }
-            .navigationTitle("主題")
+            .navigationTitle("Theme")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("完成") {
+                    Button("Done") {
                         dismiss()
                     }
                 }
             }
         }
+    }
+    
+    private var mainContent: some View {
+        VStack(spacing: 20) {
+            headerSection
+            backgroundTypeSection
+            themeOptionsSection
+            previewSection
+            Spacer(minLength: 20)
+        }
+        .padding()
+    }
+    
+    private var headerSection: some View {
+        Text("Theme Settings")
+            .font(.headline)
+            .padding(.top)
+    }
+    
+    private var backgroundTypeSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Background Type")
+                .font(.subheadline)
+                .fontWeight(.semibold)
+            
+            backgroundTypeGrid
+        }
+    }
+    
+    private var backgroundTypeGrid: some View {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 8) {
+            ForEach(BackgroundType.allCases, id: \.self) { type in
+                backgroundTypeButton(for: type)
+            }
+        }
+    }
+    
+    private func backgroundTypeButton(for type: BackgroundType) -> some View {
+        Button(action: {
+            themeManager.backgroundType = type
+        }) {
+            Text(type.displayName)
+                .font(.caption)
+                .foregroundColor(themeManager.backgroundType == type ? .white : .primary)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 8)
+                .background(themeManager.backgroundType == type ? Color.blue : Color.gray.opacity(0.2))
+                .cornerRadius(8)
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+    
+    @ViewBuilder
+    private var themeOptionsSection: some View {
+        switch themeManager.backgroundType {
+        case .gradient:
+            GradientThemeSection(themeManager: themeManager)
+        case .solidColor:
+            SolidColorThemeSection(themeManager: themeManager)
+        }
+    }
+    
+    private var previewSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Preview")
+                .font(.subheadline)
+                .fontWeight(.semibold)
+            
+            previewCard
+        }
+    }
+    
+    private var previewCard: some View {
+        ZStack {
+            themeManager.currentBackground()
+            
+            VStack {
+                Text("My Account")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                Text("$12,345")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundColor(.green)
+            }
+        }
+        .frame(height: 100)
+        .cornerRadius(12)
     }
 }
 
@@ -102,19 +125,23 @@ struct GradientThemeSection: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("漸層主題")
+            Text("Gradient Theme")
                 .font(.subheadline)
                 .fontWeight(.semibold)
             
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 8) {
-                ForEach(GradientTheme.allCases, id: \.self) { theme in
-                    ThemePreviewCard(
-                        title: theme.displayName,
-                        isSelected: themeManager.gradientTheme == theme,
-                        background: AnyView(theme.gradient)
-                    ) {
-                        themeManager.gradientTheme = theme
-                    }
+            gradientGrid
+        }
+    }
+    
+    private var gradientGrid: some View {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 8) {
+            ForEach(GradientTheme.allCases, id: \.self) { theme in
+                ThemePreviewCard(
+                    title: theme.displayName,
+                    isSelected: themeManager.gradientTheme == theme,
+                    background: AnyView(theme.gradient)
+                ) {
+                    themeManager.gradientTheme = theme
                 }
             }
         }
@@ -127,40 +154,25 @@ struct SolidColorThemeSection: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("純色主題")
+            Text("Solid Color Theme")
                 .font(.subheadline)
                 .fontWeight(.semibold)
             
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 8) {
-                ForEach(SolidColorTheme.allCases, id: \.self) { theme in
-                    ThemePreviewCard(
-                        title: theme.displayName,
-                        isSelected: themeManager.solidColorTheme == theme,
-                        background: AnyView(theme.color)
-                    ) {
-                        themeManager.solidColorTheme = theme
-                    }
-                }
-            }
+            solidColorGrid
         }
     }
-}
-
-@available(watchOS 10.0, *)
-struct ImageThemeSection: View {
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("圖片主題")
-                .font(.subheadline)
-                .fontWeight(.semibold)
-            
-            Text("圖片主題功能即將推出")
-                .font(.caption)
-                .foregroundColor(.secondary)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.gray.opacity(0.2))
-                .cornerRadius(8)
+    
+    private var solidColorGrid: some View {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 8) {
+            ForEach(SolidColorTheme.allCases, id: \.self) { theme in
+                ThemePreviewCard(
+                    title: theme.displayName,
+                    isSelected: themeManager.solidColorTheme == theme,
+                    background: AnyView(theme.color)
+                ) {
+                    themeManager.solidColorTheme = theme
+                }
+            }
         }
     }
 }
@@ -174,31 +186,7 @@ struct ThemePreviewCard: View {
     
     var body: some View {
         Button(action: action) {
-            ZStack {
-                background
-                
-                VStack {
-                    Text(title)
-                        .font(.caption2)
-                        .fontWeight(.medium)
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                }
-                
-                if isSelected {
-                    VStack {
-                        HStack {
-                            Spacer()
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundColor(.white)
-                                .background(Color.blue)
-                                .clipShape(Circle())
-                        }
-                        Spacer()
-                    }
-                    .padding(4)
-                }
-            }
+            cardContent
         }
         .frame(height: 60)
         .cornerRadius(8)
@@ -208,8 +196,40 @@ struct ThemePreviewCard: View {
         )
         .buttonStyle(PlainButtonStyle())
     }
+    
+    private var cardContent: some View {
+        ZStack {
+            background
+            
+            VStack {
+                Text(title)
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+            }
+            
+            if isSelected {
+                selectionIndicator
+            }
+        }
+    }
+    
+    private var selectionIndicator: some View {
+        VStack {
+            HStack {
+                Spacer()
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundColor(.white)
+                    .background(Color.blue)
+                    .clipShape(Circle())
+            }
+            Spacer()
+        }
+        .padding(4)
+    }
 }
 
 #Preview {
     ThemeSettingsView()
-} 
+}
