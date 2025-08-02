@@ -78,9 +78,8 @@
 "My Account" = "My Account";
 
 // Background Types
-"Gradient" = "Gradient";
-"Solid Color" = "Solid Color";
-"Image" = "Image";
+"background_type_gradient" = "Gradient";
+"background_type_solid_color" = "Solid Color";
 
 // Gradient Themes
 "Blue Purple Gradient" = "Blue Purple Gradient";

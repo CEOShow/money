@@ -80,7 +80,6 @@
 // 背景類型
 "Gradient" = "漸層";
 "Solid Color" = "純色";
-"Image" = "圖片";
 
 // 漸層主題
 "Blue Purple Gradient" = "藍紫漸層";
@@ -101,24 +100,23 @@
 "Black" = "黑色";
 
 // Background Types
-"Gradient" = "Gradient";
-"Solid Color" = "Solid Color";
-"Image" = "Image";
+"Gradient" = "漸層";
+"Solid Color" = "純色";
 
 // Gradient Themes
-"Blue Purple Gradient" = "Blue Purple Gradient";
-"Pink Orange Gradient" = "Pink Orange Gradient";
-"Green Blue Gradient" = "Green Blue Gradient";
-"Purple Red Gradient" = "Purple Red Gradient";
-"Orange Yellow Gradient" = "Orange Yellow Gradient";
-"Dark Blue Gradient" = "Dark Blue Gradient";
+"Blue Purple Gradient" = "藍紫漸層";
+"Pink Orange Gradient" = "粉橘漸層";
+"Green Blue Gradient" = "綠藍漸層";
+"Purple Red Gradient" = "紫紅漸層";
+"Orange Yellow Gradient" = "橘黃漸層";
+"Dark Blue Gradient" = "深藍漸層";
 
 // Solid Color Themes
-"Blue" = "Blue";
-"Green" = "Green";
-"Purple" = "Purple";
-"Red" = "Red";
-"Orange" = "Orange";
-"Pink" = "Pink";
-"Gray" = "Gray";
-"Black" = "Black";
+"Blue" = "藍色";
+"Green" = "綠色";
+"Purple" = "紫色";
+"Red" = "紅色";
+"Orange" = "橘色";
+"Pink" = "粉色";
+"Gray" = "灰色";
+"Black" = "黑色";

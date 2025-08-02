@@ -15,8 +15,10 @@ enum BackgroundType: String, CaseIterable {
     
     var displayName: String {
         switch self {
-        case .gradient: return "Gradient"
-        case .solidColor: return "Solid Color"
+        case .gradient:
+            return NSLocalizedString("Gradient", comment: "Gradient background type")
+        case .solidColor:
+            return NSLocalizedString("Solid Color", comment: "Solid color background type")
         }
     }
 }
@@ -32,12 +34,18 @@ enum GradientTheme: String, CaseIterable {
     
     var displayName: String {
         switch self {
-        case .bluePurple: return "Blue Purple Gradient"
-        case .pinkOrange: return "Pink Orange Gradient"
-        case .greenBlue: return "Green Blue Gradient"
-        case .purpleRed: return "Purple Red Gradient"
-        case .orangeYellow: return "Orange Yellow Gradient"
-        case .darkBlue: return "Dark Blue Gradient"
+        case .bluePurple:
+            return NSLocalizedString("Blue Purple Gradient", comment: "Blue purple gradient background")
+        case .pinkOrange:
+            return NSLocalizedString("Pink Orange Gradient", comment: "Pink orange gradient background")
+        case .greenBlue:
+            return NSLocalizedString("Green Blue Gradient", comment: "Green blue gradient background")
+        case .purpleRed:
+            return NSLocalizedString("Purple Red Gradient", comment: "Purple red gradient background")
+        case .orangeYellow:
+            return NSLocalizedString("Orange Yellow Gradient", comment: "Orange yellow gradient background")
+        case .darkBlue:
+            return NSLocalizedString("Dark Blue Gradient", comment: "Dark blue gradient background")
         }
     }
     
